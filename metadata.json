@@ -1,0 +1,6 @@
+{
+  "name": "QuickChat AI",
+  "description": "A temporary AI-powered communication and collaboration platform with auto-expiring rooms, instant file sharing, and AI document assistant.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

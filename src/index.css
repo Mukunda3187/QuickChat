@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Default / Emerald Theme Variables */
+:root,
+[data-theme-color="emerald"] {
+  --accent-50: #ecfdf5;
+  --accent-100: #d1fae5;
+  --accent-200: #a7f3d0;
+  --accent-300: #6ee7b7;
+  --accent-400: #34d399;
+  --accent-500: #10b981;
+  --accent-600: #059669;
+  --accent-700: #047857;
+  --accent-800: #065f46;
+  --accent-900: #064e3b;
+  --accent-950: #022c22;
+}
+
+/* Blue Theme Variables */
+[data-theme-color="blue"] {
+  --accent-50: #eff6ff;
+  --accent-100: #dbeafe;
+  --accent-200: #bfdbfe;
+  --accent-300: #93c5fd;
+  --accent-400: #60a5fa;
+  --accent-500: #3b82f6;
+  --accent-600: #2563eb;
+  --accent-700: #1d4ed8;
+  --accent-800: #1e40af;
+  --accent-900: #1e3a8a;
+  --accent-950: #172554;
+}
+
+/* Purple Theme Variables */
+[data-theme-color="purple"] {
+  --accent-50: #faf5ff;
+  --accent-100: #f3e8ff;
+  --accent-200: #e9d5ff;
+  --accent-300: #d8b4fe;
+  --accent-400: #c084fc;
+  --accent-500: #a855f7;
+  --accent-600: #9333ea;
+  --accent-700: #7e22ce;
+  --accent-800: #6b21a8;
+  --accent-900: #581c87;
+  --accent-950: #3b0764;
+}
+
+/* Rose Theme Variables */
+[data-theme-color="rose"] {
+  --accent-50: #fff1f2;
+  --accent-100: #ffe4e6;
+  --accent-200: #fecdd3;
+  --accent-300: #fda4af;
+  --accent-400: #fb7185;
+  --accent-500: #f43f5e;
+  --accent-600: #e11d48;
+  --accent-700: #be123c;
+  --accent-800: #9f1239;
+  --accent-900: #881337;
+  --accent-950: #4c0519;
+}
+
+/* Amber Theme Variables */
+[data-theme-color="amber"] {
+  --accent-50: #fffbeb;
+  --accent-100: #fef3c7;
+  --accent-200: #fde68a;
+  --accent-300: #fcd34d;
+  --accent-400: #fbbf24;
+  --accent-500: #f59e0b;
+  --accent-600: #d97706;
+  --accent-700: #b45309;
+  --accent-800: #92400e;
+  --accent-900: #78350f;
+  --accent-950: #451a03;
+}
+
+/* Teal / Cyan Theme Variables */
+[data-theme-color="cyan"] {
+  --accent-50: #ecfeff;
+  --accent-100: #cffaff;
+  --accent-200: #a5f3fc;
+  --accent-300: #67e8f9;
+  --accent-400: #22d3ee;
+  --accent-500: #06b6d4;
+  --accent-600: #0891b2;
+  --accent-700: #0e7490;
+  --accent-800: #155e75;
+  --accent-900: #164e63;
+  --accent-950: #083344;
+}
+
+/* Map emerald color utility tokens dynamically to the chosen theme accent */
+@theme {
+  --color-emerald-50: var(--accent-50);
+  --color-emerald-100: var(--accent-100);
+  --color-emerald-200: var(--accent-200);
+  --color-emerald-300: var(--accent-300);
+  --color-emerald-400: var(--accent-400);
+  --color-emerald-500: var(--accent-500);
+  --color-emerald-600: var(--accent-600);
+  --color-emerald-700: var(--accent-700);
+  --color-emerald-800: var(--accent-800);
+  --color-emerald-900: var(--accent-900);
+  --color-emerald-950: var(--accent-950);
+}
