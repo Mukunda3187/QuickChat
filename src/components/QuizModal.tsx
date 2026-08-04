@@ -43,7 +43,6 @@ export const QuizModal: React.FC<QuizModalProps> = ({ title, questions, onClose 
             </div>
             <div>
               <h2 className="text-base font-black text-slate-900 dark:text-zinc-100">{title}</h2>
-              <p className="text-xs text-emerald-800 dark:text-emerald-400 font-bold">Interactive Knowledge Assessment</p>
             </div>
           </div>
           <button
