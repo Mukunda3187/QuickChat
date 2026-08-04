@@ -38,7 +38,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div>
           <h1 className="text-lg md:text-xl font-black tracking-tight text-slate-900 dark:text-zinc-100 leading-tight">QuickChat AI</h1>
           <p className="text-[10px] uppercase tracking-widest text-emerald-700 dark:text-emerald-400 font-bold flex items-center gap-1">
-            <Shield className="w-2.5 h-2.5 text-emerald-600 dark:text-emerald-400" /> Temporary Workspace
+            <Shield className="w-2.5 h-2.5 text-emerald-600 dark:text-emerald-400" /> Temporary Chatspace
           </p>
         </div>
       </div>
@@ -58,31 +58,22 @@ export const Header: React.FC<HeaderProps> = ({
 
         <div className="hidden sm:flex items-center gap-3 bg-emerald-50/70 dark:bg-zinc-900 px-3.5 py-1.5 rounded-xl border border-emerald-200/80 dark:border-zinc-800">
           <div className="flex flex-col">
-            <span className="text-[9px] text-slate-500 dark:text-zinc-400 font-semibold uppercase tracking-wider">Session ID</span>
+            <span className="text-[9px] text-slate-500 dark:text-zinc-400 font-semibold uppercase tracking-wider">Room ID</span>
             <button
               onClick={handleCopyId}
               className="text-xs font-mono font-bold text-emerald-950 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 flex items-center gap-1 transition-colors"
-              title="Click to copy Chat ID"
+              title="Copy ID"
             >
               {roomId}
               {copied ? <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> : <Copy className="w-3 h-3 text-slate-400 dark:text-zinc-500" />}
             </button>
           </div>
-          <div className="w-px h-6 bg-emerald-200 dark:bg-zinc-800"></div>
-          <div className="flex flex-col">
-            <span className="text-[9px] text-slate-500 dark:text-zinc-400 font-semibold uppercase tracking-wider">Session Status</span>
-            <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]" />
-              Active
-            </span>
-          </div>
-        </div>
 
         {/* Leave Button (Available to Everyone) */}
         <button
           onClick={onLeaveSession}
           className="bg-rose-50 text-rose-600 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-900/60 px-3 py-2 rounded-xl text-xs font-bold border border-rose-200 hover:bg-rose-100 dark:hover:bg-rose-900/60 transition-colors flex items-center gap-1.5 shadow-2xs cursor-pointer"
-          title="Leave this session"
+          title="Leave this Room"
         >
           <LogOut className="w-3.5 h-3.5" />
           <span className="hidden sm:inline">Leave</span>
@@ -93,10 +84,10 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={onEndSession}
             className="bg-rose-50 text-rose-600 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-900/60 px-3 py-2 rounded-xl text-xs font-bold border border-rose-200 hover:bg-rose-100 dark:hover:bg-rose-900/60 transition-colors flex items-center gap-1.5 shadow-2xs cursor-pointer"
-            title="Permanently end & destroy session for everyone"
+            title="End Room"
           >
             <Power className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">End Session</span>
+            <span className="hidden sm:inline">End Room</span>
           </button>
         )}
       </div>
