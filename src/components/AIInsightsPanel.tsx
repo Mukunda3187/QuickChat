@@ -417,8 +417,6 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
                     <CuteBotIcon className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                     {ai.title}
                   </span>
-                  {ai.isPrivate && (
-                  )}
                   {ai.explanationLevel && (
                     <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-md uppercase tracking-wider border ${
                       ai.explanationLevel === 'easy'
