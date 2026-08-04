@@ -68,7 +68,7 @@ export const Header: React.FC<HeaderProps> = ({
               {copied ? <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> : <Copy className="w-3 h-3 text-slate-400 dark:text-zinc-500" />}
             </button>
           </div>
-
+         </div>
         {/* Leave Button (Available to Everyone) */}
         <button
           onClick={onLeaveSession}
