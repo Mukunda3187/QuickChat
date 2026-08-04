@@ -314,9 +314,6 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
               />
 
               <div className="flex items-center gap-2 shrink-0">
-                <span className="text-[10px] text-slate-400 dark:text-zinc-500 font-bold uppercase tracking-tight bg-white dark:bg-zinc-800 px-1.5 py-0.5 rounded border border-emerald-200/80 dark:border-zinc-700 hidden sm:inline">
-                  Press ↵
-                </span>
                 <button
                   onClick={() => handleSend()}
                   disabled={!inputText.trim()}
