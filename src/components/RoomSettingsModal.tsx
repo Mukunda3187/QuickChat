@@ -641,7 +641,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                 </span>
                 {initialAllowStudentAi ? (
                   <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-[10px]">
-                    Enabled by Teacher
+                    Enabled by Host
                   </span>
                 ) : (
                   <span className="px-2.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-[10px] flex items-center gap-1">
