@@ -269,7 +269,7 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
         )}
 
         <div ref={chatBottomRef} />
-      </div>
+        </div>
 
       {/* Message Input Bar or Host Disabled Banner */}
       <div className="h-20 bg-white/95 dark:bg-zinc-950 border-t border-emerald-200/80 dark:border-zinc-800 px-4 md:px-6 flex items-center justify-center gap-3 shrink-0 backdrop-blur-md">
@@ -318,7 +318,6 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
             </div>
           </>
         )}
-      </div>
     </section>
   );
 };
