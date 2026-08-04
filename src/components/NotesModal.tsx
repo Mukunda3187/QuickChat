@@ -37,7 +37,6 @@ export const NotesModal: React.FC<NotesModalProps> = ({ title, content, onClose 
             </div>
             <div>
               <h2 className="text-base font-black text-slate-900 dark:text-zinc-100">{title}</h2>
-              <p className="text-xs text-emerald-800 dark:text-emerald-400 font-bold">AI Formatted Study & Workspace Notes</p>
             </div>
           </div>
           <button
@@ -55,7 +54,6 @@ export const NotesModal: React.FC<NotesModalProps> = ({ title, content, onClose 
 
         {/* Footer */}
         <div className="p-4 border-t border-emerald-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-950 flex items-center justify-between">
-          <span className="text-xs text-slate-500 dark:text-zinc-400 font-medium">Notes downloaded will remain on your local device only.</span>
           <div className="flex items-center gap-2">
             <button
               onClick={handleCopy}
