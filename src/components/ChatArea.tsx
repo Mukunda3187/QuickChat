@@ -64,7 +64,14 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
 
   return (
     <section className="flex-1 flex flex-col bg-emerald-50/20 dark:bg-zinc-950 relative h-full overflow-hidden transition-colors">
-      
+      {/* Messages Scroll Area */}
+      <div className="flex-1 p-4 md:p-6 space-y-6 overflow-y-auto">
+        <div className="flex justify-center">
+          <span className="text-[10px] bg-emerald-100/80 text-emerald-950 dark:bg-emerald-950/60 dark:text-emerald-400 font-extrabold py-1 px-3.5 rounded-full border border-emerald-300/70 dark:border-emerald-800/60 uppercase tracking-wide shadow-2xs">
+            Session Active • Auto-Destruct Enabled
+          </span>
+        </div>
+
         {messages.map((msg) => {
           if (msg.senderId === 'system') {
             return (
@@ -263,20 +270,20 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
             </div>
             <div className="bg-white dark:bg-zinc-900 border border-emerald-300/80 dark:border-emerald-900/60 p-3 rounded-xl flex items-center gap-2 text-xs text-emerald-900 dark:text-emerald-300 font-bold shadow-xs">
               <CuteBotIcon className="w-4 h-4 text-emerald-600 dark:text-emerald-400 animate-pulse" />
-              AI is analyzing content...
+              QuickChat AI is analyzing content and drafting response...
             </div>
           </div>
         )}
 
         <div ref={chatBottomRef} />
-        </div>
+      </div>
 
       {/* Message Input Bar or Host Disabled Banner */}
       <div className="h-20 bg-white/95 dark:bg-zinc-950 border-t border-emerald-200/80 dark:border-zinc-800 px-4 md:px-6 flex items-center justify-center gap-3 shrink-0 backdrop-blur-md">
         {!allowStudentChat && !isCreator ? (
           <div className="w-full bg-amber-50 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-900/60 rounded-xl py-3 px-4 flex items-center justify-center gap-2 text-xs font-bold text-amber-800 dark:text-amber-300">
             <Lock className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
-            <span>Host disabled the chat</span>
+            <span>Chat has been disabled by the Host for participants.</span>
           </div>
         ) : (
           <>
@@ -292,7 +299,7 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 className="text-slate-400 dark:text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer"
-                title="Add File"
+                title="Attach a document or file"
               >
                 <Paperclip className="w-5 h-5" />
               </button>
@@ -307,6 +314,9 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
               />
 
               <div className="flex items-center gap-2 shrink-0">
+                <span className="text-[10px] text-slate-400 dark:text-zinc-500 font-bold uppercase tracking-tight bg-white dark:bg-zinc-800 px-1.5 py-0.5 rounded border border-emerald-200/80 dark:border-zinc-700 hidden sm:inline">
+                  Press ↵
+                </span>
                 <button
                   onClick={() => handleSend()}
                   disabled={!inputText.trim()}
@@ -318,6 +328,7 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
             </div>
           </>
         )}
+      </div>
     </section>
   );
 };
