@@ -188,7 +188,7 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
           </div>
           <div>
             <h2 className="text-xs font-black text-slate-900 dark:text-zinc-100 uppercase tracking-wider flex items-center gap-1.5">
-              AI Workspace Assistant
+              AI Assistant
             </h2>
             <p className="text-[10px] text-emerald-700 dark:text-emerald-400 font-bold flex items-center gap-1">
               <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
@@ -222,9 +222,9 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
                   <Sliders className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> Explanation Level
                 </p>
                 {[
-                  { id: 'easy', name: 'Easy', desc: 'Simple terms & clear analogies' },
-                  { id: 'moderate', name: 'Moderate', desc: 'Balanced & standard detail' },
-                  { id: 'high', name: 'High', desc: 'Deep technical analysis' },
+                  { id: 'high', name: 'High' },
+                  { id: 'moderate', name: 'Moderate' },
+                  { id: 'easy', name: 'Easy' },
                 ].map((lvl) => (
                   <button
                     key={lvl.id}
@@ -242,9 +242,6 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
                       <div className="font-extrabold flex items-center gap-1.5">
                         <span>{lvl.name}</span>
                       </div>
-                      <p className="text-[9px] text-slate-400 dark:text-zinc-500 font-normal leading-tight">
-                        {lvl.desc}
-                      </p>
                     </div>
                     {explanationLevel === lvl.id && (
                       <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
@@ -271,17 +268,16 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
         <div className="flex items-center justify-between gap-1">
           <label className="text-[10px] font-black text-emerald-900 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-1">
             <FileText className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
-            Target Documents
+            Uploaded Documents
           </label>
           <div className="flex items-center gap-1.5">
             <button
               type="button"
               onClick={() => privateFileInputRef.current?.click()}
               className="text-[10px] font-black text-purple-700 dark:text-purple-300 bg-purple-100/90 hover:bg-purple-200 dark:bg-purple-950/80 dark:hover:bg-purple-900 px-2 py-0.5 rounded-lg border border-purple-300 dark:border-purple-800 flex items-center gap-1 transition-colors cursor-pointer shadow-2xs"
-              title="Add a system file visible ONLY to your local AI chat"
+              title="Import File"
             >
-              <Lock className="w-3 h-3 text-purple-600 dark:text-purple-400" />
-              + Add System File
+              Import File
             </button>
             <input
               type="file"
@@ -306,7 +302,7 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
         )}
 
         {allAvailableFiles.length === 0 ? (
-          <p className="text-xs text-slate-400 dark:text-zinc-500 italic p-1">No documents available. Upload a shared room file or add a private system file to analyze.</p>
+          <p className="text-xs text-slate-400 dark:text-zinc-500 italic p-1">No documents available.</p>
         ) : (
           <div className="relative">
             <button
@@ -316,9 +312,9 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
             >
               <span className="truncate">
                 {isAllSelected
-                  ? '🌐 All Documents Combined'
+                  ? 'All Files'
                   : selectedFileIds.length === 0
-                  ? '⚠️ No documents selected'
+                  ? '⚠️ Not selected'
                   : `📄 ${selectedFileIds.length} document(s) checked`}
               </span>
               {showDocDropdown ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
@@ -338,7 +334,7 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
                   ) : (
                     <Square className="w-4 h-4 text-slate-400 shrink-0" />
                   )}
-                  <span>Select All Documents</span>
+                  <span>Select All Files</span>
                 </button>
 
                 {/* Individual File Checkboxes */}
@@ -403,10 +399,7 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
             <div className="w-12 h-12 bg-emerald-100 dark:bg-zinc-800 rounded-2xl flex items-center justify-center mx-auto text-emerald-600 dark:text-emerald-400">
               <CuteBotIcon className="w-6 h-6" />
             </div>
-            <h3 className="text-xs font-black text-slate-800 dark:text-zinc-200 uppercase tracking-wider">AI Document Assistant Ready</h3>
-            <p className="text-xs text-slate-500 dark:text-zinc-400 leading-relaxed font-medium">
-              Ask questions or click quick prompts below to generate summaries, quizzes, key points, and notes for selected documents.
-            </p>
+            <h3 className="text-xs font-black text-slate-800 dark:text-zinc-200 uppercase tracking-wider">AI Assistant</h3>
           </div>
         ) : (
           combinedHistory.map((ai) => (
@@ -425,9 +418,6 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
                     {ai.title}
                   </span>
                   {ai.isPrivate && (
-                    <span className="text-[9px] font-black px-1.5 py-0.5 rounded-md uppercase tracking-wider border bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800 flex items-center gap-1">
-                      <Lock className="w-2.5 h-2.5" /> Private AI
-                    </span>
                   )}
                   {ai.explanationLevel && (
                     <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-md uppercase tracking-wider border ${
@@ -489,7 +479,7 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
         {!allowStudentAi ? (
           <div className="p-3 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/50 rounded-xl flex items-center justify-center gap-2 text-xs font-extrabold text-amber-800 dark:text-amber-300 text-center">
             <Lock className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
-            AI Assistant is currently disabled for this session.
+            AI Assistant is currently disabled.
           </div>
         ) : (
           <>
