@@ -174,12 +174,8 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
             </div>
             <div>
               <h2 className="text-base font-black tracking-tight">
-                {isCreator ? 'Host Room Settings' : 'Participant Settings'}
+                {isCreator ? 'Host Settings' : 'Participant Settings'}
               </h2>
-              <p className="text-xs text-slate-300 font-medium flex items-center gap-1">
-                <Shield className="w-3 h-3 text-emerald-400" />
-                {isCreator ? 'Teacher / Host Administrative Access' : 'Personal Workspace Preferences'}
-              </p>
             </div>
           </div>
           <button
@@ -204,11 +200,8 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-slate-900 dark:text-zinc-100 font-extrabold text-sm">
                 <User className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span>Chat Icon & Profile</span>
+                <span>Profile</span>
               </div>
-              <span className="text-[10px] text-slate-400 dark:text-zinc-500 font-semibold">
-                Click circle or pencil to edit
-              </span>
             </div>
 
             {/* Circle attached with pencil on its perimeter + Display Name with pencil on side */}
@@ -219,7 +212,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                   type="button"
                   onClick={() => setIsAvatarPickerOpen(!isAvatarPickerOpen)}
                   className="w-16 h-16 rounded-full overflow-hidden border-2 border-emerald-500 dark:border-emerald-400 shadow-md flex items-center justify-center cursor-pointer hover:opacity-90 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  title="Click to customize chat icon"
+                  title="customize chat icon"
                 >
                   {avatarUrl ? (
                     <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
@@ -247,7 +240,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
               {/* Name with Pencil Mark on Side to edit right here */}
               <div className="flex-1 space-y-1">
                 <label className="text-[10px] font-bold text-slate-500 dark:text-zinc-400 uppercase tracking-wider block">
-                  Display Name
+                  Name
                 </label>
                 {isEditingName ? (
                   <div className="flex items-center gap-2">
@@ -266,7 +259,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                       type="button"
                       onClick={() => setIsEditingName(false)}
                       className="p-2 bg-emerald-600 text-white dark:bg-emerald-500 dark:text-black rounded-xl text-xs font-bold hover:opacity-90 transition-opacity cursor-pointer shrink-0"
-                      title="Done editing name"
+                      title="Done"
                     >
                       <Check className="w-3.5 h-3.5" />
                     </button>
@@ -280,7 +273,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                       type="button"
                       onClick={() => setIsEditingName(true)}
                       className="p-1 text-slate-500 hover:text-emerald-600 dark:text-zinc-400 dark:hover:text-emerald-400 transition-colors cursor-pointer rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800"
-                      title="Edit Display Name"
+                      title="Edit Name"
                     >
                       <Pencil className="w-3.5 h-3.5" />
                     </button>
@@ -326,7 +319,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                 {/* Down Line: Import Pic Option */}
                 <div className="pt-2 border-t border-slate-100 dark:border-zinc-800/80 space-y-2">
                   <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-zinc-400 block">
-                    Import Picture from Computer
+                    Import Image
                   </label>
                   <div className="flex items-center gap-2">
                     <label className="px-3.5 py-2 bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 text-slate-800 dark:text-zinc-200 border border-slate-200 dark:border-zinc-700 rounded-xl text-xs font-bold cursor-pointer transition-colors flex items-center gap-2">
@@ -363,7 +356,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                         className="px-3 py-2 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-900/60 hover:bg-rose-100 rounded-xl text-xs font-bold transition-colors cursor-pointer flex items-center gap-1.5"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
-                        <span>Remove Pic</span>
+                        <span>Remove IMG</span>
                       </button>
                     )}
                   </div>
@@ -376,14 +369,14 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
               <div className="pt-3 border-t border-slate-200 dark:border-zinc-800 space-y-4">
                 <div className="flex items-center gap-2 text-slate-900 dark:text-zinc-100 font-extrabold text-xs">
                   <KeyRound className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                  <span>Session ID & Room Password</span>
+                  <span>ID & Password</span>
                 </div>
 
                 {/* Edit Session ID */}
                 <div className="space-y-1">
                   <div className="flex items-center justify-between">
                     <label className="text-[10px] font-bold text-slate-500 dark:text-zinc-400 uppercase tracking-wider">
-                      Session ID (Room Code)
+                      Room ID
                     </label>
                     <span className="text-[10px] text-slate-400 dark:text-zinc-500 font-normal">All uppercase</span>
                   </div>
@@ -393,14 +386,14 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                       required
                       value={sessionId}
                       onChange={(e) => setSessionId(e.target.value.toUpperCase())}
-                      placeholder="e.g. QC-924-ALPHA"
+                      placeholder="e.g. Quick-chat-ai"
                       className="flex-1 text-xs font-mono font-bold bg-slate-100/80 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl p-2.5 px-3 text-slate-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 uppercase"
                     />
                     <button
                       type="button"
                       onClick={generateRandomSessionId}
                       className="px-3 py-2 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 rounded-xl text-xs font-bold transition-colors cursor-pointer flex items-center gap-1 shrink-0"
-                      title="Generate random session ID"
+                      title="Generate random room ID"
                     >
                       <RefreshCw className="w-3.5 h-3.5" />
                       <span>Random ID</span>
@@ -448,7 +441,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-slate-900 dark:text-zinc-100 font-extrabold text-sm">
                 <Palette className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                <span>Appearance & Theme</span>
+                <span>Theme</span>
               </div>
               {/* Day / Night Toggle */}
               <button
@@ -473,7 +466,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
             {/* Accent Theme Color Selector */}
             <div className="space-y-2">
               <label className="text-xs font-extrabold text-slate-600 dark:text-zinc-400">
-                Accent Color Choice
+                Theme Colors
               </label>
               <div className="grid grid-cols-6 gap-2">
                 {colors.map((c) => (
@@ -500,7 +493,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
           {canManageHost ? (
             <div className="space-y-4">
               <h3 className="text-xs font-black uppercase tracking-wider text-slate-400 dark:text-zinc-500">
-                Host Room Access & Controls
+                Host Controls
               </h3>
 
               {/* Lock Chat / Room Switch */}
@@ -513,10 +506,10 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                   </div>
                   <div>
                     <h4 className="text-xs font-extrabold text-slate-900 dark:text-zinc-100">
-                      Lock Chat Workspace
+                      Lock Chat
                     </h4>
                     <p className="text-[11px] text-slate-500 dark:text-zinc-400 mt-0.5 font-medium leading-tight">
-                      Prevent new members from joining. Existing members remain, but cannot re-join if they leave.
+                      Prevent new members from joining
                     </p>
                   </div>
                 </div>
@@ -544,7 +537,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                   </div>
                   <div>
                     <h4 className="text-xs font-extrabold text-slate-900 dark:text-zinc-100">
-                      Student Chat Access
+                      Participants Chat Access
                     </h4>
                     <p className="text-[11px] text-slate-500 dark:text-zinc-400 mt-0.5 font-medium leading-tight">
                       Allow participants to post messages in the chat room.
@@ -575,10 +568,10 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                   </div>
                   <div>
                     <h4 className="text-xs font-extrabold text-slate-900 dark:text-zinc-100">
-                      AI Assistant Workspace Access
+                      AI Assistant Access
                     </h4>
                     <p className="text-[11px] text-slate-500 dark:text-zinc-400 mt-0.5 font-medium leading-tight">
-                      Enable or disable AI Document Assistant for the room (teacher and students).
+                      Enable or disable AI Document Assistant for the room.
                     </p>
                   </div>
                 </div>
@@ -608,7 +601,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                     className="w-full py-2.5 px-3 bg-rose-100 dark:bg-rose-950/60 text-rose-900 dark:text-rose-300 hover:bg-rose-200 dark:hover:bg-rose-900 rounded-xl text-xs font-black border border-rose-300 dark:border-rose-800 flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
                   >
                     <LogOut className="w-4 h-4" />
-                    Leave Session
+                    Leave Room
                   </button>
                   <button
                     type="button"
@@ -616,7 +609,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                     className="w-full py-2.5 px-3 bg-rose-600 text-white hover:bg-rose-700 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 cursor-pointer transition-colors shadow-sm"
                   >
                     <Power className="w-4 h-4" />
-                    End Session
+                    End Room
                   </button>
                 </div>
               </div>
@@ -625,7 +618,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
             /* Student Permission Summary Cards */
             <div className="space-y-3">
               <h3 className="text-xs font-black uppercase tracking-wider text-slate-400 dark:text-zinc-500">
-                Teacher Room Policy
+                Host Room Policy
               </h3>
               <div className="bg-white dark:bg-zinc-900 p-3.5 rounded-2xl border border-slate-200 dark:border-zinc-800 flex items-center justify-between text-xs font-bold">
                 <span className="flex items-center gap-2 text-slate-800 dark:text-zinc-200">
@@ -633,11 +626,11 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                 </span>
                 {initialAllowStudentChat ? (
                   <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-[10px]">
-                    Enabled by Teacher
+                    Enabled by Host
                   </span>
                 ) : (
                   <span className="px-2.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-[10px] flex items-center gap-1">
-                    <Lock className="w-3 h-3" /> Disabled by Teacher
+                    <Lock className="w-3 h-3" /> Disabled by Host
                   </span>
                 )}
               </div>
@@ -652,7 +645,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                   </span>
                 ) : (
                   <span className="px-2.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-[10px] flex items-center gap-1">
-                    <Lock className="w-3 h-3" /> Disabled by Teacher
+                    <Lock className="w-3 h-3" /> Disabled by Host
                   </span>
                 )}
               </div>
@@ -665,7 +658,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                   className="w-full py-2.5 px-3 bg-rose-100 dark:bg-rose-950/60 text-rose-900 dark:text-rose-300 hover:bg-rose-200 dark:hover:bg-rose-900 rounded-xl text-xs font-black border border-rose-300 dark:border-rose-800 flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
                 >
                   <LogOut className="w-4 h-4" />
-                  Leave Room Session
+                  Leave Room
                 </button>
               </div>
             </div>
@@ -686,7 +679,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
             className="px-5 py-2 text-xs font-extrabold text-white bg-slate-900 hover:bg-slate-800 dark:bg-emerald-500 dark:text-black dark:hover:bg-emerald-400 rounded-xl transition-colors cursor-pointer flex items-center gap-1.5 shadow-md disabled:opacity-50"
           >
             <Check className="w-4 h-4" />
-            {isSaving ? 'Saving...' : 'Apply & Save Settings'}
+            {isSaving ? 'Applying...' : 'Apply Settings'}
           </button>
         </div>
       </div>
