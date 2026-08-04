@@ -118,8 +118,7 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
                   <Palette className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-black text-slate-900 dark:text-zinc-100">Appearance & Theme</h3>
-                  <p className="text-[10px] text-slate-500 dark:text-zinc-400 font-bold">Customize entire page style</p>
+                  <h3 className="text-sm font-black text-slate-900 dark:text-zinc-100">Theme</h3>
                 </div>
               </div>
               <button
@@ -159,7 +158,7 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
             {onChangeThemeColor && (
               <div className="space-y-2">
                 <label className="text-xs font-extrabold text-slate-700 dark:text-zinc-300 block">
-                  Accent Color Palette
+                  Theme Colors
                 </label>
                 <div className="grid grid-cols-6 gap-2">
                   {[
@@ -211,7 +210,7 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
             QuickChat AI
           </h1>
           <p className="text-xs uppercase tracking-widest text-emerald-700 dark:text-emerald-400 font-bold mt-1.5">
-            Temporary Workspace
+            Temporary Chatspace
           </p>
         </div>
 
@@ -228,7 +227,7 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
                   : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-200'
               }`}
             >
-              Create New Room
+              Create Room
             </button>
             <button
               type="button"
@@ -239,7 +238,7 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
                   : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-200'
               }`}
             >
-              Join Existing Room
+              Join Room
             </button>
           </div>
 
@@ -263,7 +262,7 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
                     required
                     value={createChatId}
                     onChange={(e) => setCreateChatId(e.target.value.toUpperCase())}
-                    placeholder="e.g. QC-924-ALPHA"
+                    placeholder="e.g. Quick-chat-Ai"
                     className="flex-1 text-xs font-mono font-bold bg-emerald-50/50 dark:bg-zinc-900 border border-emerald-200/80 dark:border-zinc-800 rounded-xl p-2.5 text-slate-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                   <button
@@ -294,7 +293,7 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
                     minLength={7}
                     value={createPassword}
                     onChange={(e) => setCreatePassword(e.target.value)}
-                    placeholder="Min. 7 characters password"
+                    placeholder="Enter password"
                     className="flex-1 text-xs bg-emerald-50/50 dark:bg-zinc-900 border border-emerald-200/80 dark:border-zinc-800 rounded-xl p-2.5 text-slate-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono font-bold"
                   />
                   <button
@@ -311,14 +310,14 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
               {/* Your Nickname */}
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-slate-500 dark:text-zinc-400 uppercase tracking-wider flex items-center gap-1">
-                  <User className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> Your Display Name
+                  <User className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> Your Name
                 </label>
                 <input
                   type="text"
                   required
                   value={creatorName}
                   onChange={(e) => setCreatorName(e.target.value)}
-                  placeholder="e.g. Creator, Alex, Teacher"
+                  placeholder="e.g. Shikamaru"
                   className="w-full text-xs bg-emerald-50/50 dark:bg-zinc-900 border border-emerald-200/80 dark:border-zinc-800 rounded-xl p-2.5 text-slate-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
@@ -344,7 +343,7 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
                   required
                   value={joinChatId}
                   onChange={(e) => setJoinChatId(e.target.value.toUpperCase())}
-                  placeholder="e.g. QC-924-ALPHA"
+                  placeholder="e.g. Quick-chat-Ai"
                   className="w-full text-xs font-mono font-bold bg-emerald-50/50 dark:bg-zinc-900 border border-emerald-200/80 dark:border-zinc-800 rounded-xl p-2.5 text-slate-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
@@ -365,7 +364,7 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
                   minLength={7}
                   value={joinPassword}
                   onChange={(e) => setJoinPassword(e.target.value)}
-                  placeholder="Room password (min 7 chars)"
+                  placeholder="Enter Room password"
                   className="w-full text-xs bg-emerald-50/50 dark:bg-zinc-900 border border-emerald-200/80 dark:border-zinc-800 rounded-xl p-2.5 text-slate-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono"
                 />
               </div>
@@ -373,14 +372,14 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
               {/* Display Name */}
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-slate-500 dark:text-zinc-400 uppercase tracking-wider flex items-center gap-1">
-                  <User className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> Your Display Name
+                  <User className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> Your Name
                 </label>
                 <input
                   type="text"
                   required
                   value={participantName}
                   onChange={(e) => setParticipantName(e.target.value)}
-                  placeholder="e.g. Student_101, User_882"
+                  placeholder="e.g .Gaara"
                   className="w-full text-xs bg-emerald-50/50 dark:bg-zinc-900 border border-emerald-200/80 dark:border-zinc-800 rounded-xl p-2.5 text-slate-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
@@ -390,7 +389,7 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
                 disabled={isLoading}
                 className="w-full mt-2 bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 dark:text-black disabled:opacity-50 text-white py-3 rounded-xl font-extrabold text-xs shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
-                {isLoading ? 'Joining Room...' : 'Join Temporary Room'}
+                {isLoading ? 'Joining Room...' : 'Join Room'}
                 <ArrowRight className="w-4 h-4" />
               </button>
             </form>
