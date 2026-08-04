@@ -231,7 +231,7 @@ export const ParticipantsSidebar: React.FC<ParticipantsSidebarProps> = ({
           className="mb-3 w-full border border-dashed border-emerald-300 dark:border-emerald-700/60 hover:border-emerald-500 dark:hover:border-emerald-400 bg-white dark:bg-zinc-900 hover:bg-emerald-100/50 dark:hover:bg-zinc-800 p-2.5 rounded-xl flex items-center justify-center gap-2 text-xs font-bold text-emerald-900 dark:text-emerald-300 hover:text-emerald-950 dark:hover:text-emerald-200 transition-all cursor-pointer shadow-2xs"
         >
           <Upload className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-          Upload Document / File
+          Upload Files
         </button>
 
         <div className="space-y-2 overflow-y-auto flex-1 pr-1">
@@ -239,7 +239,7 @@ export const ParticipantsSidebar: React.FC<ParticipantsSidebarProps> = ({
             <div className="text-center py-6 px-2">
               <File className="w-8 h-8 text-emerald-300 dark:text-zinc-700 mx-auto mb-2" />
               <p className="text-xs text-slate-500 dark:text-zinc-400 font-medium">No shared files yet.</p>
-              <p className="text-[10px] text-slate-400 dark:text-zinc-500 mt-1">Upload a PDF, document, or code file to analyze with AI.</p>
+              <p className="text-[10px] text-slate-400 dark:text-zinc-500 mt-1">Upload a PDF, document, or code file.</p>
             </div>
           ) : (
             files.map((file) => (
