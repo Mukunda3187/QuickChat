@@ -64,9 +64,7 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
   // Multiselect file IDs state. Default to all files selected if available.
   const [selectedFileIds, setSelectedFileIds] = useState<string[]>(allAvailableFiles.map((f) => f.id));
   const [promptInput, setPromptInput] = useState('');
-  const [explanationLevel, setExplanationLevel] = useState<'easy' | 'moderate' | 'high'>('easy');
   const [showDocDropdown, setShowDocDropdown] = useState(false);
-  const [showLevelMenu, setShowLevelMenu] = useState(false);
   const chatBottomRef = useRef<HTMLDivElement>(null);
 
   // Sync selected files when new files are uploaded
@@ -166,7 +164,7 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
     if (action === 'query' && !textToSubmit.trim()) return;
 
     const targetFiles = getSelectedFiles();
-    onTriggerAIAction(action, targetFiles, textToSubmit, explanationLevel);
+    onTriggerAIAction(action, targetFiles, textToSubmit);
     setPromptInput('');
   };
 
@@ -190,68 +188,11 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
             <h2 className="text-xs font-black text-slate-900 dark:text-zinc-100 uppercase tracking-wider flex items-center gap-1.5">
               AI Assistant
             </h2>
-            <p className="text-[10px] text-emerald-700 dark:text-emerald-400 font-bold flex items-center gap-1">
-              <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-              Level:{' '}
-              <span className="uppercase font-mono font-extrabold text-slate-800 dark:text-zinc-200">
-                {explanationLevel}
-              </span>
-            </p>
           </div>
         </div>
 
         <div className="flex items-center gap-1">
-          {/* Three Dots Button for Level Options */}
-          <div className="relative">
-            <button
-              onClick={() => setShowLevelMenu(!showLevelMenu)}
-              className={`p-1.5 rounded-xl border transition-colors cursor-pointer ${
-                showLevelMenu
-                  ? 'bg-emerald-100 dark:bg-zinc-800 text-emerald-700 dark:text-emerald-400 border-emerald-300 dark:border-zinc-700'
-                  : 'hover:bg-emerald-100/70 dark:hover:bg-zinc-800 text-slate-500 dark:text-zinc-400 border-transparent'
-              }`}
-              title="Select AI Explanation Level"
-            >
-              <MoreVertical className="w-4 h-4" />
-            </button>
-
-            {/* Level Selection Popover */}
-            {showLevelMenu && (
-              <div className="absolute right-0 top-9 w-48 bg-white dark:bg-zinc-900 border border-emerald-200/90 dark:border-zinc-800 rounded-2xl shadow-xl p-2 z-50 animate-in fade-in zoom-in-95 duration-150">
-                <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-zinc-500 px-2 py-1 flex items-center gap-1 border-b border-slate-100 dark:border-zinc-800 mb-1">
-                  <Sliders className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> Explanation Level
-                </p>
-                {[
-                  { id: 'high', name: 'High' },
-                  { id: 'moderate', name: 'Moderate' },
-                  { id: 'easy', name: 'Easy' },
-                ].map((lvl) => (
-                  <button
-                    key={lvl.id}
-                    onClick={() => {
-                      setExplanationLevel(lvl.id as any);
-                      setShowLevelMenu(false);
-                    }}
-                    className={`w-full text-left p-2 rounded-xl flex items-center justify-between text-xs transition-colors cursor-pointer ${
-                      explanationLevel === lvl.id
-                        ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-300 font-bold'
-                        : 'hover:bg-slate-50 dark:hover:bg-zinc-800 text-slate-700 dark:text-zinc-300'
-                    }`}
-                  >
-                    <div>
-                      <div className="font-extrabold flex items-center gap-1.5">
-                        <span>{lvl.name}</span>
-                      </div>
-                    </div>
-                    {explanationLevel === lvl.id && (
-                      <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                    )}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
+        
           {/* Close Button */}
           <button
             onClick={onClose}
