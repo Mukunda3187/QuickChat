@@ -81,7 +81,12 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
           const isMe = msg.senderId === currentUserId;
 
           return (
-            <div key={msg.id} className={`flex gap-3 group relative ${isMe ? 'flex-row-reverse' : ''}`}>
+            <div
+  key={msg.id}
+  className={`flex gap-3 group relative ${
+    isMe ? 'flex-row-reverse pr-4' : 'pl-4'
+  }`}
+>
               {msg.senderAvatarUrl ? (
                 <img
                   src={msg.senderAvatarUrl}
@@ -107,13 +112,13 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
                 </div>
               )}
 
-              <div className={`max-w-md ${isMe ? 'items-end' : 'items-start'} flex flex-col`}>
+              <div className={`max-w-[calc(100%-4rem)] ${isMe ? 'items-end pr-2' : 'items-start pl-2'} flex flex-col`}>
                 <div className="relative group/msg">
                   <div
                     className={`p-3 rounded-2xl text-sm shadow-2xs ${
                       isMe
-                        ? 'bg-emerald-600 text-white dark:bg-emerald-500 dark:text-black font-semibold rounded-tr-none'
-                        : 'bg-white dark:bg-zinc-900 text-slate-800 dark:text-zinc-100 rounded-tl-none border border-emerald-200/80 dark:border-zinc-800'
+                      ? 'bg-emerald-600 text-white dark:bg-emerald-500 dark:text-black font-semibold rounded-tr-none mr-3'
+                      : 'bg-white dark:bg-zinc-900 text-slate-800 dark:text-zinc-100 rounded-tl-none border border-emerald-200/80 dark:border-zinc-800 ml-3'
                     }`}
                   >
                     {msg.text && <p className="whitespace-pre-wrap">{msg.text}</p>}
