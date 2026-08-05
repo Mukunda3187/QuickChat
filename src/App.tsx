@@ -489,6 +489,7 @@ const handleTriggerAIAction = async (
       fileName: file?.name,
       fileContent: file?.content,
       prompt: customPrompt || '',
+      isPrivate: true,
       isCreator: currentUser.isCreator,
     });
 
