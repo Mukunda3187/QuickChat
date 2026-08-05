@@ -1,40 +1,31 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { SharedFile } from '../types';
-import { Users, FileText, Download, Sparkles, Upload, FileCode, Image as ImageIcon, File, MoreVertical, ShieldCheck, ShieldOff, UserX, X } from 'lucide-react';
+import {
+  FileText,
+  Download,
+  Upload,
+  FileCode,
+  Image as ImageIcon,
+  File,
+} from 'lucide-react';
 import { CuteBotIcon } from './CuteBotIcon';
 
-interface SharPaneledFilesProps {
-  participants: Participant[];
-  currentUserId: string;
-  isCreator: boolean;
-  isCoHost?: boolean;
+interface SharedFilesPanelProps {
   allowStudentAi?: boolean;
   files: SharedFile[];
   onUploadFile: (file: File) => void;
   onAskAIAboutFile: (file: SharedFile) => void;
-  onToggleCoHost?: (targetId: string, isCoHost: boolean) => void;
-  onKickParticipant?: (targetId: string) => void;
   onClose?: () => void;
 }
 
-export const SharPaneledFiles: React.FC<SharPaneledFilesProps> = ({
-  participants,
-  currentUserId,
-  isCreator,
-  isCoHost,
+export const SharedFilesPanel: React.FC<SharedFilesPanelProps> = ({
   allowStudentAi = true,
   files,
   onUploadFile,
   onAskAIAboutFile,
-  onToggleCoHost,
-  onKickParticipant,
   onClose,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
-
-  const canManage = isCreator || isCoHost;
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       onUploadFile(e.target.files[0]);
