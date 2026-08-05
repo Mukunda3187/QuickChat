@@ -33,8 +33,8 @@ export default function App() {
   const [entryError, setEntryError] = useState<string>('');
   const [isEntryLoading, setIsEntryLoading] = useState<boolean>(false);
   const [isAiThinking, setIsAiThinking] = useState<boolean>(false);
-  const [isAIPanelOpen, setIsAIPanelOpen] = useState<boolean>(false);
-  const [activeSidePanel, setActiveSidePanel] = useState<'participants' | 'files' | null>(null);
+  const [activeLeftPanel, setActiveLeftPanel] = useState<'participants' | 'files' | null>(null);
+  const [isAIPanelOpen, setIsAIPanelOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
   const [privateAiHistory, setPrivateAiHistory] = useState<AIAnalysis[]>([]);
 
@@ -535,17 +535,38 @@ export default function App() {
       {/* Main Content Workspace */}
       <main className="flex-1 flex overflow-hidden relative">
         {/* Left Sidebar: Participants & Shared Files */}
-        {!isSidebarOpen && (
-          <button
-            onClick={() => setIsSidebarOpen(true)}
-            className="fixed left-0 top-20 z-40 bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-black p-3 rounded-r-2xl shadow-xl flex items-center justify-center transition-all cursor-pointer border-r border-y border-emerald-400 dark:border-emerald-300 animate-in slide-in-from-left duration-200"
-            title="Open Participants & Files Tab"
-          >
-            <Users className="w-5 h-5" />
-          </button>
-        )}
+      <div className="fixed left-0 top-20 z-40 flex flex-col gap-2">
 
-        {activeSidePanel && (
+        <button
+          onClick={() => {
+            setActiveLeftPanel(
+              activeLeftPanel === 'participants'
+                ? null
+                : 'participants'
+            );
+            setIsAIPanelOpen(false);
+         }}
+          className="bg-emerald-600 hover:bg-emerald-700 text-white p-3 rounded-r-2xl"
+       >
+         <Users className="w-5 h-5" />
+       </button>
+
+       <button
+         onClick={() => {
+           setActiveLeftPanel(
+             activeLeftPanel === 'files'
+              ? null
+              : 'files'
+           );
+           setIsAIPanelOpen(false);
+        }}
+         className="bg-emerald-600 hover:bg-emerald-700 text-white p-3 rounded-r-2xl"
+       >
+        📁
+       </button>
+
+     </div>
+        {activeLeftPanel && (
           <ParticipantsSidebar
             participants={currentRoom.participants}
             currentUserId={currentUser.id}
@@ -557,7 +578,7 @@ export default function App() {
             onAskAIAboutFile={(file) => handleTriggerAIAction('summary', [file])}
             onToggleCoHost={handleToggleCoHost}
             onKickParticipant={handleKickParticipant}
-            onClose={() => setIsSidebarOpen(false)}
+            onClose={() => setActiveLeftPanel(null)}
           />
         )}
 
