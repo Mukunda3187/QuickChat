@@ -65,13 +65,13 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
   return (
     <section className="flex-1 flex flex-col bg-emerald-50/20 dark:bg-zinc-950 relative h-full overflow-hidden transition-colors">
       {/* Messages Scroll Area */}
-     <div className="flex-1 p-4 md:p-6 pl-10 md:pl-14 space-y-6 overflow-y-auto">
+     <div className="flex-1 p-4 md:p-6 space-y-6 overflow-y-auto">
 
         {messages.map((msg) => {
           if (msg.senderId === 'system') {
             return (
-            <div key={msg.id} className="flex gap-3 my-2 ml-10">
-                <div className="text-[11px] font-semibold text-emerald-900 dark:text-zinc-400 bg-emerald-100/60 dark:bg-zinc-900 px-3.5 py-1 rounded-full border border-emerald-200/80 dark:border-zinc-800 max-w-lg text-center">
+          <div key={msg.id} className="flex justify-center w-full my-2">
+                <div className="w-fit max-w-lg mx-auto text-[11px] font-semibold text-emerald-900 dark:text-zinc-400 bg-emerald-100/60 dark:bg-zinc-900 px-4 py-2 rounded-full border border-emerald-200/80 dark:border-zinc-800 text-center">
                   {msg.text}
                 </div>
               </div>
