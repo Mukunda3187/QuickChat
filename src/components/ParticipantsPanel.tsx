@@ -28,7 +28,6 @@ export const ParticipantsPanel: React.FC<ParticipantsPanelProps> = ({
   onKickParticipant,
   onClose,
 }) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
   const canManage = isCreator || isCoHost;
