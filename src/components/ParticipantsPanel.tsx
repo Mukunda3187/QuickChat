@@ -36,8 +36,8 @@ export const ParticipantsPanel: React.FC<ParticipantsPanelProps> = ({
   return (
     <aside className="w-64 md:w-72 bg-emerald-50/40 dark:bg-zinc-950/90 border-r border-emerald-200/80 dark:border-zinc-800 flex flex-col shrink-0 h-full overflow-hidden transition-colors">
       {/* Participants Section */}
-      <div className="p-4 border-b border-emerald-200/80 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/50">
-        <div className="flex items-center justify-between mb-3">
+      <div className="p-4 flex-1 flex flex-col overflow-hidden bg-emerald-50/20 dark:bg-zinc-950">
+        <div className="flex items-center justify-between mb-3 shrink-0">
           <h2 className="text-xs font-black text-emerald-900 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
             <Users className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             Participants ({participants.length})
