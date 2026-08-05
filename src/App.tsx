@@ -540,12 +540,13 @@ export default function App() {
   <div className="fixed left-0 top-20 z-40 flex flex-col gap-2">
   {/* Participants Button */}
   <button
-    onClick={() => {
-      setActiveLeftPanel(
-        activeLeftPanel === 'participants' ? null : 'participants'
-      );
-      setIsAIPanelOpen(false);
-    }}
+    onClick={() =>
+  setActiveLeftPanel(
+    activeLeftPanel === 'participants'
+      ? null
+      : 'participants'
+  )
+}
     className="bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-black p-3 rounded-r-2xl shadow-xl border-r border-y border-emerald-400 cursor-pointer transition-all"
     title="Participants"
   >
@@ -554,12 +555,13 @@ export default function App() {
 
   {/* Shared Files Button */}
   <button
-    onClick={() => {
-      setActiveLeftPanel(
-        activeLeftPanel === 'files' ? null : 'files'
-      );
-      setIsAIPanelOpen(false);
-    }}
+    onClick={() =>
+  setActiveLeftPanel(
+    activeLeftPanel === 'files'
+      ? null
+      : 'files'
+  )
+}
     className="bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-black p-3 rounded-r-2xl shadow-xl border-r border-y border-emerald-400 cursor-pointer transition-all"
     title="Shared Files"
   >
