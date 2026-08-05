@@ -567,7 +567,6 @@ export default function App() {
   </button>
 
 </div>
-     </div>
         {activeLeftPanel === 'participants' && (
   <ParticipantsPanel
     participants={currentRoom.participants}
@@ -643,7 +642,9 @@ export default function App() {
             allowStudentAi={currentRoom.allowStudentAi ?? true}
             onTriggerAIAction={handleTriggerAIAction}
             isThinking={isAiThinking}
-            onClose={() => setIsAIPanelOpen(false)}
+            onClose={() => {
+                       setIsAIPanelOpen(false);
+                          }}
             onOpenQuiz={(questions) => setActiveQuizMsg({ title: 'AI Generated Quiz', questions })}
             onOpenNotes={(title, content) => setActiveNotesMsg({ title, content })}
           />
