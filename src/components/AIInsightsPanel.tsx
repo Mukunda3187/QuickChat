@@ -2,29 +2,19 @@ import React, { useState, useRef, useEffect } from 'react';
 import { SharedFile, AIAnalysis } from '../types';
 import { CuteBotIcon } from './CuteBotIcon';
 import {
-  Sparkles,
   X,
   Send,
   FileText,
-  HelpCircle,
-  ListCheck,
-  BookOpen,
   ChevronDown,
   ChevronUp,
   FileCode,
   Image as ImageIcon,
   CheckSquare,
   Square,
-  Bot,
   Lock,
-  MoreVertical,
-  Check,
-  Sliders,
-  Upload,
   Trash2,
   Shield,
 } from 'lucide-react';
-
 interface AIInsightsPanelProps {
   files: SharedFile[];
   aiHistory: AIAnalysis[];
@@ -32,15 +22,12 @@ interface AIInsightsPanelProps {
   isCreator?: boolean;
   allowStudentAi?: boolean;
   onTriggerAIAction: (
-    action: 'summary' | 'quiz' | 'key_points' | 'explain' | 'action_items' | 'notes' | 'query',
-    files?: SharedFile[],
-    customPrompt?: string,
-    explanationLevel?: 'easy' | 'moderate' | 'high'
-  ) => void;
+  action: 'query',
+  files?: SharedFile[],
+  customPrompt?: string
+) => void;
   isThinking: boolean;
   onClose: () => void;
-  onOpenQuiz?: (questions: any[]) => void;
-  onOpenNotes?: (title: string, content: string) => void;
 }
 
 export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
@@ -52,8 +39,6 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
   onTriggerAIAction,
   isThinking,
   onClose,
-  onOpenQuiz,
-  onOpenNotes,
 }) => {
   // Private system files uploaded solely for local AI chat
   const [privateFiles, setPrivateFiles] = useState<SharedFile[]>([]);
@@ -159,12 +144,11 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
     setSelectedFileIds((prev) => prev.filter((id) => id !== fileId));
   };
 
-  const handleSendPrompt = (action: 'summary' | 'quiz' | 'key_points' | 'explain' | 'action_items' | 'notes' | 'query' = 'query', customPrompt?: string) => {
+const handleSendPrompt = (customPrompt?: string) => {
     const textToSubmit = customPrompt || promptInput;
-    if (action === 'query' && !textToSubmit.trim()) return;
-
+    if (!textToSubmit.trim()) return;
     const targetFiles = getSelectedFiles();
-    onTriggerAIAction(action, targetFiles, textToSubmit);
+    onTriggerAIAction('query', targetFiles, textToSubmit);
     setPromptInput('');
   };
 
@@ -358,17 +342,6 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
                     <CuteBotIcon className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                     {ai.title}
                   </span>
-                  {ai.explanationLevel && (
-                    <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-md uppercase tracking-wider border ${
-                      ai.explanationLevel === 'easy'
-                        ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800'
-                        : ai.explanationLevel === 'moderate'
-                        ? 'bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800'
-                        : 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800'
-                    }`}>
-                      {ai.explanationLevel}
-                    </span>
-                  )}
                 </div>
                 <span className="text-[9px] font-mono text-slate-400 dark:text-zinc-500 shrink-0">
                   {new Date(ai.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -378,27 +351,6 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
               <div className="text-xs text-slate-800 dark:text-zinc-200 leading-relaxed font-sans whitespace-pre-wrap max-h-60 overflow-y-auto pr-1">
                 {ai.content}
               </div>
-
-              {/* Action Buttons for Quiz / Notes if applicable */}
-              {ai.type === 'quiz' && ai.quizQuestions && onOpenQuiz && (
-                <button
-                  onClick={() => onOpenQuiz(ai.quizQuestions)}
-                  className="w-full mt-2 py-2 px-3 text-xs font-bold text-white dark:text-black bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
-                >
-                  <HelpCircle className="w-3.5 h-3.5" />
-                  Take Interactive Quiz
-                </button>
-              )}
-
-              {(ai.type === 'notes' || ai.type === 'summary') && onOpenNotes && (
-                <button
-                  onClick={() => onOpenNotes(ai.title, ai.content)}
-                  className="w-full mt-2 py-2 px-3 text-xs font-bold text-slate-800 dark:text-zinc-200 bg-emerald-100/60 dark:bg-zinc-800 hover:bg-emerald-200/80 dark:hover:bg-zinc-700 rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer border border-emerald-200/80 dark:border-zinc-700"
-                >
-                  <BookOpen className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                  View & Download Full Notes
-                </button>
-              )}
             </div>
           ))
         )}
@@ -422,41 +374,6 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
           </div>
         ) : (
           <>
-            {/* Quick Action Prompt Chips */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-              <button
-                type="button"
-                disabled={isThinking || selectedFileIds.length === 0}
-                onClick={() => handleSendPrompt('summary')}
-                className="text-[10px] font-extrabold px-2.5 py-1 rounded-lg bg-emerald-100/80 text-emerald-900 dark:bg-zinc-800 dark:text-emerald-400 hover:bg-emerald-200 dark:hover:bg-zinc-700 transition-colors shrink-0 disabled:opacity-40 cursor-pointer border border-emerald-200/60 dark:border-zinc-700 flex items-center gap-1"
-              >
-                <FileText className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> Summarize
-              </button>
-              <button
-                type="button"
-                disabled={isThinking || selectedFileIds.length === 0}
-                onClick={() => handleSendPrompt('quiz')}
-                className="text-[10px] font-extrabold px-2.5 py-1 rounded-lg bg-emerald-100/80 text-emerald-900 dark:bg-zinc-800 dark:text-emerald-400 hover:bg-emerald-200 dark:hover:bg-zinc-700 transition-colors shrink-0 disabled:opacity-40 cursor-pointer border border-emerald-200/60 dark:border-zinc-700 flex items-center gap-1"
-              >
-                <HelpCircle className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> Quiz
-              </button>
-              <button
-                type="button"
-                disabled={isThinking || selectedFileIds.length === 0}
-                onClick={() => handleSendPrompt('key_points')}
-                className="text-[10px] font-extrabold px-2.5 py-1 rounded-lg bg-emerald-100/80 text-emerald-900 dark:bg-zinc-800 dark:text-emerald-400 hover:bg-emerald-200 dark:hover:bg-zinc-700 transition-colors shrink-0 disabled:opacity-40 cursor-pointer border border-emerald-200/60 dark:border-zinc-700 flex items-center gap-1"
-              >
-                <ListCheck className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> Key Points
-              </button>
-              <button
-                type="button"
-                disabled={isThinking || selectedFileIds.length === 0}
-                onClick={() => handleSendPrompt('notes')}
-                className="text-[10px] font-extrabold px-2.5 py-1 rounded-lg bg-emerald-100/80 text-emerald-900 dark:bg-zinc-800 dark:text-emerald-400 hover:bg-emerald-200 dark:hover:bg-zinc-700 transition-colors shrink-0 disabled:opacity-40 cursor-pointer border border-emerald-200/60 dark:border-zinc-700 flex items-center gap-1"
-              >
-                <BookOpen className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> Notes
-              </button>
-            </div>
 
             {/* Prompt Input Bar */}
             <div className="flex items-center gap-2 bg-emerald-50/60 dark:bg-zinc-900 border border-emerald-200/80 dark:border-zinc-800 rounded-xl p-2 px-3 focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500 transition-all">
@@ -464,7 +381,7 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
                 type="text"
                 value={promptInput}
                 onChange={(e) => setPromptInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSendPrompt('query')}
+                onKeyDown={(e) => e.key === 'Enter' && handleSendPrompt()}
                 disabled={isThinking}
                 placeholder={
                   selectedFileIds.length === 0
@@ -475,7 +392,7 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
               />
               <button
                 type="button"
-                onClick={() => handleSendPrompt('query')}
+                onClick={() => handleSendPrompt()}
                 disabled={isThinking || !promptInput.trim()}
                 className="bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-black disabled:opacity-40 w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-colors cursor-pointer shadow-xs"
                 title="Ask AI Assistant"
