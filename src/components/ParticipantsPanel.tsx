@@ -1,23 +1,19 @@
 import React, { useRef, useState } from 'react';
-import { Participant, SharedFile } from '../types';
-import { Users, FileText, Download, Sparkles, Upload, FileCode, Image as ImageIcon, File, MoreVertical, ShieldCheck, ShieldOff, UserX, X } from 'lucide-react';
-import { CuteBotIcon } from './CuteBotIcon';
+import { Participant } from '../types';
 
-interface ParticipantsSidebarProps {
+interface ParticipantsPanelProps {
   participants: Participant[];
   currentUserId: string;
   isCreator: boolean;
   isCoHost?: boolean;
   allowStudentAi?: boolean;
-  files: SharedFile[];
-  onUploadFile: (file: File) => void;
   onAskAIAboutFile: (file: SharedFile) => void;
   onToggleCoHost?: (targetId: string, isCoHost: boolean) => void;
   onKickParticipant?: (targetId: string) => void;
   onClose?: () => void;
 }
 
-export const ParticipantsSidebar: React.FC<ParticipantsSidebarProps> = ({
+export const ParticipantsPanel: React.FC<ParticipantsSidebarProps> = ({
   participants,
   currentUserId,
   isCreator,
