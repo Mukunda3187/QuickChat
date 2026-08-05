@@ -163,20 +163,6 @@ export default function App() {
     };
   }, [currentRoom, refreshRoom]);
 
-  useEffect(() => {
-  const handleTabClose = () => {
-    if (currentRoom && currentUser?.isCreator) {
-      endSessionApi(currentRoom.id).catch(() => {});
-    }
-  };
-
-  window.addEventListener("beforeunload", handleTabClose);
-
-  return () => {
-    window.removeEventListener("beforeunload", handleTabClose);
-  };
-}, [currentRoom, currentUser]);
-
   const handleClearSession = (_msg?: string) => {
     setCurrentRoom(null);
     setCurrentUser(null);
