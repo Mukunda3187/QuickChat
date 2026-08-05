@@ -19,7 +19,8 @@ import {
 import { Sparkles, Users, Power, AlertTriangle } from 'lucide-react';
 import { CuteBotIcon } from './components/CuteBotIcon';
 import { Header } from './components/Header';
-import { ParticipantsSidebar } from './components/ParticipantsSidebar';
+import { ParticipantsPanel } from './components/ParticipantsPanel';
+import { SharedFilesPanel } from './components/SharedFilesPanel';
 import { ChatArea } from './components/ChatArea';
 import { AIInsightsPanel } from './components/AIInsightsPanel';
 import { RoomEntryModal } from './components/RoomEntryModal';
@@ -535,52 +536,69 @@ export default function App() {
       {/* Main Content Workspace */}
       <main className="flex-1 flex overflow-hidden relative">
         {/* Left Sidebar: Participants & Shared Files */}
-      <div className="fixed left-0 top-20 z-40 flex flex-col gap-2">
+       <div className="fixed left-0 top-20 z-40 flex flex-col gap-2">
 
-        <button
-          onClick={() => {
-            setActiveLeftPanel(
-              activeLeftPanel === 'participants'
-                ? null
-                : 'participants'
-            );
-            setIsAIPanelOpen(false);
-         }}
-          className="bg-emerald-600 hover:bg-emerald-700 text-white p-3 rounded-r-2xl"
-       >
-         <Users className="w-5 h-5" />
-       </button>
+  {/* Participants Button */}
+  <button
+    onClick={() => {
+      setActiveLeftPanel(
+        activeLeftPanel === 'participants' ? null : 'participants'
+      );
+      setIsAIPanelOpen(false);
+    }}
+    className="bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-black p-3 rounded-r-2xl shadow-xl border-r border-y border-emerald-400 cursor-pointer transition-all"
+    title="Participants"
+  >
+    <Users className="w-5 h-5" />
+  </button>
 
-       <button
-         onClick={() => {
-           setActiveLeftPanel(
-             activeLeftPanel === 'files'
-              ? null
-              : 'files'
-           );
-           setIsAIPanelOpen(false);
-        }}
-         className="bg-emerald-600 hover:bg-emerald-700 text-white p-3 rounded-r-2xl"
-       >
-        📁
-       </button>
+  {/* Shared Files Button */}
+  <button
+    onClick={() => {
+      setActiveLeftPanel(
+        activeLeftPanel === 'files' ? null : 'files'
+      );
+      setIsAIPanelOpen(false);
+    }}
+    className="bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-black p-3 rounded-r-2xl shadow-xl border-r border-y border-emerald-400 cursor-pointer transition-all"
+    title="Shared Files"
+  >
+    📁
+  </button>
 
+</div>
      </div>
-        {activeLeftPanel && (
-          <ParticipantsSidebar
-            participants={currentRoom.participants}
-            currentUserId={currentUser.id}
-            isCreator={currentUser.isCreator}
-            isCoHost={currentUser.isCoHost}
-            allowStudentAi={currentRoom.allowStudentAi ?? true}
-            files={currentRoom.files}
-            onUploadFile={handleUploadFile}
-            onAskAIAboutFile={(file) => handleTriggerAIAction('summary', [file])}
-            onToggleCoHost={handleToggleCoHost}
-            onKickParticipant={handleKickParticipant}
-            onClose={() => setActiveLeftPanel(null)}
-          />
-        )}
+        {activeLeftPanel === 'participants' && (
+  <ParticipantsPanel
+    participants={currentRoom.participants}
+    currentUserId={currentUser.id}
+    isCreator={currentUser.isCreator}
+    isCoHost={currentUser.isCoHost}
+    allowStudentAi={currentRoom.allowStudentAi ?? true}
+    files={currentRoom.files}
+    onUploadFile={handleUploadFile}
+    onAskAIAboutFile={(file) => handleTriggerAIAction('summary', [file])}
+    onToggleCoHost={handleToggleCoHost}
+    onKickParticipant={handleKickParticipant}
+    onClose={() => setActiveLeftPanel(null)}
+  />
+)}
+
+{activeLeftPanel === 'files' && (
+  <SharedFilesPanel
+    participants={currentRoom.participants}
+    currentUserId={currentUser.id}
+    isCreator={currentUser.isCreator}
+    isCoHost={currentUser.isCoHost}
+    allowStudentAi={currentRoom.allowStudentAi ?? true}
+    files={currentRoom.files}
+    onUploadFile={handleUploadFile}
+    onAskAIAboutFile={(file) => handleTriggerAIAction('summary', [file])}
+    onToggleCoHost={handleToggleCoHost}
+    onKickParticipant={handleKickParticipant}
+    onClose={() => setActiveLeftPanel(null)}
+  />
+)}
 
         {/* Center Chat Interface */}
         <ChatArea
