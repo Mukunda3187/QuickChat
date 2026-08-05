@@ -13,7 +13,7 @@ interface ParticipantsPanelProps {
   onClose?: () => void;
 }
 
-export const ParticipantsPanel: React.FC<ParticipantsSidebarProps> = ({
+export const ParticipantsPanel: React.FC<ParticipantsPanelProps> = ({
   participants,
   currentUserId,
   isCreator,
