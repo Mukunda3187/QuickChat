@@ -7,6 +7,7 @@ import {
   FileCode,
   Image as ImageIcon,
   File,
+  X,
 } from 'lucide-react';
 import { CuteBotIcon } from './CuteBotIcon';
 
@@ -56,11 +57,26 @@ export const SharedFilesPanel: React.FC<SharedFilesPanelProps> = ({
       {/* Shared Files Section */}
       <div className="p-4 flex-1 flex flex-col overflow-hidden bg-emerald-50/20 dark:bg-zinc-950">
         <div className="flex items-center justify-between mb-3 shrink-0">
-          <h2 className="text-xs font-black text-emerald-900 dark:text-emerald-400 uppercase tracking-wider">Shared Files</h2>
-          <span className="text-[10px] bg-emerald-100 dark:bg-zinc-800 text-emerald-900 dark:text-emerald-300 px-2 py-0.5 rounded-full font-bold border border-emerald-200/80 dark:border-zinc-700">
-            {files.length} total
-          </span>
-        </div>
+  <h2 className="text-xs font-black text-emerald-900 dark:text-emerald-400 uppercase tracking-wider">
+    Shared Files
+  </h2>
+
+  <div className="flex items-center gap-2">
+    <span className="text-[10px] bg-emerald-100 dark:bg-zinc-800 text-emerald-900 dark:text-emerald-300 px-2 py-0.5 rounded-full font-bold border border-emerald-200/80 dark:border-zinc-700">
+      {files.length} total
+    </span>
+
+    {onClose && (
+      <button
+        onClick={onClose}
+        className="p-1 rounded-lg hover:bg-emerald-200/60 dark:hover:bg-zinc-800 transition-colors"
+        title="Close Shared Files"
+      >
+        <X className="w-4 h-4" />
+      </button>
+    )}
+  </div>
+</div>
 
         <input
           type="file"
