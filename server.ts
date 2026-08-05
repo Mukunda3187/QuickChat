@@ -656,8 +656,7 @@ async function startServer() {
 
       let systemInstruction = `You are QuickChat AI, an intelligent, concise, and helpful assistant in a temporary collaboration workspace. 
 You specialize in answering questions about uploaded documents and explaining concepts clearly.
-Be clear, accurate, well-formatted, and direct. Use markdown for lists, bolding, and headings when helpful.
-${levelDirective}`;
+Be clear, accurate, well-formatted, and direct. Use markdown for lists, bolding, and headings when helpful.`;
 
 let userPrompt = `User question: "${prompt}"
 
@@ -689,7 +688,13 @@ ${fileContent ? fileContent.substring(0, 15000) : "No specific file selected."}`
   success: true,
   result: aiResult,
 });
-
+ } catch (err: any) {
+  console.error("AI Generation Error:", err);
+  res.status(500).json({
+    error: err.message || "Failed to process AI request",
+  });
+}
+});
   // Vite development middleware or static production serving
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
