@@ -7,6 +7,8 @@ interface ParticipantsPanelProps {
   isCreator: boolean;
   isCoHost?: boolean;
   allowStudentAi?: boolean;
+  files: SharedFile[];
+  onUploadFile: (file: File) => void;
   onAskAIAboutFile: (file: SharedFile) => void;
   onToggleCoHost?: (targetId: string, isCoHost: boolean) => void;
   onKickParticipant?: (targetId: string) => void;
