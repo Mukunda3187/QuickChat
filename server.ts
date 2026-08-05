@@ -659,19 +659,10 @@ You specialize in answering questions about uploaded documents and explaining co
 Be clear, accurate, well-formatted, and direct. Use markdown for lists, bolding, and headings when helpful.
 ${levelDirective}`;
 
-      let userPrompt = "";
-      
-Include:
-1. Executive Summary (2-3 sentences)
-2. Key Topics / Takeaways (bullet points)
-3. Target Audience / Purpose`;
-     } else {
-        // Custom Q&A or Chat Query
-        userPrompt = `User question: "${prompt}"
+let userPrompt = `User question: "${prompt}"
+
 Context / Document Content (${fileName || "Workspace"}):
 ${fileContent ? fileContent.substring(0, 15000) : "No specific file selected."}`;
-      }
-
       console.log(`[AI Request] Action: ${action}, File: ${fileName}, Private: ${!!isPrivate}`);
 
       const response = await ai.models.generateContent({
@@ -686,47 +677,18 @@ ${fileContent ? fileContent.substring(0, 15000) : "No specific file selected."}`
 
       const responseText = response.text || "AI generated no content.";
 
-      // Parse JSON for quiz if quiz mode
-      let quizQuestions = undefined;
-      if (action === "quiz") {
-        try {
-          const jsonMatch = responseText.match(/```json\s*([\s\S]*?)\s*```/) || responseText.match(/\{[\s\S]*\}/);
-          if (jsonMatch) {
-            const rawJson = jsonMatch[1] || jsonMatch[0];
-            const parsed = JSON.parse(rawJson);
-            if (parsed && Array.isArray(parsed.questions)) {
-              quizQuestions = parsed.questions;
-            }
-          }
-        } catch (e) {
-          console.warn("Failed to parse quiz JSON from AI output", e);
-        }
-      }
-
-      const aiResult = {
-        id: "ai_" + Date.now(),
-        type: action,
-        fileName: fileName || undefined,
-        title: action === "summary" ? `Summary: ${fileName || "Document"}` :
-               action === "quiz" ? `Quiz: ${fileName || "Document"}` :
-               action === "key_points" ? `Key Points: ${fileName || "Document"}` :
-               action === "explain" ? `Explained: ${fileName || "Document"}` :
-               action === "action_items" ? `Action Items: ${fileName || "Workspace"}` :
-               action === "notes" ? `Study Notes: ${fileName || "Workspace"}` :
-               `AI Response`,
-        content: responseText,
-        explanationLevel,
-        quizQuestions,
-        createdAt: new Date().toISOString(),
-        isPrivate: !!isPrivate,
-      };
-
-      res.json({ success: true, result: aiResult });
-    } catch (err: any) {
-      console.error("AI Generation Error:", err);
-      res.status(500).json({ error: err.message || "Failed to process AI request" });
-    }
-  });
+  const aiResult = {
+  id: "ai_" + Date.now(),
+  type: "query",
+  title: "AI Response",
+  content: responseText,
+  createdAt: new Date().toISOString(),
+  isPrivate: true,
+};
+      res.json({
+  success: true,
+  result: aiResult,
+});
 
   // Vite development middleware or static production serving
   if (process.env.NODE_ENV !== "production") {
