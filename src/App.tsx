@@ -34,7 +34,7 @@ export default function App() {
   const [isEntryLoading, setIsEntryLoading] = useState<boolean>(false);
   const [isAiThinking, setIsAiThinking] = useState<boolean>(false);
   const [isAIPanelOpen, setIsAIPanelOpen] = useState<boolean>(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
+  const [activeSidePanel, setActiveSidePanel] = useState<'participants' | 'files' | null>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
   const [privateAiHistory, setPrivateAiHistory] = useState<AIAnalysis[]>([]);
 
@@ -545,7 +545,7 @@ export default function App() {
           </button>
         )}
 
-        {isSidebarOpen && (
+        {activeSidePanel && (
           <ParticipantsSidebar
             participants={currentRoom.participants}
             currentUserId={currentUser.id}
