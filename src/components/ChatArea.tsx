@@ -79,60 +79,6 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
           }
 
           const isMe = msg.senderId === currentUserId;
-          const isAI = msg.isAI || msg.senderId === 'ai';
-
-          if (isAI) {
-            return (
-              <div key={msg.id} className="flex gap-3 my-2">
-                <div className="w-8 h-8 rounded-xl bg-emerald-600 dark:bg-emerald-500 shrink-0 flex items-center justify-center text-white dark:text-black shadow-md dark:shadow-[0_0_12px_rgba(16,185,129,0.4)]" title="QuickChat AI Assistant">
-                  <CuteBotIcon className="w-5 h-5" />
-                </div>
-                <div className="flex-1 max-w-2xl bg-white dark:bg-zinc-900 border border-emerald-300/80 dark:border-emerald-900/50 p-4 rounded-2xl shadow-xs text-slate-800 dark:text-zinc-100">
-                  <div className="flex items-center justify-between mb-2 pb-2 border-b border-emerald-200/80 dark:border-zinc-800">
-                    <span className="text-xs font-black text-emerald-900 dark:text-emerald-400 flex items-center gap-1.5">
-                      <CuteBotIcon className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                      {msg.aiAnalysis?.title || 'QUICKCHAT AI INSIGHT'}
-                    </span>
-                    <span className="text-[10px] text-slate-500 dark:text-zinc-400 font-semibold">{formatTime(msg.timestamp)}</span>
-                  </div>
-
-                  <div className="text-xs text-slate-700 dark:text-zinc-200 space-y-2 whitespace-pre-wrap leading-relaxed">
-                    {msg.text}
-                  </div>
-
-                  {msg.aiAnalysis?.quizQuestions && (
-                    <div className="mt-3 pt-3 border-t border-emerald-200/80 dark:border-zinc-800 flex items-center justify-between">
-                      <span className="text-xs text-emerald-950 dark:text-emerald-300 font-bold flex items-center gap-1">
-                        <HelpCircle className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                        4-Question Knowledge Check Ready
-                      </span>
-                      <button
-                        onClick={() => onOpenQuiz(msg)}
-                        className="bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 dark:text-black text-white text-xs px-3 py-1.5 rounded-lg font-extrabold transition-all cursor-pointer shadow-xs dark:shadow-[0_0_10px_rgba(16,185,129,0.3)]"
-                      >
-                        Start Interactive Quiz
-                      </button>
-                    </div>
-                  )}
-
-                  {msg.aiAnalysis?.type === 'notes' && (
-                    <div className="mt-3 pt-3 border-t border-emerald-200/80 dark:border-zinc-800 flex items-center justify-between">
-                      <span className="text-xs text-emerald-950 dark:text-emerald-300 font-bold flex items-center gap-1">
-                        <FileCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                        Formatted Notes Generated
-                      </span>
-                      <button
-                        onClick={() => onOpenNotes(msg)}
-                        className="bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 dark:text-black text-white text-xs px-3 py-1.5 rounded-lg font-extrabold transition-all cursor-pointer shadow-xs dark:shadow-[0_0_10px_rgba(16,185,129,0.3)]"
-                      >
-                        View Full Notes
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          }
 
           return (
             <div key={msg.id} className={`flex gap-3 group relative ${isMe ? 'flex-row-reverse' : ''}`}>
