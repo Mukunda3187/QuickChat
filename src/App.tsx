@@ -536,8 +536,8 @@ export default function App() {
       {/* Main Content Workspace */}
       <main className="flex-1 flex overflow-hidden relative">
         {/* Left Sidebar: Participants & Shared Files */}
-       <div className="fixed left-0 top-20 z-40 flex flex-col gap-2">
-
+      {!activeLeftPanel && (
+  <div className="fixed left-0 top-20 z-40 flex flex-col gap-2">
   {/* Participants Button */}
   <button
     onClick={() => {
@@ -567,6 +567,7 @@ export default function App() {
   </button>
 
 </div>
+)}
         {activeLeftPanel === 'participants' && (
   <ParticipantsPanel
     participants={currentRoom.participants}
