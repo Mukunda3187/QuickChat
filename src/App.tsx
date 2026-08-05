@@ -24,8 +24,6 @@ import { SharedFilesPanel } from './components/SharedFilesPanel';
 import { ChatArea } from './components/ChatArea';
 import { AIInsightsPanel } from './components/AIInsightsPanel';
 import { RoomEntryModal } from './components/RoomEntryModal';
-import { QuizModal } from './components/QuizModal';
-import { NotesModal } from './components/NotesModal';
 import { RoomSettingsModal, ThemeColor } from './components/RoomSettingsModal';
 
 export default function App() {
@@ -73,8 +71,6 @@ export default function App() {
   };
 
   // Active Modals
-  const [activeQuizMsg, setActiveQuizMsg] = useState<{ title: string; questions: any[] } | null>(null);
-  const [activeNotesMsg, setActiveNotesMsg] = useState<{ title: string; content: string } | null>(null);
   const [hostNoticeMessage, setHostNoticeMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -446,51 +442,6 @@ export default function App() {
     }
   };
 
-  // Trigger AI Action
-  const handleTriggerAIAction = async (
-    action: 'summary' | 'quiz' | 'key_points' | 'explain' | 'action_items' | 'notes' | 'query',
-    targetFiles?: SharedFile[],
-    customPrompt?: string,
-    explanationLevel: 'easy' | 'moderate' | 'high' = 'easy'
-  ) => {
-    if (!currentRoom) return;
-    if (currentRoom.allowStudentAi === false) {
-      alert("AI Assistant has been disabled for this room by the Host.");
-      return;
-    }
-    setIsAiThinking(true);
-
-    try {
-      const selectedFiles = (targetFiles && targetFiles.length > 0) ? targetFiles : currentRoom.files;
-      const isPrivateRequest = selectedFiles.some((f) => f.isPrivate === true);
-      const fileNameList = selectedFiles.map((f) => f.name).join(', ') || 'Workspace Document(s)';
-      const combinedContent = selectedFiles.length > 0
-        ? selectedFiles.map((f) => `--- File: ${f.name}${f.isPrivate ? ' (Private)' : ''} ---\n${f.content || ''}`).join('\n\n')
-        : currentRoom.messages.map((m) => `${m.senderName}: ${m.text}`).join('\n');
-
-      const res = await requestAIAnalysisApi({
-        roomId: currentRoom.id,
-        action,
-        fileName: fileNameList,
-        fileContent: combinedContent,
-        prompt: customPrompt,
-        explanationLevel,
-        isCreator: currentUser.isCreator,
-        isPrivate: isPrivateRequest,
-      });
-
-      if (isPrivateRequest && res.result) {
-        setPrivateAiHistory((prev) => [...prev, res.result]);
-      } else {
-        refreshRoom();
-      }
-    } catch (e) {
-      console.error('AI Action error', e);
-    } finally {
-      setIsAiThinking(false);
-    }
-  };
-
   // End Session Handler
   const handleEndSession = async () => {
     if (!currentRoom) return;
@@ -520,7 +471,32 @@ export default function App() {
       />
     );
   }
+const handleTriggerAIAction = async (
+  action: 'query',
+  files?: SharedFile[],
+  customPrompt?: string
+) => {
+  if (!currentRoom || !currentUser) return;
 
+  try {
+    setIsAiThinking(true);
+
+    const file = files?.[0];
+
+    await requestAIAnalysisApi({
+      roomId: currentRoom.id,
+      action: 'query',
+      fileName: file?.name,
+      fileContent: file?.content,
+      prompt: customPrompt || '',
+      isCreator: currentUser.isCreator,
+    });
+
+    refreshRoom();
+  } finally {
+    setIsAiThinking(false);
+  }
+};
   const hasCoHosts = currentRoom.participants.some((p) => p.isCoHost && !p.isCreator);
 
   return (
@@ -581,7 +557,9 @@ export default function App() {
     allowStudentAi={currentRoom.allowStudentAi ?? true}
     files={currentRoom.files}
     onUploadFile={handleUploadFile}
-    onAskAIAboutFile={(file) => handleTriggerAIAction('summary', [file])}
+    onAskAIAboutFile={(file) =>
+  setIsAIPanelOpen(true)
+}
     onToggleCoHost={handleToggleCoHost}
     onKickParticipant={handleKickParticipant}
     onClose={() => setActiveLeftPanel(null)}
@@ -597,7 +575,7 @@ export default function App() {
     allowStudentAi={currentRoom.allowStudentAi ?? true}
     files={currentRoom.files}
     onUploadFile={handleUploadFile}
-    onAskAIAboutFile={(file) => handleTriggerAIAction('summary', [file])}
+    onAskAIAboutFile={() => setIsAIPanelOpen(true)}
     onToggleCoHost={handleToggleCoHost}
     onKickParticipant={handleKickParticipant}
     onClose={() => setActiveLeftPanel(null)}
@@ -612,16 +590,6 @@ export default function App() {
           allowStudentChat={currentRoom.allowStudentChat ?? true}
           onSendMessage={handleSendMessage}
           onUploadAndAttach={handleUploadFile}
-          onOpenQuiz={(msg) => {
-            if (msg.aiAnalysis?.quizQuestions) {
-              setActiveQuizMsg({ title: msg.aiAnalysis.title, questions: msg.aiAnalysis.quizQuestions });
-            }
-          }}
-          onOpenNotes={(msg) => {
-            if (msg.aiAnalysis) {
-              setActiveNotesMsg({ title: msg.aiAnalysis.title, content: msg.aiAnalysis.content });
-            }
-          }}
           onReactToMessage={handleReactToMessage}
           isAiThinking={isAiThinking}
         />
@@ -650,8 +618,6 @@ export default function App() {
             onClose={() => {
                        setIsAIPanelOpen(false);
                           }}
-            onOpenQuiz={(questions) => setActiveQuizMsg({ title: 'AI Generated Quiz', questions })}
-            onOpenNotes={(title, content) => setActiveNotesMsg({ title, content })}
           />
         )}
       </main>
@@ -679,24 +645,6 @@ export default function App() {
           onLeaveSession={handleLeaveSession}
           onEndSession={handleEndSession}
           onClose={() => setIsSettingsOpen(false)}
-        />
-      )}
-
-      {/* Interactive Quiz Modal */}
-      {activeQuizMsg && (
-        <QuizModal
-          title={activeQuizMsg.title}
-          questions={activeQuizMsg.questions}
-          onClose={() => setActiveQuizMsg(null)}
-        />
-      )}
-
-      {/* Formatted Notes Viewer Modal */}
-      {activeNotesMsg && (
-        <NotesModal
-          title={activeNotesMsg.title}
-          content={activeNotesMsg.content}
-          onClose={() => setActiveNotesMsg(null)}
         />
       )}
 
