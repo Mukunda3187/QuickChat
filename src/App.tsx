@@ -501,6 +501,8 @@ export default function App() {
     } finally {
       setIsSettingsOpen(false);
       handleClearSession();
+      setActiveLeftPanel(null);
+      setIsAIPanelOpen(false);
     }
   };
 
