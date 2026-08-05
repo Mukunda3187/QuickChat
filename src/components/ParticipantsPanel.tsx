@@ -55,7 +55,7 @@ export const ParticipantsPanel: React.FC<ParticipantsPanelProps> = ({
             )}
           </div>
         </div>
-        <div className="space-y-2.5 max-h-52 overflow-y-auto pr-1">
+        <div className="space-y-2 overflow-y-auto flex-1 pr-1">
           {participants.map((p) => {
             const isMe = p.id === currentUserId;
             const initials = p.name ? p.name.substring(0, 2).toUpperCase() : 'U';
