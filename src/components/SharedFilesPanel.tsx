@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { Participant, SharedFile } from '../types';
+import { SharedFile } from '../types';
 import { Users, FileText, Download, Sparkles, Upload, FileCode, Image as ImageIcon, File, MoreVertical, ShieldCheck, ShieldOff, UserX, X } from 'lucide-react';
 import { CuteBotIcon } from './CuteBotIcon';
 
-interface ParticipantsSidebarProps {
+interface SharPaneledFilesProps {
   participants: Participant[];
   currentUserId: string;
   isCreator: boolean;
@@ -17,7 +17,7 @@ interface ParticipantsSidebarProps {
   onClose?: () => void;
 }
 
-export const ParticipantsSidebar: React.FC<ParticipantsSidebarProps> = ({
+export const SharPaneledFiles: React.FC<SharPaneledFilesProps> = ({
   participants,
   currentUserId,
   isCreator,
