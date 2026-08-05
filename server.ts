@@ -17,7 +17,6 @@ interface RoomData {
   participants: { id: string; name: string; isCreator: boolean; isCoHost?: boolean; avatarColor?: string; avatarUrl?: string; joinedAt: string }[];
   messages: any[];
   files: any[];
-  aiHistory: any[];
 }
 
 // In-memory temporary session store. Zero persistent DB.
@@ -100,7 +99,6 @@ async function startServer() {
           },
         ],
         files: [],
-        aiHistory: [],
         allowStudentChat: true,
         allowStudentAi: true,
         isLocked: false,
@@ -124,7 +122,6 @@ async function startServer() {
           participants: newRoom.participants,
           messages: newRoom.messages,
           files: newRoom.files,
-          aiHistory: newRoom.aiHistory,
         },
         user: { id: creatorId, name: creatorName, isCreator: true },
       });
@@ -195,7 +192,6 @@ async function startServer() {
           participants: room.participants,
           messages: room.messages,
           files: room.files,
-          aiHistory: room.aiHistory,
         },
         user: participant,
       });
@@ -227,7 +223,6 @@ async function startServer() {
       participants: room.participants,
       messages: room.messages,
       files: room.files,
-      aiHistory: room.aiHistory,
     });
   });
 
@@ -574,7 +569,7 @@ async function startServer() {
       return res.status(404).json({ error: "Room not found." });
     }
 
-    const { senderId, senderName, isCreator, text, fileAttachment, aiAnalysis, senderAvatarColor, senderAvatarUrl } = req.body;
+    const { senderId, senderName, isCreator, text, fileAttachment, senderAvatarColor, senderAvatarUrl } = req.body;
 
     // Check if chat is disabled for students/non-hosts
     if (room.allowStudentChat === false && !isCreator && senderId !== "system" && senderId !== "ai") {
@@ -591,7 +586,6 @@ async function startServer() {
       isCreator: !!isCreator,
       text: text || "",
       fileAttachment: fileAttachment || null,
-      aiAnalysis: aiAnalysis || null,
       timestamp: new Date().toISOString(),
     };
 
@@ -659,67 +653,19 @@ async function startServer() {
 
       const ai = getGenAI();
 
-      let levelDirective = "";
-      if (explanationLevel === "easy") {
-        levelDirective = "EXPLANATION LEVEL: EASY / BEGINNER. Explain concepts in basic, straightforward language using simple analogies and clear step-by-step points so anyone can easily understand.";
-      } else if (explanationLevel === "moderate") {
-        levelDirective = "EXPLANATION LEVEL: MODERATE / STANDARD. Provide a well-balanced, clear explanation with standard technical accuracy and structured key points.";
-      } else if (explanationLevel === "high") {
-        levelDirective = "EXPLANATION LEVEL: HIGH / ADVANCED. Provide a deep, comprehensive, and rigorous technical analysis covering advanced concepts, detailed mechanics, and thorough insights.";
-      }
 
       let systemInstruction = `You are QuickChat AI, an intelligent, concise, and helpful assistant in a temporary collaboration workspace. 
-You specialize in summarizing documents, explaining complex ideas, creating key points, action items, generating interactive quizzes, and answering questions about shared files or chat history.
+You specialize in answering questions about uploaded documents and explaining concepts clearly.
 Be clear, accurate, well-formatted, and direct. Use markdown for lists, bolding, and headings when helpful.
 ${levelDirective}`;
 
       let userPrompt = "";
-
-      if (action === "summary") {
-        userPrompt = `Please generate a clear, structured summary for the document "${fileName || "Uploaded File"}".
-Document Content:
-${fileContent || "No direct content available"}
-
+      
 Include:
 1. Executive Summary (2-3 sentences)
 2. Key Topics / Takeaways (bullet points)
 3. Target Audience / Purpose`;
-      } else if (action === "quiz") {
-        userPrompt = `Generate a 4-question multiple choice quiz based on the document "${fileName || "Shared Document"}".
-Document Content:
-${fileContent || "No direct content available"}
-
-Provide the output strictly as a JSON block with the following format so our app can render an interactive quiz:
-{
-  "title": "Quiz: ${fileName || "Document Understanding"}",
-  "questions": [
-    {
-      "id": 1,
-      "question": "Question text here?",
-      "options": ["Option A", "Option B", "Option C", "Option D"],
-      "correctIndex": 0,
-      "explanation": "Brief explanation why option A is correct."
-    }
-  ]
-}
-Make sure the JSON is valid and formatted cleanly inside a \`\`\`json markdown block.`;
-      } else if (action === "key_points") {
-        userPrompt = `Extract the top 5 key points and critical details from "${fileName || "Document"}":
-Content:
-${fileContent || "No content"}`;
-      } else if (action === "explain") {
-        userPrompt = `Explain the contents, structure, and main concepts of "${fileName || "Document/Code"}" in simple, easy-to-understand terms.
-Content:
-${fileContent || "No content"}`;
-      } else if (action === "action_items") {
-        userPrompt = `Identify all action items, next steps, deadlines, and responsibilities mentioned in "${fileName || "Document/Chat"}":
-Content:
-${fileContent || "No content"}`;
-      } else if (action === "notes") {
-        userPrompt = `Generate clean, well-formatted Study / Meeting Notes based on the uploaded file "${fileName || "Workspace Content"}":
-Content:
-${fileContent || "No content"}`;
-      } else {
+     } else {
         // Custom Q&A or Chat Query
         userPrompt = `User question: "${prompt}"
 Context / Document Content (${fileName || "Workspace"}):
@@ -774,25 +720,6 @@ ${fileContent ? fileContent.substring(0, 15000) : "No specific file selected."}`
         createdAt: new Date().toISOString(),
         isPrivate: !!isPrivate,
       };
-
-      // Store in room history ONLY if NOT private and roomId provided
-      if (!isPrivate && roomId && tempRooms.has(roomId)) {
-        const room = tempRooms.get(roomId);
-        if (room) {
-          room.aiHistory.push(aiResult);
-          // Also post AI message to public chat
-          room.messages.push({
-            id: "msg_ai_" + Date.now(),
-            senderId: "ai",
-            senderName: "QuickChat AI",
-            isCreator: false,
-            isAI: true,
-            text: responseText,
-            aiAnalysis: aiResult,
-            timestamp: new Date().toISOString(),
-          });
-        }
-      }
 
       res.json({ success: true, result: aiResult });
     } catch (err: any) {
