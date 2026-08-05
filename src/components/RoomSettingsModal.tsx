@@ -218,7 +218,9 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                     <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
                   ) : (
                     <div
-                      style={{ backgroundColor: avatarColor }}
+                      style={{
+  backgroundColor:avatarColor
+}}
                       className="w-full h-full flex items-center justify-center text-white font-black text-xl shadow-inner"
                     >
                       {displayName ? displayName.substring(0, 2).toUpperCase() : 'U'}
