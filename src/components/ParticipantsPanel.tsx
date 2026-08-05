@@ -1,15 +1,19 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Participant } from '../types';
+import {
+  Users,
+  MoreVertical,
+  ShieldCheck,
+  ShieldOff,
+  UserX,
+  X,
+} from 'lucide-react';
 
 interface ParticipantsPanelProps {
   participants: Participant[];
   currentUserId: string;
   isCreator: boolean;
   isCoHost?: boolean;
-  allowStudentAi?: boolean;
-  files: SharedFile[];
-  onUploadFile: (file: File) => void;
-  onAskAIAboutFile: (file: SharedFile) => void;
   onToggleCoHost?: (targetId: string, isCoHost: boolean) => void;
   onKickParticipant?: (targetId: string) => void;
   onClose?: () => void;
@@ -20,10 +24,6 @@ export const ParticipantsPanel: React.FC<ParticipantsPanelProps> = ({
   currentUserId,
   isCreator,
   isCoHost,
-  allowStudentAi = true,
-  files,
-  onUploadFile,
-  onAskAIAboutFile,
   onToggleCoHost,
   onKickParticipant,
   onClose,
@@ -33,30 +33,6 @@ export const ParticipantsPanel: React.FC<ParticipantsPanelProps> = ({
 
   const canManage = isCreator || isCoHost;
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      onUploadFile(e.target.files[0]);
-      e.target.value = '';
-    }
-  };
-
-  const getFileIcon = (type: string) => {
-    const t = type.toLowerCase();
-    if (t.includes('pdf')) return <span className="text-rose-500 font-bold text-xs">PDF</span>;
-    if (t.includes('doc')) return <span className="text-blue-500 font-bold text-xs">DOC</span>;
-    if (t.includes('code') || t.includes('js') || t.includes('ts') || t.includes('py') || t.includes('html') || t.includes('json'))
-      return <FileCode className="w-4 h-4 text-emerald-600" />;
-    if (t.includes('image') || t.includes('png') || t.includes('jpg'))
-      return <ImageIcon className="w-4 h-4 text-purple-600" />;
-    return <FileText className="w-4 h-4 text-slate-500" />;
-  };
-
-  const formatFileSize = (bytes: number) => {
-    if (!bytes) return '0 B';
-    if (bytes < 1024) return bytes + ' B';
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-  };
 
   return (
     <aside className="w-64 md:w-72 bg-emerald-50/40 dark:bg-zinc-950/90 border-r border-emerald-200/80 dark:border-zinc-800 flex flex-col shrink-0 h-full overflow-hidden transition-colors">
