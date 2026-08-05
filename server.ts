@@ -510,6 +510,17 @@ async function startServer() {
       if (typeof avatarUrl === "string") {
         p.avatarUrl = avatarUrl;
       }
+      // Update avatar for all previous messages from this participant
+room.messages.forEach((msg) => {
+  if (msg.senderId === participantId) {
+    if (typeof avatarColor === "string") {
+      msg.senderAvatarColor = avatarColor;
+    }
+    if (typeof avatarUrl === "string") {
+      msg.senderAvatarUrl = avatarUrl;
+    }
+  }
+});
     }
 
     res.json({ success: true, participant: p });
