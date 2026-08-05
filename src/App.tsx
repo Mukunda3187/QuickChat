@@ -156,7 +156,19 @@ export default function App() {
         }
       }
     });
+useEffect(() => {
+  const handleTabClose = () => {
+    if (currentRoom && currentUser?.isCreator) {
+      navigator.sendBeacon(`/api/rooms/${currentRoom.id}/end`);
+    }
+  };
 
+  window.addEventListener("beforeunload", handleTabClose);
+
+  return () => {
+    window.removeEventListener("beforeunload", handleTabClose);
+  };
+}, [currentRoom, currentUser]);
     return () => {
       clearInterval(interval);
       unsubscribe();
