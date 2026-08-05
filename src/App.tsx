@@ -164,7 +164,11 @@ useEffect(() => {
   };
 
   window.addEventListener("beforeunload", handleTabClose);
-
+useEffect(() => {
+  handleClearSession();
+  setActiveLeftPanel(null);
+  setIsAIPanelOpen(false);
+}, []);
   return () => {
     window.removeEventListener("beforeunload", handleTabClose);
   };
