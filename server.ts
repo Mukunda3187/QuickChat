@@ -69,6 +69,13 @@ async function startServer() {
       }
 
       const formattedChatId = String(chatId).trim().toUpperCase();
+      const existingRoom = tempRooms.get(formattedChatId);
+
+if (existingRoom) {
+  return res.status(409).json({
+    error: `This Room ID is Already Active. Change Room ID`,
+  });
+}
       const now = new Date();
       const creatorId = "usr_" + Math.random().toString(36).substring(2, 9);
 
@@ -148,7 +155,19 @@ async function startServer() {
       }
 
       // Create participant or reconnect
-      let participant = room.participants.find((p) => p.name.trim().toLowerCase() === String(participantName).trim().toLowerCase());
+      const cleanName = String(participantName).trim();
+
+const existingParticipant = room.participants.find(
+  (p) => p.name.trim().toLowerCase() === cleanName.toLowerCase()
+);
+
+if (existingParticipant) {
+  return res.status(409).json({
+    error: "Name already taken. Choose another.",
+  });
+}
+
+let participant;
       if (!participant) {
         // If room is locked, prevent new joins
         if (room.isLocked) {
@@ -158,7 +177,7 @@ async function startServer() {
         const participantId = "usr_" + Math.random().toString(36).substring(2, 9);
         participant = {
           id: participantId,
-          name: String(participantName).trim(),
+          name: cleanName,
           isCreator: false,
           isCoHost: false,
           joinedAt: new Date().toISOString(),
