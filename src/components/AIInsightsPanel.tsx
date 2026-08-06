@@ -151,8 +151,6 @@ const handleRemovePrivateFile = (fileId: string) => {
   // TODO: Call backend API to remove the AI file from room.aiFiles
 };
 
-  setSelectedFileIds((prev) => prev.filter((id) => id !== fileId));
-};
 
 const handleSendPrompt = (customPrompt?: string) => {
     const textToSubmit = customPrompt || promptInput;
