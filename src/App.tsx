@@ -455,7 +455,7 @@ export default function App() {
       setActiveLeftPanel(null);
       setIsAIPanelOpen(false);
       setTheme('light');
-      setThemeColor(color);
+      setThemeColor('emerald');
       
     }
   };
