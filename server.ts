@@ -18,6 +18,7 @@ interface RoomData {
   messages: any[];
   files: any[];
   aiHistory: any[];
+  aiFiles: any[];
 }
 
 // In-memory temporary session store. Zero persistent DB.
@@ -108,6 +109,7 @@ if (existingRoom) {
         ],
         files: [],
         aiHistory: [],
+        aiFiles: [],
         allowStudentChat: true,
         allowStudentAi: true,
         isLocked: false,
@@ -132,6 +134,7 @@ if (existingRoom) {
           messages: newRoom.messages,
           files: newRoom.files,
           aiHistory: newRoom.aiHistory,
+          aiFiles: newRoom.aiFiles,
         },
         user: { id: creatorId, name: creatorName, isCreator: true },
       });
@@ -215,6 +218,7 @@ let participant;
           messages: room.messages,
           files: room.files,
           aiHistory: room.aiHistory,
+          aiFiles: room.aiFiles,
         },
         user: participant,
       });
@@ -247,6 +251,7 @@ let participant;
       messages: room.messages,
       files: room.files,
       aiHistory: room.aiHistory,
+      aiFiles: room.aiFiles,
     });
   });
 
@@ -711,6 +716,15 @@ ${fileContent ? fileContent.substring(0, 15000) : "No specific file selected."}`
 
 if (room) {
   room.aiHistory.push(aiResult);
+
+  if (fileName) {
+    room.aiFiles.push({
+      id: "aifile_" + Date.now(),
+      name: fileName,
+      content: fileContent || "",
+      uploadedAt: new Date().toISOString(),
+    });
+  }
 }
       res.json({
   success: true,
