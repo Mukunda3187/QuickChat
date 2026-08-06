@@ -15,8 +15,10 @@ interface RoomData {
   allowStudentAi?: boolean;
   isLocked?: boolean;
   participants: { id: string; name: string; isCreator: boolean; isCoHost?: boolean; avatarColor?: string; avatarUrl?: string; joinedAt: string }[];
-  messages: any[];
+messages: any[];
   files: any[];
+  aiFiles: any[];
+  aiHistory: any[];
  privateAiHistory: Record<string, any[]>;
 privateAiFiles: Record<string, any[]>;
 }
@@ -107,7 +109,9 @@ if (existingRoom) {
             timestamp: now.toISOString(),
           },
         ],
-        files: [],
+       files: [],
+        aiFiles: [],
+        aiHistory: [],
         privateAiHistory: {
   [creatorId]: [],
 },
@@ -652,7 +656,7 @@ if (!room.privateAiHistory[participant.id]) {
       uploadedAt: new Date().toISOString(),
     };
 
-    room.files.push(room.files);
+    room.files.push(newFile);
 
     // Also push a message notifying about file share
     const fileMsg = {
@@ -665,6 +669,33 @@ if (!room.privateAiHistory[participant.id]) {
       timestamp: new Date().toISOString(),
     };
     room.messages.push(fileMsg);
+
+    res.json({ success: true, file: newFile });
+  });
+
+  // AI-tab-only file upload: stays in room.aiFiles, never touches
+  // room.files or room.messages, so it never appears outside the AI tab.
+  app.post("/api/rooms/:id/ai-files", (req, res) => {
+    const formattedChatId = String(req.params.id || "").trim().toUpperCase();
+    const room = tempRooms.get(formattedChatId);
+    if (!room) {
+      return res.status(404).json({ error: "Room not found." });
+    }
+
+    const { name, size, type, url, content, uploadedBy } = req.body;
+    const newFile = {
+      id: "aifile_" + Date.now() + "_" + Math.random().toString(36).substring(2, 6),
+      name: name || "file",
+      size: size || 0,
+      type: type || "txt",
+      url: url || "",
+      content: content || "",
+      uploadedBy: uploadedBy || "Participant",
+      uploadedAt: new Date().toISOString(),
+      isPrivate: true,
+    };
+
+    room.aiFiles.push(newFile);
 
     res.json({ success: true, file: newFile });
   });
