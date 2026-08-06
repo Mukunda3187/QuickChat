@@ -32,7 +32,7 @@ interface AIInsightsPanelProps {
 
 export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
   files,
-  aiHistory,
+  aiHistory = [],
   privateAiHistory = [],
   isCreator = false,
   allowStudentAi = true,
@@ -59,9 +59,9 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
     }
   }, [files, privateFiles]);
 
-  const combinedHistory = [...aiHistory, ...privateAiHistory].sort(
-    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-  );
+ const combinedHistory = [...(aiHistory || []), ...(privateAiHistory || [])].sort(
+  (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+);
 
   useEffect(() => {
     chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
