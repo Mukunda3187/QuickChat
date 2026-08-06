@@ -93,6 +93,7 @@ export default function App() {
         getRoomApi(savedRoomId)
           .then((room) => {
             setCurrentRoom(room);
+            setPrivateAiHistory(room.aiHistory || []);
             // Sync user object with room's updated participant list (e.g. co-host or host transfer)
             const matchedUser = room.participants.find((p) => p.id === userObj.id);
             setCurrentUser(matchedUser || userObj);
@@ -112,8 +113,9 @@ export default function App() {
   const refreshRoom = useCallback(async () => {
     if (!currentRoom || !currentUser) return;
     try {
-      const room = await getRoomApi(currentRoom.id);
-      setCurrentRoom(room);
+     const room = await getRoomApi(currentRoom.id);
+setCurrentRoom(room);
+setPrivateAiHistory(room.aiHistory || []);
 
       // Check if current user is still in participants (not kicked)
       const meInRoom = room.participants.find((p) => p.id === currentUser.id);
@@ -179,6 +181,7 @@ export default function App() {
     try {
       const res = await createRoomApi(data);
       setCurrentRoom(res.room);
+      setPrivateAiHistory(res.room.aiHistory || []);
       setCurrentUser(res.user);
       localStorage.setItem('quickchat_active_room_id', res.room.id);
       localStorage.setItem('quickchat_active_user', JSON.stringify(res.user));
@@ -200,6 +203,7 @@ export default function App() {
     try {
       const res = await joinRoomApi(data);
       setCurrentRoom(res.room);
+      setPrivateAiHistory(res.room.aiHistory || []);
       setCurrentUser(res.user);
       localStorage.setItem('quickchat_active_room_id', res.room.id);
       localStorage.setItem('quickchat_active_user', JSON.stringify(res.user));
