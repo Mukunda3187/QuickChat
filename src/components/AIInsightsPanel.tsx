@@ -26,6 +26,7 @@ interface AIInsightsPanelProps {
   files?: SharedFile[],
   customPrompt?: string
 ) => void;
+  onUploadPrivateFile: (file: SharedFile) => Promise<void>;
   isThinking: boolean;
   onClose: () => void;
 }
@@ -37,6 +38,7 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
   isCreator = false,
   allowStudentAi = true,
   onTriggerAIAction,
+  onUploadPrivateFile,
   isThinking,
   onClose,
 }) => {
@@ -132,6 +134,7 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
         isPrivate: true,
       };
       newlyUploaded.push(newFileObj);
+      await onUploadPrivateFile(newFileObj);
     }
 
   setSelectedFileIds((prev) => [...prev, ...newlyUploaded.map((nf) => nf.id)]);
