@@ -41,7 +41,7 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
   onClose,
 }) => {
   // Private system files uploaded solely for local AI chat
-  const [privateFiles, setPrivateFiles] = useState<SharedFile[]>(files.filter(f => f.isPrivate));
+  const privateFiles = files.filter(f => f.isPrivate);
   const privateFileInputRef = useRef<HTMLInputElement>(null);
 
   const allAvailableFiles = [...files, ...privateFiles];
@@ -63,14 +63,6 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
   (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
 );
 
- useEffect(() => {
-  const saved = localStorage.getItem("quickchat_ai_private_files");
-
-  if (saved) {
-    try {
-      setPrivateFiles(JSON.parse(saved));
-    } catch {}
-  }
 
   chatBottomRef.current?.scrollIntoView({ behavior: "smooth" });
 }, [combinedHistory.length, isThinking]);
@@ -142,13 +134,9 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
       newlyUploaded.push(newFileObj);
     }
 
-    setPrivateFiles((prev) => {
-  const updated = [...prev, ...newlyUploaded];
+  setSelectedFileIds((prev) => [...prev, ...newlyUploaded.map((nf) => nf.id)]);
 
-  localStorage.setItem(
-    "quickchat_ai_private_files",
-    JSON.stringify(updated)
-  );
+ 
 
   return updated;
 });
@@ -157,17 +145,11 @@ setSelectedFileIds((prev) => [...prev, ...newlyUploaded.map((nf) => nf.id)]);
     if (e.target) e.target.value = '';
   };
 
-  const handleRemovePrivateFile = (fileId: string) => {
-  setPrivateFiles((prev) => {
-    const updated = prev.filter((f) => f.id !== fileId);
+const handleRemovePrivateFile = (fileId: string) => {
+  setSelectedFileIds((prev) => prev.filter((id) => id !== fileId));
 
-    localStorage.setItem(
-      "quickchat_ai_private_files",
-      JSON.stringify(updated)
-    );
-
-    return updated;
-  });
+  // TODO: Call backend API to remove the AI file from room.aiFiles
+};
 
   setSelectedFileIds((prev) => prev.filter((id) => id !== fileId));
 };
