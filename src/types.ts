@@ -20,22 +20,13 @@ export interface SharedFile {
   isPrivate?: boolean;
 }
 
-export interface QuizQuestion {
-  id: number;
-  question: string;
-  options: string[];
-  correctIndex: number;
-  explanation: string;
-}
 
 export interface AIAnalysis {
   id: string;
-  type: 'summary' | 'quiz' | 'key_points' | 'explain' | 'action_items' | 'notes' | 'query';
+  type: 'query';
   fileName?: string;
   title: string;
   content: string; // Markdown or plain text
-  explanationLevel?: 'easy' | 'moderate' | 'high';
-  quizQuestions?: QuizQuestion[];
   createdAt: string;
   isPrivate?: boolean;
 }
@@ -64,7 +55,6 @@ export interface ChatMessage {
 export interface RoomSession {
   id: string; // Chat ID e.g. QC-924-ALPHA
   password?: string;
-  passwordHash?: string;
   creatorId: string;
   durationHours: number; // e.g. 0.5, 1, 4, 12, 24
   isManualEnd: boolean;
