@@ -300,6 +300,16 @@ export default function App() {
       refreshRoom();
     } catch (e: any) {
       alert(e.message || 'Failed to remove participant.');
+    }finally {
+      setIsSettingsOpen(false);
+      handleClearSession();
+      setActiveLeftPanel(null);
+      setIsAIPanelOpen(false);
+      setTheme('light');
+      setThemeColor('emerald');
+      handleSaveHostSettings();
+      refreshRoom();
+      setIsSettingsOpen(false);
     }
   };
 
@@ -321,6 +331,12 @@ export default function App() {
     } finally {
       setIsSettingsOpen(false);
       handleClearSession();
+      setActiveLeftPanel(null);
+      setIsAIPanelOpen(false);
+      handleSaveHostSettings();
+      setIsSettingsOpen(false);
+      refreshRoom();
+      setCurrentRoom(null);
     }
   };
 
@@ -454,11 +470,10 @@ export default function App() {
       handleClearSession();
       setActiveLeftPanel(null);
       setIsAIPanelOpen(false);
-      setTheme('light');
-      setThemeColor('emerald');
       handleSaveHostSettings();
-      refreshRoom();
       setIsSettingsOpen(false);
+      refreshRoom();
+      setCurrentRoom(null);
     }
   };
 
