@@ -710,7 +710,7 @@ if (!room.privateAiHistory[participant.id]) {
     res.json({ success: true, message: "Room session permanently deleted." });
   });
 
-  // Gemini AI Analysis API Endpoint
+  // AI Analysis API Endpoint
   app.post("/api/ai/analyze", async (req, res) => {
     try {
       const { roomId, action, fileName, fileContent, prompt, isPrivate = false } = req.body;
@@ -757,15 +757,6 @@ ${fileContent ? fileContent.substring(0, 15000) : "No specific file selected."}`
 
 if (room) {
   room.aiHistory.push(aiResult);
-
-  if (fileName) {
-    room.aiFiles.push({
-      id: "aifile_" + Date.now(),
-      name: fileName,
-      content: fileContent || "",
-      uploadedAt: new Date().toISOString(),
-    });
-  }
 }
       res.json({
   success: true,
