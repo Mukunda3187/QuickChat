@@ -41,7 +41,7 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
   onClose,
 }) => {
   // Private system files uploaded solely for local AI chat
-  const [privateFiles, setPrivateFiles] = useState<SharedFile[]>([]);
+  const [privateFiles, setPrivateFiles] = useState<SharedFile[]>(files.filter(f => f.isPrivate));
   const privateFileInputRef = useRef<HTMLInputElement>(null);
 
   const allAvailableFiles = [...files, ...privateFiles];
@@ -63,9 +63,17 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
   (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
 );
 
-  useEffect(() => {
-    chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [combinedHistory.length, isThinking]);
+ useEffect(() => {
+  const saved = localStorage.getItem("quickchat_ai_private_files");
+
+  if (saved) {
+    try {
+      setPrivateFiles(JSON.parse(saved));
+    } catch {}
+  }
+
+  chatBottomRef.current?.scrollIntoView({ behavior: "smooth" });
+}, [combinedHistory.length, isThinking]);
 
   const isAllSelected = allAvailableFiles.length > 0 && selectedFileIds.length === allAvailableFiles.length;
 
@@ -134,15 +142,35 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
       newlyUploaded.push(newFileObj);
     }
 
-    setPrivateFiles((prev) => [...prev, ...newlyUploaded]);
-    setSelectedFileIds((prev) => [...prev, ...newlyUploaded.map((nf) => nf.id)]);
+    setPrivateFiles((prev) => {
+  const updated = [...prev, ...newlyUploaded];
+
+  localStorage.setItem(
+    "quickchat_ai_private_files",
+    JSON.stringify(updated)
+  );
+
+  return updated;
+});
+
+setSelectedFileIds((prev) => [...prev, ...newlyUploaded.map((nf) => nf.id)]);
     if (e.target) e.target.value = '';
   };
 
   const handleRemovePrivateFile = (fileId: string) => {
-    setPrivateFiles((prev) => prev.filter((f) => f.id !== fileId));
-    setSelectedFileIds((prev) => prev.filter((id) => id !== fileId));
-  };
+  setPrivateFiles((prev) => {
+    const updated = prev.filter((f) => f.id !== fileId);
+
+    localStorage.setItem(
+      "quickchat_ai_private_files",
+      JSON.stringify(updated)
+    );
+
+    return updated;
+  });
+
+  setSelectedFileIds((prev) => prev.filter((id) => id !== fileId));
+};
 
 const handleSendPrompt = (customPrompt?: string) => {
     const textToSubmit = customPrompt || promptInput;
