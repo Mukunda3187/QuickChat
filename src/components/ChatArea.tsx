@@ -65,7 +65,7 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
   return (
     <section className="flex-1 flex flex-col bg-emerald-50/20 dark:bg-zinc-950 relative h-full overflow-hidden transition-colors">
       {/* Messages Scroll Area */}
-    <div className="flex-1 p-4 md:p-6 pl-20 md:pl-24 space-y-6 overflow-y-auto">
+    <div className="flex-1 p-4 md:p-6 pl-10 md:pl-14 space-y-6 overflow-y-auto">
         {messages.map((msg) => {
           if (msg.senderId === 'system') {
             return (
