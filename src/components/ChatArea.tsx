@@ -204,17 +204,6 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
           );
         })}
 
-        {isAiThinking && (
-          <div className="flex gap-3">
-            <div className="w-8 h-8 rounded-lg bg-emerald-500 shrink-0 flex items-center justify-center text-white dark:text-black shadow-md">
-              <CuteBotIcon className="w-5 h-5 animate-bounce" />
-            </div>
-            <div className="bg-white dark:bg-zinc-900 border border-emerald-300/80 dark:border-emerald-900/60 p-3 rounded-xl flex items-center gap-2 text-xs text-emerald-900 dark:text-emerald-300 font-bold shadow-xs">
-              <CuteBotIcon className="w-4 h-4 text-emerald-600 dark:text-emerald-400 animate-pulse" />
-              AI is analyzing response...
-            </div>
-          </div>
-        )}
 
         <div ref={chatBottomRef} />
       </div>
