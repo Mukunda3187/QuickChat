@@ -36,6 +36,7 @@ export default function App() {
   const [isAIPanelOpen, setIsAIPanelOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
   const [privateAiHistory, setPrivateAiHistory] = useState<AIAnalysis[]>([]);
+  const [privateAiFiles, setPrivateAiFiles] = useState<SharedFile[]>([]);
 
   // Theme state: 'light' (Day Theme) or 'dark' (Dark Theme)
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
@@ -116,7 +117,7 @@ export default function App() {
      const room = await getRoomApi(currentRoom.id);
 setCurrentRoom(room);
 setPrivateAiHistory(room.aiHistory || []);
-
+setPrivateAiFiles(room.aiFiles || []);
       // Check if current user is still in participants (not kicked)
       const meInRoom = room.participants.find((p) => p.id === currentUser.id);
       if (!meInRoom) {
@@ -165,6 +166,7 @@ setPrivateAiHistory(room.aiHistory || []);
     setCurrentRoom(null);
     setCurrentUser(null);
     setPrivateAiHistory([]);
+    setPrivateAiFiles([]);
     localStorage.removeItem('quickchat_active_room_id');
     localStorage.removeItem('quickchat_active_user');
     setEntryError('');
@@ -183,6 +185,7 @@ setPrivateAiHistory(room.aiHistory || []);
       setCurrentRoom(res.room);
       setPrivateAiHistory(res.room.aiHistory || []);
       setCurrentUser(res.user);
+      setPrivateAiFiles(res.room.aiFiles || []);
       localStorage.setItem('quickchat_active_room_id', res.room.id);
       localStorage.setItem('quickchat_active_user', JSON.stringify(res.user));
     } catch (err: any) {
@@ -205,6 +208,7 @@ setPrivateAiHistory(room.aiHistory || []);
       setCurrentRoom(res.room);
       setPrivateAiHistory(res.room.aiHistory || []);
       setCurrentUser(res.user);
+      setPrivateAiFiles(res.room.aiFiles || []);
       localStorage.setItem('quickchat_active_room_id', res.room.id);
       localStorage.setItem('quickchat_active_user', JSON.stringify(res.user));
     } catch (err: any) {
@@ -633,7 +637,10 @@ refreshRoom();
         {/* Right Sidebar: AI Document Assistant Insights */}
         {isAIPanelOpen && (
           <AIInsightsPanel
-            files={currentRoom.files}
+           files={[
+  ...currentRoom.files,
+  ...(currentRoom.aiFiles || []),
+]}
             aiHistory={currentRoom.aiHistory}
             privateAiHistory={privateAiHistory}
             isCreator={currentUser.isCreator}
