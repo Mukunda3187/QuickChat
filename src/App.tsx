@@ -6,6 +6,7 @@ import {
   getRoomApi,
   sendMessageApi,
   uploadFileApi,
+  uploadAiFileApi,
   endSessionApi,
   requestAIAnalysisApi,
   updateRoomSettingsApi,
@@ -647,7 +648,7 @@ refreshRoom();
             allowStudentAi={currentRoom.allowStudentAi ?? true}
             onTriggerAIAction={handleTriggerAIAction}
             onUploadPrivateFile={async (file) => {
-  await uploadFileApi(currentRoom.id, {
+  await uploadAiFileApi(currentRoom.id, {
     name: file.name,
     size: file.size,
     type: file.type,
