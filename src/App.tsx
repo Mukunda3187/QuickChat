@@ -626,7 +626,6 @@ refreshRoom();
           >
             <CuteBotIcon className="w-5 h-5" />
           </button>
-         )}
         )}
 
         {/* Right Sidebar: AI Document Assistant Insights */}
