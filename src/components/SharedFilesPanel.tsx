@@ -12,6 +12,8 @@ import {
 import { CuteBotIcon } from './CuteBotIcon';
 
 interface SharedFilesPanelProps {
+  isCreator?: boolean;
+  isCoHost?: boolean;
   allowStudentAi?: boolean;
   files: SharedFile[];
   onUploadFile: (file: File) => void;
@@ -20,12 +22,15 @@ interface SharedFilesPanelProps {
 }
 
 export const SharedFilesPanel: React.FC<SharedFilesPanelProps> = ({
+  isCreator = false,
+  isCoHost = false,
   allowStudentAi = true,
   files,
   onUploadFile,
   onAskAIAboutFile,
   onClose,
 }) => {
+  const canManage = isCreator || isCoHost;
   const fileInputRef = useRef<HTMLInputElement>(null);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -86,13 +91,16 @@ export const SharedFilesPanel: React.FC<SharedFilesPanelProps> = ({
           accept=".pdf,.docx,.doc,.txt,.json,.js,.ts,.py,.cpp,.java,.png,.jpg,.md"
         />
 
-        <button
+       
+        {canManage && (
+                 <button
           onClick={() => fileInputRef.current?.click()}
           className="mb-3 w-full border border-dashed border-emerald-300 dark:border-emerald-700/60 hover:border-emerald-500 dark:hover:border-emerald-400 bg-white dark:bg-zinc-900 hover:bg-emerald-100/50 dark:hover:bg-zinc-800 p-2.5 rounded-xl flex items-center justify-center gap-2 text-xs font-bold text-emerald-900 dark:text-emerald-300 hover:text-emerald-950 dark:hover:text-emerald-200 transition-all cursor-pointer shadow-2xs"
         >
           <Upload className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
           Upload Files
         </button>
+              )}
 
         <div className="space-y-2 overflow-y-auto flex-1 pr-1">
           {files.length === 0 ? (
