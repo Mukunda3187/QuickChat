@@ -1,4 +1,4 @@
-import { RoomSession, ChatMessage, SharedFile, AIAnalysis, Participant } from '../types';
+import { RoomSession, ChatMessage, SharedFile, Participant } from '../types';
 
 const BROADCAST_CHANNEL_NAME = 'quickchat_ai_channel';
 let broadcastChannel: BroadcastChannel | null = null;
@@ -83,7 +83,6 @@ export async function sendMessageApi(roomId: string, messageData: {
   isCreator: boolean;
   text: string;
   fileAttachment?: SharedFile;
-  aiAnalysis?: AIAnalysis;
 }) {
   const res = await fetch(`/api/rooms/${encodeURIComponent(roomId)}/messages`, {
     method: 'POST',
@@ -259,12 +258,10 @@ export async function reactToMessageApi(roomId: string, messageId: string, data:
 
 export async function requestAIAnalysisApi(data: {
   roomId: string;
-  action: 'summary' | 'quiz' | 'key_points' | 'explain' | 'action_items' | 'notes' | 'query';
+  action: 'query';
   fileName?: string;
   fileContent?: string;
   prompt?: string;
-  explanationLevel?: 'easy' | 'moderate' | 'high';
-  isCreator?: boolean;
   isPrivate?: boolean;
 }) {
   const res = await fetch('/api/ai/analyze', {
