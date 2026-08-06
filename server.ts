@@ -643,7 +643,7 @@ async function startServer() {
   // Gemini AI Analysis API Endpoint
   app.post("/api/ai/analyze", async (req, res) => {
     try {
-      const { roomId, action, fileName, fileContent, prompt, contextMessages, isCreator, explanationLevel = "easy", isPrivate = false } = req.body;
+      const { roomId, action, fileName, fileContent, prompt, isPrivate = false } = req.body;
 
       const formattedChatId = String(roomId || "").trim().toUpperCase();
       const room = tempRooms.get(formattedChatId);
