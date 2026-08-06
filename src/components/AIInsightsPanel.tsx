@@ -141,14 +141,6 @@ useEffect(() => {
 
 await onUploadPrivateFile(savedFile);
     }
-
-  setSelectedFileIds((prev) => [...prev, ...newlyUploaded.map((nf) => nf.id)]);
-
- 
-
-  return updated;
-});
-
 setSelectedFileIds((prev) => [...prev, ...newlyUploaded.map((nf) => nf.id)]);
     if (e.target) e.target.value = '';
   };
