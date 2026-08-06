@@ -46,7 +46,7 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
   const privateFiles = files.filter(f => f.isPrivate);
   const privateFileInputRef = useRef<HTMLInputElement>(null);
 
-  const allAvailableFiles = [...files, ...privateFiles];
+  const allAvailableFiles = files;
 
   // Multiselect file IDs state. Default to all files selected if available.
   const [selectedFileIds, setSelectedFileIds] = useState<string[]>(allAvailableFiles.map((f) => f.id));
@@ -56,11 +56,9 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
 
   // Sync selected files when new files are uploaded
   useEffect(() => {
-    if (selectedFileIds.length === 0 && allAvailableFiles.length > 0) {
-      setSelectedFileIds(allAvailableFiles.map((f) => f.id));
-    }
-  }, [files, privateFiles]);
-
+  setSelectedFileIds(allAvailableFiles.map((f) => f.id));
+}, [allAvailableFiles.length]);
+  
  const combinedHistory = [...(aiHistory || []), ...(privateAiHistory || [])].sort(
   (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
 );
@@ -71,13 +69,13 @@ useEffect(() => {
 
   const isAllSelected = allAvailableFiles.length > 0 && selectedFileIds.length === allAvailableFiles.length;
 
-  const toggleSelectAll = () => {
-    if (isAllSelected) {
-      setSelectedFileIds([]);
-    } else {
-      setSelectedFileIds(allAvailableFiles.map((f) => f.id));
-    }
-  };
+ const toggleSelectAll = () => {
+  if (selectedFileIds.length === allAvailableFiles.length) {
+    setSelectedFileIds([]);
+  } else {
+    setSelectedFileIds(allAvailableFiles.map((f) => f.id));
+  }
+};
 
   const toggleSelectFile = (fileId: string) => {
     if (selectedFileIds.includes(fileId)) {
