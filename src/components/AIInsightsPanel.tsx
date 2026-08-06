@@ -216,14 +216,6 @@ const handleSendPrompt = (customPrompt?: string) => {
             </span>
           </div>
         </div>
-
-        {privateFiles.length > 0 && (
-          <div className="p-1.5 px-2 bg-purple-50/90 dark:bg-purple-950/40 border border-purple-200/80 dark:border-purple-900/60 rounded-xl flex items-center justify-between text-[10px] font-bold text-purple-900 dark:text-purple-300">
-            <span className="flex items-center gap-1">
-              <Shield className="w-3 h-3 text-purple-600 dark:text-purple-400 shrink-0" />
-              {privateFiles.length} private system file(s) attached (invisible to others)
-            </span>
-          </div>
         )}
 
         {allAvailableFiles.length === 0 ? (
