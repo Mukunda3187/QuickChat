@@ -17,8 +17,8 @@ interface RoomData {
   participants: { id: string; name: string; isCreator: boolean; isCoHost?: boolean; avatarColor?: string; avatarUrl?: string; joinedAt: string }[];
   messages: any[];
   files: any[];
-  aiHistory: any[];
-  aiFiles: any[];
+ privateAiHistory: Record<string, any[]>;
+privateAiFiles: Record<string, any[]>;
 }
 
 // In-memory temporary session store. Zero persistent DB.
@@ -108,8 +108,12 @@ if (existingRoom) {
           },
         ],
         files: [],
-        aiHistory: [],
-        aiFiles: [],
+        privateAiHistory: {
+  [creatorId]: [],
+},
+privateAiFiles: {
+  [creatorId]: [],
+},
         allowStudentChat: true,
         allowStudentAi: true,
         isLocked: false,
@@ -189,7 +193,13 @@ let participant;
           joinedAt: new Date().toISOString(),
         };
         room.participants.push(participant);
+if (!room.privateAiFiles[participant.id]) {
+  room.privateAiFiles[participant.id] = [];
+}
 
+if (!room.privateAiHistory[participant.id]) {
+  room.privateAiHistory[participant.id] = [];
+}
         // System join notification
         room.messages.push({
           id: "msg_" + Date.now(),
@@ -642,7 +652,7 @@ let participant;
       uploadedAt: new Date().toISOString(),
     };
 
-    room.files.push(newFile);
+    room.files.push(room.files);
 
     // Also push a message notifying about file share
     const fileMsg = {
