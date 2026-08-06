@@ -503,17 +503,18 @@ const handleTriggerAIAction = async (
 
     const file = files?.[0];
 
-    await requestAIAnalysisApi({
-      roomId: currentRoom.id,
-      action: 'query',
-      fileName: file?.name,
-      fileContent: file?.content,
-      prompt: customPrompt || '',
-      isPrivate: true,
-      isCreator: currentUser.isCreator,
-    });
+  const res = await requestAIAnalysisApi({
+  roomId: currentRoom.id,
+  action: 'query',
+  fileName: file?.name,
+  fileContent: file?.content,
+  prompt: customPrompt || '',
+  isPrivate: true,
+});
 
-    refreshRoom();
+setPrivateAiHistory((prev) => [...prev, res.result]);
+
+refreshRoom();
   } finally {
     setIsAiThinking(false);
   }
