@@ -10,8 +10,6 @@ interface ChatAreaProps {
   allowStudentChat?: boolean;
   onSendMessage: (text: string, fileAttachment?: SharedFile) => void;
   onUploadAndAttach: (file: File) => void;
-  onOpenQuiz: (message: ChatMessage) => void;
-  onOpenNotes: (message: ChatMessage) => void;
   onReactToMessage?: (messageId: string, emoji: string) => void;
   isAiThinking: boolean;
 }
@@ -23,8 +21,6 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
   allowStudentChat = true,
   onSendMessage,
   onUploadAndAttach,
-  onOpenQuiz,
-  onOpenNotes,
   onReactToMessage,
   isAiThinking,
 }) => {
