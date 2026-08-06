@@ -67,4 +67,5 @@ export interface RoomSession {
   messages: ChatMessage[];
   files: SharedFile[];
   aiHistory: AIAnalysis[];
+  aiFiles: SharedFile[];
 }
