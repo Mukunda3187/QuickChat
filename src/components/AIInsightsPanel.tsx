@@ -65,7 +65,7 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
   (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
 );
 
-
+useEffect(() => {
   chatBottomRef.current?.scrollIntoView({ behavior: "smooth" });
 }, [combinedHistory.length, isThinking]);
 
