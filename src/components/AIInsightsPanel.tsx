@@ -134,7 +134,12 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
         isPrivate: true,
       };
       newlyUploaded.push(newFileObj);
-      await onUploadPrivateFile(newFileObj);
+      const savedFile = {
+  ...newFileObj,
+  url: "",
+};
+
+await onUploadPrivateFile(savedFile);
     }
 
   setSelectedFileIds((prev) => [...prev, ...newlyUploaded.map((nf) => nf.id)]);
