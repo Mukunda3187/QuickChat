@@ -117,7 +117,25 @@ export async function uploadFileApi(roomId: string, fileData: {
   emitRoomBroadcast('ROOM_UPDATED', { roomId });
   return json as { success: boolean; file: SharedFile };
 }
-
+export async function uploadAiFileApi(roomId: string, fileData: {
+  name: string;
+  size: number;
+  type: string;
+  url: string;
+  content?: string;
+  uploadedBy: string;
+}) {
+  const res = await fetch(`/api/rooms/${encodeURIComponent(roomId)}/ai-files`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(fileData),
+  });
+  const json = await res.json();
+  if (!res.ok) {
+    throw new Error(json.error || 'Failed to upload AI file');
+  }
+  return json as { success: boolean; file: SharedFile };
+}
 export async function endSessionApi(roomId: string) {
   const res = await fetch(`/api/rooms/${encodeURIComponent(roomId)}/end`, {
     method: 'POST',
