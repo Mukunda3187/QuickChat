@@ -646,6 +646,18 @@ refreshRoom();
             isCreator={currentUser.isCreator}
             allowStudentAi={currentRoom.allowStudentAi ?? true}
             onTriggerAIAction={handleTriggerAIAction}
+            onUploadPrivateFile={async (file) => {
+  await uploadFileApi(currentRoom.id, {
+    name: file.name,
+    size: file.size,
+    type: file.type,
+    url: file.url,
+    content: file.content,
+    uploadedBy: currentUser.name,
+  });
+
+  await refreshRoom();
+}}
             isThinking={isAiThinking}
             onClose={() => {
                        setIsAIPanelOpen(false);
