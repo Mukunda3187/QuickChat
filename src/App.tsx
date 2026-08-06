@@ -456,7 +456,9 @@ export default function App() {
       setIsAIPanelOpen(false);
       setTheme('light');
       setThemeColor('emerald');
-      
+      handleSaveHostSettings();
+      refreshRoom();
+      setIsSettingsOpen(false);
     }
   };
 
