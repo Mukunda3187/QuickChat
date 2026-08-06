@@ -240,14 +240,6 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
             />
 
             <div className="flex-1 flex items-center gap-3 bg-emerald-50/60 dark:bg-zinc-900 border border-emerald-200/80 dark:border-zinc-800 rounded-xl px-4 py-2.5 focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500 transition-all">
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className="text-slate-400 dark:text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer"
-                title="Add file"
-              >
-                <Paperclip className="w-5 h-5" />
-              </button>
 
               <input
                 type="text"
