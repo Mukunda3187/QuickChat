@@ -216,7 +216,7 @@ const handleSendPrompt = (customPrompt?: string) => {
             </span>
           </div>
         </div>
-        )}
+      
 
         {allAvailableFiles.length === 0 ? (
           <p className="text-xs text-slate-400 dark:text-zinc-500 italic p-1">No documents available.</p>
