@@ -16,7 +16,7 @@ import {
   leaveRoomApi,
   subscribeToRoomBroadcast,
 } from './services/api';
-import { Sparkles, Users, Power, AlertTriangle, File } from 'lucide-react';
+import { Users, File } from 'lucide-react';
 import { CuteBotIcon } from './components/CuteBotIcon';
 import { Header } from './components/Header';
 import { ParticipantsPanel } from './components/ParticipantsPanel';
