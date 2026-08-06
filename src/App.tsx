@@ -454,6 +454,9 @@ export default function App() {
       handleClearSession();
       setActiveLeftPanel(null);
       setIsAIPanelOpen(false);
+      setTheme('light');
+      setThemeColor(color);
+      
     }
   };
 
