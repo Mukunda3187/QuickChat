@@ -231,8 +231,8 @@ if (!room.privateAiHistory[participant.id]) {
           participants: room.participants,
           messages: room.messages,
           files: room.files,
-          aiHistory: room.aiHistory,
-          aiFiles: room.aiFiles,
+          aiHistory: room.privateAiHistory[participant.id] || [],
+          aiFiles: room.privateAiFiles[participant.id] || [],
         },
         user: participant,
       });
