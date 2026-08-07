@@ -314,8 +314,6 @@ setPrivateAiFiles(room.aiFiles || []);
       handleClearSession();
       setActiveLeftPanel(null);
       setIsAIPanelOpen(false);
-      setTheme('light');
-      setThemeColor('emerald');
       handleSaveHostSettings();
       refreshRoom();
       setIsSettingsOpen(false);
@@ -344,8 +342,6 @@ setPrivateAiFiles(room.aiFiles || []);
       setIsAIPanelOpen(false);
       handleSaveHostSettings();
       setIsSettingsOpen(false);
-      refreshRoom();
-      setCurrentRoom(null);
     }
   };
 
