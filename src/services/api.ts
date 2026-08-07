@@ -68,15 +68,15 @@ export async function joinRoomApi(data: {
   return json as { success: boolean; room: RoomSession; user: Participant };
 }
 
-export async function getRoomApi(roomId: string) {
-  const res = await fetch(`/api/rooms/${encodeURIComponent(roomId)}`);
+export async function getRoomApi(roomId: string, participantId?: string) {
+  const query = participantId ? `?participantId=${encodeURIComponent(participantId)}` : '';
+  const res = await fetch(`/api/rooms/${encodeURIComponent(roomId)}${query}`);
   const json = await res.json();
   if (!res.ok) {
     throw new Error(json.error || 'Failed to fetch room');
   }
   return json as RoomSession;
 }
-
 export async function sendMessageApi(roomId: string, messageData: {
   senderId: string;
   senderName: string;
@@ -124,6 +124,7 @@ export async function uploadAiFileApi(roomId: string, fileData: {
   url: string;
   content?: string;
   uploadedBy: string;
+  participantId?: string;
 }) {
   const res = await fetch(`/api/rooms/${encodeURIComponent(roomId)}/ai-files`, {
     method: 'POST',
@@ -281,6 +282,7 @@ export async function requestAIAnalysisApi(data: {
   fileContent?: string;
   prompt?: string;
   isPrivate?: boolean;
+  participantId?: string;
 }) {
   const res = await fetch('/api/ai/analyze', {
     method: 'POST',
