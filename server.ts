@@ -141,8 +141,8 @@ privateAiFiles: {
           participants: newRoom.participants,
           messages: newRoom.messages,
           files: newRoom.files,
-          aiHistory: newRoom.aiHistory,
-          aiFiles: newRoom.aiFiles,
+          aiHistory: newRoom.privateAiHistory[creatorId] || [],
+          aiFiles: newRoom.privateAiFiles[creatorId] || [],
         },
         user: { id: creatorId, name: creatorName, isCreator: true },
       });
@@ -242,13 +242,15 @@ if (!room.privateAiHistory[participant.id]) {
     }
   });
 
-  // Get current room details
+ // Get current room details
   app.get("/api/rooms/:id", (req, res) => {
     const formattedChatId = String(req.params.id || "").trim().toUpperCase();
     const room = tempRooms.get(formattedChatId);
     if (!room) {
       return res.status(404).json({ error: "Room not found or session ended." });
     }
+
+    const participantId = String(req.query.participantId || "");
 
     res.json({
       id: room.id,
@@ -264,8 +266,8 @@ if (!room.privateAiHistory[participant.id]) {
       participants: room.participants,
       messages: room.messages,
       files: room.files,
-      aiHistory: room.aiHistory,
-      aiFiles: room.aiFiles,
+      aiHistory: room.privateAiHistory[participantId] || [],
+      aiFiles: room.privateAiFiles[participantId] || [],
     });
   });
 
