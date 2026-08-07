@@ -684,7 +684,7 @@ if (!room.privateAiHistory[participant.id]) {
       return res.status(404).json({ error: "Room not found." });
     }
 
-    const { name, size, type, url, content, uploadedBy } = req.body;
+    const { name, size, type, url, content, uploadedBy, participantId } = req.body;
     const newFile = {
       id: "aifile_" + Date.now() + "_" + Math.random().toString(36).substring(2, 6),
       name: name || "file",
@@ -697,7 +697,11 @@ if (!room.privateAiHistory[participant.id]) {
       isPrivate: true,
     };
 
-    room.aiFiles.push(newFile);
+    const pid = String(participantId || "");
+    if (!room.privateAiFiles[pid]) {
+      room.privateAiFiles[pid] = [];
+    }
+    room.privateAiFiles[pid].push(newFile);
 
     res.json({ success: true, file: newFile });
   });
@@ -715,7 +719,7 @@ if (!room.privateAiHistory[participant.id]) {
   // AI Analysis API Endpoint
   app.post("/api/ai/analyze", async (req, res) => {
     try {
-      const { roomId, action, fileName, fileContent, prompt, isPrivate = false } = req.body;
+     const { roomId, action, fileName, fileContent, prompt, isPrivate = false, participantId } = req.body;
 
       const formattedChatId = String(roomId || "").trim().toUpperCase();
       const room = tempRooms.get(formattedChatId);
@@ -757,8 +761,11 @@ ${fileContent ? fileContent.substring(0, 15000) : "No specific file selected."}`
   isPrivate,
 };
 
-if (room) {
-  room.aiHistory.push(aiResult);
+if (room && participantId) {
+  if (!room.privateAiHistory[participantId]) {
+    room.privateAiHistory[participantId] = [];
+  }
+  room.privateAiHistory[participantId].push(aiResult);
 }
       res.json({
   success: true,
