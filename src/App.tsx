@@ -92,7 +92,7 @@ export default function App() {
     if (savedRoomId && savedUser) {
       try {
         const userObj = JSON.parse(savedUser);
-        getRoomApi(savedRoomId)
+       getRoomApi(savedRoomId, userObj.id)
           .then((room) => {
             setCurrentRoom(room);
             setPrivateAiHistory(room.aiHistory || []);
@@ -115,7 +115,7 @@ export default function App() {
   const refreshRoom = useCallback(async () => {
     if (!currentRoom || !currentUser) return;
     try {
-     const room = await getRoomApi(currentRoom.id);
+     const room = await getRoomApi(currentRoom.id, currentUser.id);
 setCurrentRoom(room);
 setPrivateAiHistory(room.aiHistory || []);
 setPrivateAiFiles(room.aiFiles || []);
@@ -149,7 +149,7 @@ setPrivateAiFiles(room.aiFiles || []);
         } else {
           if (event.payload?.roomId && event.payload.roomId !== currentRoom.id) {
             localStorage.setItem('quickchat_active_room_id', event.payload.roomId);
-            getRoomApi(event.payload.roomId).then((room) => setCurrentRoom(room)).catch(() => refreshRoom());
+            getRoomApi(event.payload.roomId, currentUser.id).then((room) => setCurrentRoom(room)).catch(() => refreshRoom());
           } else {
             refreshRoom();
           }
@@ -255,7 +255,7 @@ setPrivateAiFiles(room.aiFiles || []);
     if (res.newRoomId && res.newRoomId !== currentRoom.id) {
       localStorage.setItem('quickchat_active_room_id', res.newRoomId);
       try {
-        const updated = await getRoomApi(res.newRoomId);
+       const updated = await getRoomApi(res.newRoomId, currentUser.id);
         setCurrentRoom(updated);
       } catch (e) {
         refreshRoom();
@@ -508,13 +508,14 @@ const handleTriggerAIAction = async (
 
     const file = files?.[0];
 
-  const res = await requestAIAnalysisApi({
+ const res = await requestAIAnalysisApi({
   roomId: currentRoom.id,
   action: 'query',
   fileName: file?.name,
   fileContent: file?.content,
   prompt: customPrompt || '',
   isPrivate: true,
+  participantId: currentUser.id,
 });
 
 setPrivateAiHistory((prev) => [...prev, res.result]);
@@ -643,7 +644,7 @@ refreshRoom();
             isCreator={currentUser.isCreator}
             allowStudentAi={currentRoom.allowStudentAi ?? true}
             onTriggerAIAction={handleTriggerAIAction}
-            onUploadPrivateFile={async (file) => {
+           onUploadPrivateFile={async (file) => {
   await uploadAiFileApi(currentRoom.id, {
     name: file.name,
     size: file.size,
@@ -651,6 +652,7 @@ refreshRoom();
     url: file.url,
     content: file.content,
     uploadedBy: currentUser.name,
+    participantId: currentUser.id,
   });
 
   await refreshRoom();
