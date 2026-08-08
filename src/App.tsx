@@ -701,9 +701,6 @@ refreshRoom();
           onClose={() => setIsSettingsOpen(false)}
         />
       )}
-        />
-      )}
-
       {/* Host Notice Overlay - 2 second auto dismiss, text only without any titles or buttons */}
       {hostNoticeMessage && (
         <div className="fixed inset-0 bg-slate-950/60 dark:bg-black/80 backdrop-blur-xs flex items-center justify-center p-4 z-50 font-sans animate-in fade-in duration-200">
