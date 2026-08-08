@@ -16,6 +16,7 @@ import {
   kickParticipantApi,
   leaveRoomApi,
   subscribeToRoomBroadcast,
+  addRoomTimeApi,
 } from './services/api';
 import { Users, File } from 'lucide-react';
 import { CuteBotIcon } from './components/CuteBotIcon';
@@ -174,10 +175,11 @@ setPrivateAiFiles(room.aiFiles || []);
   };
 
   // Create Room Handler
-  const handleCreateRoom = async (data: {
+ const handleCreateRoom = async (data: {
     chatId: string;
     password: string;
     creatorName: string;
+    durationMinutes?: number;
   }) => {
     setIsEntryLoading(true);
     setEntryError('');
@@ -460,6 +462,17 @@ setPrivateAiFiles(room.aiFiles || []);
     }
   };
 
+ // Add Time Handler (Host/Co-Host)
+  const handleAddTime = async (hours: number, minutes: number) => {
+    if (!currentRoom || !currentUser) return;
+    try {
+      await addRoomTimeApi(currentRoom.id, { requesterId: currentUser.id, hours, minutes });
+      await refreshRoom();
+    } catch (e: any) {
+      alert(e.message || 'Failed to add time.');
+    }
+  };
+
   // End Session Handler
   const handleEndSession = async () => {
     if (!currentRoom) return;
@@ -530,11 +543,12 @@ refreshRoom();
         roomId={currentRoom.id}
         isCreator={currentUser.isCreator}
         isCoHost={currentUser.isCoHost}
+        expiresAt={currentRoom.expiresAt}
+        hasCustomTime={currentRoom.hasCustomTime}
         onEndSession={handleEndSession}
         onLeaveSession={handleLeaveSession}
         onOpenSettings={() => setIsSettingsOpen(true)}
       />
-
       {/* Main Content Workspace */}
       <main className="flex-1 flex overflow-hidden relative">
         {/* Left Sidebar: Participants & Shared Files */}
@@ -683,7 +697,10 @@ refreshRoom();
           onChangeThemeColor={handleChangeThemeColor}
           onLeaveSession={handleLeaveSession}
           onEndSession={handleEndSession}
+          onAddTime={handleAddTime}
           onClose={() => setIsSettingsOpen(false)}
+        />
+      )}
         />
       )}
 
