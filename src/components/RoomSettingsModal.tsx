@@ -292,7 +292,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                   <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-zinc-400 block">
                     Choose Icon Color
                   </label>
-                  <div className="flex items-center gap-2 flex-wrap py-1">
+                 <div className="flex items-center gap-2 flex-wrap py-1">
                     {presetAvatarColors.map((color) => {
                       const isSelected = !avatarUrl && avatarColor === color.hex;
                       return (
@@ -303,7 +303,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                             setAvatarColor(color.hex);
                             setAvatarUrl(''); // Switch back to color circle mode
                           }}
-                          className={`w-7 h-7 rounded-full transition-all flex items-center justify-center cursor-pointer shadow-xs ${
+                          className={`w-10 h-10 transition-all flex items-center justify-center cursor-pointer shadow-xs ${
                             isSelected
                               ? 'ring-2 ring-emerald-500 ring-offset-2 dark:ring-offset-zinc-900 scale-110'
                               : 'hover:scale-105 opacity-85 hover:opacity-100'
