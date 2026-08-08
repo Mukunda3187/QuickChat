@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MessageSquare, Lock, KeyRound, User, ArrowRight, RefreshCw, Sun, Moon, Settings, Palette, X, Check } from 'lucide-react';
+import { MessageSquare, Lock, KeyRound, User, ArrowRight, RefreshCw, Sun, Moon, Settings, Palette, X, Check, Eye, EyeOff } from 'lucide-react';
 import { ThemeColor } from './RoomSettingsModal';
 
 interface RoomEntryModalProps {
@@ -59,6 +59,7 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
   // Join Form State
   const [joinChatId, setJoinChatId] = useState('');
   const [joinPassword, setJoinPassword] = useState('');
+  const [showJoinPassword, setShowJoinPassword] = useState(false);
   const [participantName, setParticipantName] = useState('');
   const [localError, setLocalError] = useState<string>('');
 
@@ -358,15 +359,25 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
                     (Min. 7 characters)
                   </span>
                 </div>
-                <input
-                  type="password"
-                  required
-                  minLength={7}
-                  value={joinPassword}
-                  onChange={(e) => setJoinPassword(e.target.value)}
-                  placeholder="Enter Room password"
-                  className="w-full text-xs bg-emerald-50/50 dark:bg-zinc-900 border border-emerald-200/80 dark:border-zinc-800 rounded-xl p-2.5 text-slate-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono"
-                />
+                <div className="relative">
+                  <input
+                    type={showJoinPassword ? 'text' : 'password'}
+                    required
+                    minLength={7}
+                    value={joinPassword}
+                    onChange={(e) => setJoinPassword(e.target.value)}
+                    placeholder="Enter Room password"
+                    className="w-full text-xs bg-emerald-50/50 dark:bg-zinc-900 border border-emerald-200/80 dark:border-zinc-800 rounded-xl p-2.5 pr-9 text-slate-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowJoinPassword((v) => !v)}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-zinc-500 hover:text-emerald-600 dark:hover:text-emerald-400 cursor-pointer"
+                    title={showJoinPassword ? 'Hide password' : 'Show password'}
+                  >
+                    {showJoinPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
 
               {/* Display Name */}
