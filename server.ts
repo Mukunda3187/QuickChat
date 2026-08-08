@@ -11,11 +11,13 @@ interface RoomData {
   isManualEnd: boolean;
   hasCustomTime: boolean;
   createdAt: string;
+  messages: any[];
   expiresAt: string; // ISO string
   allowStudentChat?: boolean;
   allowStudentAi?: boolean;
   isLocked?: boolean;
   participants: { id: string; name: string; isCreator: boolean; isCoHost?: boolean; coHostSince?: string; avatarColor?: string; avatarUrl?: string; joinedAt: string }[];
+  messages: any[];
   files: any[];
   aiFiles: any[];
   aiHistory: any[];
@@ -249,8 +251,8 @@ if (!room.privateAiHistory[participant.id]) {
           allowStudentAi: room.allowStudentAi ?? true,
           isLocked: room.isLocked ?? false,
           createdAt: room.createdAt,
-          expiresAt: newRoom.expiresAt,
-          hasCustomTime: newRoom.hasCustomTime,
+          expiresAt: room.expiresAt,
+          hasCustomTime: room.hasCustomTime,
           participants: room.participants,
           messages: room.messages,
           files: room.files,
@@ -285,8 +287,8 @@ if (!room.privateAiHistory[participant.id]) {
       allowStudentAi: room.allowStudentAi ?? true,
       isLocked: room.isLocked ?? false,
       createdAt: room.createdAt,
-     expiresAt: newRoom.expiresAt,
-     hasCustomTime: newRoom.hasCustomTime,
+    expiresAt: room.expiresAt,
+      hasCustomTime: room.hasCustomTime,
       participants: room.participants,
       messages: room.messages,
       files: room.files,
@@ -412,8 +414,8 @@ if (!room.privateAiHistory[participant.id]) {
       allowStudentChat: room.allowStudentChat,
       allowStudentAi: room.allowStudentAi,
       isLocked: room.isLocked,
-      expiresAt: newRoom.expiresAt,
-      hasCustomTime: newRoom.hasCustomTime,
+     expiresAt: room.expiresAt,
+      hasCustomTime: room.hasCustomTime,
     });
   });
 
