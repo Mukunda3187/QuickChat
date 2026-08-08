@@ -303,7 +303,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                             setAvatarColor(color.hex);
                             setAvatarUrl(''); // Switch back to color circle mode
                           }}
-                          className={`h-10 grid grid-cols-6 gap-2 rounded-xl flex items-center justify-center transition-all cursor-pointer border-2 ${
+                          className={`h-10 grid grid-cols-6 rounded-xl flex items-center justify-center transition-all cursor-pointer border-2 ${
                       isSelected
                         ? 'ring-2 ring-slate-900 dark:ring-white scale-105 shadow-md border-white'
                         : 'opacity-70 hover:opacity-100 border-transparent'
