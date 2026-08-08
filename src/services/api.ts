@@ -35,6 +35,7 @@ export async function createRoomApi(data: {
   chatId: string;
   password: string;
   creatorName: string;
+  durationMinutes?: number;
 }) {
   const res = await fetch('/api/rooms/create', {
     method: 'POST',
@@ -75,6 +76,24 @@ export async function getRoomApi(roomId: string, participantId?: string) {
     throw new Error(json.error || 'Failed to fetch room');
   }
   return json as RoomSession;
+}
+
+export async function addRoomTimeApi(roomId: string, data: {
+  requesterId: string;
+  hours: number;
+  minutes: number;
+}) {
+  const res = await fetch(`/api/rooms/${encodeURIComponent(roomId)}/add-time`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  const json = await res.json();
+  if (!res.ok) {
+    throw new Error(json.error || 'Failed to add time');
+  }
+  emitRoomBroadcast('ROOM_UPDATED', { roomId });
+  return json as { success: boolean; expiresAt: string };
 }
 export async function sendMessageApi(roomId: string, messageData: {
   senderId: string;
