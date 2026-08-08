@@ -1,5 +1,4 @@
-import { RoomSession, ChatMessage, SharedFile, Participant } from '../types';
-
+import { RoomSession, ChatMessage, SharedFile, Participant, AIAnalysis } from '../types';
 const BROADCAST_CHANNEL_NAME = 'quickchat_ai_channel';
 let broadcastChannel: BroadcastChannel | null = null;
 

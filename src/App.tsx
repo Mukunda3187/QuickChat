@@ -314,7 +314,6 @@ setPrivateAiFiles(room.aiFiles || []);
       handleClearSession();
       setActiveLeftPanel(null);
       setIsAIPanelOpen(false);
-      handleSaveHostSettings();
       refreshRoom();
       setIsSettingsOpen(false);
     }
@@ -340,7 +339,6 @@ setPrivateAiFiles(room.aiFiles || []);
       handleClearSession();
       setActiveLeftPanel(null);
       setIsAIPanelOpen(false);
-      handleSaveHostSettings();
       setIsSettingsOpen(false);
     }
   };
@@ -408,7 +406,6 @@ setPrivateAiFiles(room.aiFiles || []);
           fileName: latestFile?.name,
           fileContent: latestFile?.content,
           prompt: cleanPrompt || text,
-          isCreator: currentUser.isCreator,
         });
         refreshRoom();
         setIsAiThinking(false);
@@ -475,7 +472,6 @@ setPrivateAiFiles(room.aiFiles || []);
       handleClearSession();
       setActiveLeftPanel(null);
       setIsAIPanelOpen(false);
-      handleSaveHostSettings();
       setIsSettingsOpen(false);
       refreshRoom();
       setCurrentRoom(null);
@@ -553,7 +549,7 @@ refreshRoom();
       : 'participants'
   )
 }
-    className="bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-black p-3 rounded-r-2xl shadow-xl border-r border-y border-emerald-400 cursor-pointer transition-all"
+    className="bg-[var(--accent-500)] hover:bg-[var(--accent-600)] dark:bg-[var(--accent-500)] dark:hover:bg-[var(--accent-400)] text-white dark:text-black p-3 rounded-r-2xl shadow-xl border-r border-y border-emerald-400 cursor-pointer transition-all"
     title="Participants"
   >
     <Users className="w-5 h-5" />
@@ -568,7 +564,7 @@ refreshRoom();
       : 'files'
   )
 }
-    className="bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-black p-3 rounded-r-2xl shadow-xl border-r border-y border-emerald-400 cursor-pointer transition-all"
+    className="bg-[var(--accent-500)] hover:bg-[var(--accent-600)] dark:bg-[var(--accent-500)] dark:hover:bg-[var(--accent-400)] text-white dark:text-black p-3 rounded-r-2xl shadow-xl border-r border-y border-emerald-400 cursor-pointer transition-all"
     title="Shared Files"
   >
     <File className="w-5 h-5" />

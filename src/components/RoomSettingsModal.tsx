@@ -46,7 +46,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
   currentUserName,
   currentRoomId = '',
   currentPassword = '',
-  currentAvatarColor = '#10b981',
+  currentAvatarColor ='',
   currentAvatarUrl = '',
   allowStudentChat: initialAllowStudentChat,
   allowStudentAi: initialAllowStudentAi,
@@ -84,10 +84,6 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
     { name: 'Rose', hex: '#f43f5e' },
     { name: 'Amber', hex: '#f59e0b' },
     { name: 'Cyan', hex: '#06b6d4' },
-    { name: 'Pink', hex: '#ec4899' },
-    { name: 'Indigo', hex: '#6366f1' },
-    { name: 'Teal', hex: '#14b8a6' },
-    { name: 'Slate', hex: '#64748b' },
   ];
 
   const generateRandomSessionId = () => {
@@ -219,7 +215,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                   ) : avatarColor ? (
                     <div
                       style={{
-  backgroundColor:avatarColor
+  backgroundColor: avatarColor
 }}
                       className="w-full h-full flex items-center justify-center text-white font-black text-xl shadow-inner"
                     >
@@ -296,7 +292,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                   <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-zinc-400 block">
                     Choose Icon Color
                   </label>
-                  <div className="flex items-center gap-2 flex-wrap py-1">
+                 <div className="flex items-center gap-2 flex-wrap py-1">
                     {presetAvatarColors.map((color) => {
                       const isSelected = !avatarUrl && avatarColor === color.hex;
                       return (
@@ -307,7 +303,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                             setAvatarColor(color.hex);
                             setAvatarUrl(''); // Switch back to color circle mode
                           }}
-                          className={`w-7 h-7 rounded-full transition-all flex items-center justify-center cursor-pointer shadow-xs ${
+                          className={`w-10 h-10 rounded-xl transition-all flex items-center justify-center cursor-pointer shadow-xs ${
                             isSelected
                               ? 'ring-2 ring-emerald-500 ring-offset-2 dark:ring-offset-zinc-900 scale-110'
                               : 'hover:scale-105 opacity-85 hover:opacity-100'
