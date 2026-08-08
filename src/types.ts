@@ -26,6 +26,7 @@ export interface AIAnalysis {
   type: 'query';
   fileName?: string;
   title: string;
+  prompt?: string; // the question you actually typed
   content: string; // Markdown or plain text
   createdAt: string;
   isPrivate?: boolean;
