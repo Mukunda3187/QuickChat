@@ -364,7 +364,7 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
                 )}
 
                 <p className="text-[10px] text-slate-400 dark:text-zinc-500">
-                  Default time limit is 5 hours.
+                  Default Room time limit is 5 hours.
                 </p>
               </div>
 
