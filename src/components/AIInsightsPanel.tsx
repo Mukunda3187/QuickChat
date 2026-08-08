@@ -363,13 +363,6 @@ const handleSendPrompt = (customPrompt?: string) => {
           ))
         )}
 
-        {isThinking && (
-          <div className="p-3 bg-white dark:bg-zinc-900 rounded-2xl border border-emerald-300 dark:border-emerald-800 flex items-center gap-2 text-xs text-emerald-900 dark:text-emerald-300 font-bold shadow-xs">
-            <CuteBotIcon className="w-4 h-4 text-emerald-600 dark:text-emerald-400 animate-pulse shrink-0" />
-            AI is reading document(s) & generating response...
-          </div>
-        )}
-
         <div ref={chatBottomRef} />
       </div>
 
