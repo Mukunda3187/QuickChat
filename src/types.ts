@@ -44,6 +44,7 @@ export interface ChatMessage {
   senderAvatarColor?: string;
   senderAvatarUrl?: string;
   isCreator: boolean;
+  isCoHost?: boolean;
   isAI?: boolean;
   text: string;
   fileAttachment?: SharedFile;
