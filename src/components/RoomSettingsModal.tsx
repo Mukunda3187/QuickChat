@@ -219,7 +219,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                   ) : avatarColor ? (
                     <div
                       style={{
-  backgroundColor:avatarColor
+  backgroundColor: 'var(--accent-500)'
 }}
                       className="w-full h-full flex items-center justify-center text-white font-black text-xl shadow-inner"
                     >
