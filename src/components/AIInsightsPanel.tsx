@@ -326,28 +326,38 @@ const handleSendPrompt = (customPrompt?: string) => {
           </div>
         ) : (
           combinedHistory.map((ai) => (
-            <div
-              key={ai.id}
-              className={`p-3.5 bg-white dark:bg-zinc-900 rounded-2xl border shadow-xs space-y-2.5 ${
-                ai.isPrivate
-                  ? 'border-purple-300 dark:border-purple-900/80 ring-1 ring-purple-100 dark:ring-purple-950/50'
-                  : 'border-emerald-200/80 dark:border-zinc-800'
-              }`}
-            >
-              <div className="flex items-center justify-between border-b border-emerald-100 dark:border-zinc-800 pb-2">
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="text-xs font-black text-emerald-950 dark:text-emerald-400 flex items-center gap-1.5">
-                    <CuteBotIcon className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                    {ai.title}
-                  </span>
+            <div key={ai.id} className="space-y-2">
+              {/* Your question -- right side */}
+              {ai.prompt && (
+                <div className="flex justify-end">
+                  <div className="max-w-[85%] px-3.5 py-2 rounded-2xl rounded-br-sm bg-emerald-600 dark:bg-emerald-500 text-white dark:text-black text-xs leading-relaxed whitespace-pre-wrap shadow-xs">
+                    {ai.prompt}
+                  </div>
                 </div>
-                <span className="text-[9px] font-mono text-slate-400 dark:text-zinc-500 shrink-0">
-                  {new Date(ai.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </span>
-              </div>
+              )}
 
-              <div className="text-xs text-slate-800 dark:text-zinc-200 leading-relaxed font-sans whitespace-pre-wrap max-h-60 overflow-y-auto pr-1">
-                {ai.content}
+              {/* AI's answer -- left side */}
+              <div className="flex justify-start">
+                <div
+                  className={`max-w-[85%] p-3.5 bg-white dark:bg-zinc-900 rounded-2xl rounded-bl-sm border shadow-xs space-y-2 ${
+                    ai.isPrivate
+                      ? 'border-purple-300 dark:border-purple-900/80 ring-1 ring-purple-100 dark:ring-purple-950/50'
+                      : 'border-emerald-200/80 dark:border-zinc-800'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-[10px] font-black text-emerald-950 dark:text-emerald-400 flex items-center gap-1.5">
+                      <CuteBotIcon className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                      AI Assistant
+                    </span>
+                    <span className="text-[9px] font-mono text-slate-400 dark:text-zinc-500 shrink-0">
+                      {new Date(ai.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
+                  <div className="text-xs text-slate-800 dark:text-zinc-200 leading-relaxed font-sans whitespace-pre-wrap max-h-60 overflow-y-auto pr-1">
+                    {ai.content}
+                  </div>
+                </div>
               </div>
             </div>
           ))
