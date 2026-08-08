@@ -11,7 +11,6 @@ interface RoomData {
   isManualEnd: boolean;
   hasCustomTime: boolean;
   createdAt: string;
-  messages: any[];
   expiresAt: string; // ISO string
   allowStudentChat?: boolean;
   allowStudentAi?: boolean;
