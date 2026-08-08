@@ -755,10 +755,11 @@ ${fileContent ? fileContent.substring(0, 15000) : "No specific file selected."}`
 
       const responseText = response.text || "AI generated no content.";
 
-  const aiResult = {
+ const aiResult = {
   id: "ai_" + Date.now(),
   type: "query",
   title: "AI Response",
+  prompt: prompt || "",
   content: responseText,
   createdAt: new Date().toISOString(),
   isPrivate,
