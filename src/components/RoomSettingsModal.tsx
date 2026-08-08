@@ -69,7 +69,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
   const [isEditingName, setIsEditingName] = useState<boolean>(false);
   const [sessionId, setSessionId] = useState<string>(currentRoomId);
   const [sessionPassword, setSessionPassword] = useState<string>(currentPassword);
-  const [avatarColor, setAvatarColor] = useState<string>(currentAvatarColor || '#10b981');
+ const [avatarColor, setAvatarColor] = useState<string | undefined>(currentAvatarColor);
   const [avatarUrl, setAvatarUrl] = useState<string>(currentAvatarUrl || '');
   const [isAvatarPickerOpen, setIsAvatarPickerOpen] = useState<boolean>(false);
   const [validationError, setValidationError] = useState<string>('');
@@ -214,15 +214,19 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                   className="w-16 h-16 rounded-full overflow-hidden border-2 border-emerald-500 dark:border-emerald-400 shadow-md flex items-center justify-center cursor-pointer hover:opacity-90 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   title="customize chat icon"
                 >
-                  {avatarUrl ? (
+              {avatarUrl ? (
                     <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
-                  ) : (
+                  ) : avatarColor ? (
                     <div
                       style={{
   backgroundColor:avatarColor
 }}
                       className="w-full h-full flex items-center justify-center text-white font-black text-xl shadow-inner"
                     >
+                      {displayName ? displayName.substring(0, 2).toUpperCase() : 'U'}
+                    </div>
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-white font-black text-xl shadow-inner bg-emerald-600 dark:bg-emerald-500 dark:text-black">
                       {displayName ? displayName.substring(0, 2).toUpperCase() : 'U'}
                     </div>
                   )}
