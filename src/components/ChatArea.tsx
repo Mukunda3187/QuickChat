@@ -100,6 +100,10 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
                   className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-xs font-bold ${
                     isMe
                       ? 'bg-emerald-600 text-white dark:bg-emerald-500 dark:text-black shadow-xs dark:shadow-[0_0_10px_rgba(16,185,129,0.3)]'
+                      : msg.isCreator
+                      ? 'bg-emerald-600 text-white border border-emerald-400 dark:bg-emerald-500 dark:text-black'
+                      : msg.isCoHost
+                      ? 'bg-emerald-400 text-emerald-950 border border-emerald-300 dark:bg-emerald-700 dark:text-emerald-100'
                       : 'bg-emerald-100 dark:bg-zinc-800 text-emerald-950 dark:text-zinc-200 border border-emerald-200 dark:border-zinc-700'
                   }`}
                 >
