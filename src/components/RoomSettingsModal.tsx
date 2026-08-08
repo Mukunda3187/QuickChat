@@ -46,7 +46,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
   currentUserName,
   currentRoomId = '',
   currentPassword = '',
-  currentAvatarColor = '#10b981',
+  currentAvatarColor ='',
   currentAvatarUrl = '',
   allowStudentChat: initialAllowStudentChat,
   allowStudentAi: initialAllowStudentAi,
