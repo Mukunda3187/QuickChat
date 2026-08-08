@@ -33,8 +33,8 @@ export const SharedFilesPanel: React.FC<SharedFilesPanelProps> = ({
   const canManage = isCreator || isCoHost;
   const fileInputRef = useRef<HTMLInputElement>(null);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      onUploadFile(e.target.files[0]);
+    if (e.target.files && e.target.files.length > 0) {
+      Array.from(e.target.files).forEach((file) => onUploadFile(file));
       e.target.value = '';
     }
   };
@@ -85,6 +85,7 @@ export const SharedFilesPanel: React.FC<SharedFilesPanelProps> = ({
 
         <input
           type="file"
+          multiple
           ref={fileInputRef}
           onChange={handleFileChange}
           className="hidden"
