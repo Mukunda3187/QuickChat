@@ -59,7 +59,9 @@ export const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({
   setSelectedFileIds(allAvailableFiles.map((f) => f.id));
 }, [allAvailableFiles.length]);
   
- const combinedHistory = [...(aiHistory || []), ...(privateAiHistory || [])].sort(
+const combinedHistory = Array.from(
+  new Map([...(aiHistory || []), ...(privateAiHistory || [])].map((item) => [item.id, item])).values()
+ ).sort(
   (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
 );
 
