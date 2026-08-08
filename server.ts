@@ -9,12 +9,14 @@ interface RoomData {
   creatorId: string;
   durationHours: number;
   isManualEnd: boolean;
+  hasCustomTime: boolean;
   createdAt: string;
   expiresAt: string; // ISO string
   allowStudentChat?: boolean;
   allowStudentAi?: boolean;
   isLocked?: boolean;
   participants: { id: string; name: string; isCreator: boolean; isCoHost?: boolean; coHostSince?: string; avatarColor?: string; avatarUrl?: string; joinedAt: string }[];
+  messages: any[];
   files: any[];
   aiFiles: any[];
   aiHistory: any[];
@@ -26,6 +28,7 @@ privateAiFiles: Record<string, any[]>;
 const tempRooms = new Map<string, RoomData>();
 
 // Periodic cleanup for orphaned rooms with 0 participants (runs every 60 seconds)
+// Periodic cleanup for orphaned rooms with 0 participants (runs every 60 seconds)
 setInterval(() => {
   for (const [id, room] of tempRooms.entries()) {
     if (room.participants.length === 0) {
@@ -34,6 +37,17 @@ setInterval(() => {
     }
   }
 }, 60000);
+
+// Auto-end rooms whose time limit has passed (runs every 30 seconds)
+setInterval(() => {
+  const now = Date.now();
+  for (const [id, room] of tempRooms.entries()) {
+    if (new Date(room.expiresAt).getTime() <= now) {
+      console.log(`[Auto-End] Room ${id} reached its time limit and was removed.`);
+      tempRooms.delete(id);
+    }
+  }
+}, 30000);
 
 // Helper to get Gemini AI instance safely
 let genAI: GoogleGenAI | null = null;
@@ -82,14 +96,24 @@ if (existingRoom) {
       const now = new Date();
       const creatorId = "usr_" + Math.random().toString(36).substring(2, 9);
 
+      const DEFAULT_DURATION_MINUTES = 5 * 60; // 5 hours
+      const MAX_DURATION_MINUTES = 24 * 60; // safety cap
+      let durationMinutes = Number(req.body.durationMinutes);
+      const hasCustomTime = !!durationMinutes && durationMinutes > 0;
+      if (!durationMinutes || durationMinutes <= 0) {
+        durationMinutes = DEFAULT_DURATION_MINUTES;
+      }
+      durationMinutes = Math.min(durationMinutes, MAX_DURATION_MINUTES);
+
       const newRoom: RoomData = {
         id: formattedChatId,
         password: String(password).trim(),
         creatorId,
-        durationHours: 24,
-        isManualEnd: true,
+        durationHours: durationMinutes / 60,
+        isManualEnd: false,
+        hasCustomTime,
         createdAt: now.toISOString(),
-        expiresAt: new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+        expiresAt: new Date(now.getTime() + durationMinutes * 60 * 1000).toISOString(),
         participants: [
           {
             id: creatorId,
@@ -227,6 +251,7 @@ if (!room.privateAiHistory[participant.id]) {
           isLocked: room.isLocked ?? false,
           createdAt: room.createdAt,
           expiresAt: room.expiresAt,
+          hasCustomTime: room.hasCustomTime,
           participants: room.participants,
           messages: room.messages,
           files: room.files,
@@ -261,7 +286,8 @@ if (!room.privateAiHistory[participant.id]) {
       allowStudentAi: room.allowStudentAi ?? true,
       isLocked: room.isLocked ?? false,
       createdAt: room.createdAt,
-      expiresAt: room.expiresAt,
+    expiresAt: room.expiresAt,
+      hasCustomTime: room.hasCustomTime,
       participants: room.participants,
       messages: room.messages,
       files: room.files,
@@ -387,7 +413,8 @@ if (!room.privateAiHistory[participant.id]) {
       allowStudentChat: room.allowStudentChat,
       allowStudentAi: room.allowStudentAi,
       isLocked: room.isLocked,
-      expiresAt: room.expiresAt,
+     expiresAt: room.expiresAt,
+      hasCustomTime: room.hasCustomTime,
     });
   });
 
@@ -718,7 +745,37 @@ if (!room.privateAiHistory[participant.id]) {
     }
     res.json({ success: true, message: "Room session permanently deleted." });
   });
+// Host/Co-Host adds extra time to the room's countdown
+  app.post("/api/rooms/:id/add-time", (req, res) => {
+    const formattedChatId = String(req.params.id || "").trim().toUpperCase();
+    const room = tempRooms.get(formattedChatId);
+    if (!room) return res.status(404).json({ error: "Room not found." });
 
+    const { requesterId, hours, minutes } = req.body;
+    const requester = room.participants.find((p) => p.id === requesterId);
+    if (!requester || !(requester.isCreator || requester.isCoHost)) {
+      return res.status(403).json({ error: "Only the Host or Co-Host can add time." });
+    }
+
+    const addMinutes = (Number(hours) || 0) * 60 + (Number(minutes) || 0);
+    if (addMinutes <= 0) {
+      return res.status(400).json({ error: "Enter an hours or minutes value greater than 0." });
+    }
+
+    room.expiresAt = new Date(new Date(room.expiresAt).getTime() + addMinutes * 60 * 1000).toISOString();
+    room.hasCustomTime = true;
+
+    room.messages.push({
+      id: "msg_addtime_" + Date.now(),
+      senderId: "system",
+      senderName: "System",
+      isCreator: false,
+      text: `${requester.name} added ${hours || 0}h ${minutes || 0}m to the session.`,
+      timestamp: new Date().toISOString(),
+    });
+
+    res.json({ success: true, expiresAt: room.expiresAt });
+  });
   // AI Analysis API Endpoint
   app.post("/api/ai/analyze", async (req, res) => {
     try {

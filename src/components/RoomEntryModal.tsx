@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MessageSquare, Lock, KeyRound, User, ArrowRight, RefreshCw, Sun, Moon, Settings, Palette, X, Check, Eye, EyeOff } from 'lucide-react';
+import { MessageSquare, Lock, KeyRound, User, ArrowRight, RefreshCw, Sun, Moon, Settings, Palette, X, Check, Eye, EyeOff, Clock } from 'lucide-react';
 import { ThemeColor } from './RoomSettingsModal';
 
 interface RoomEntryModalProps {
@@ -55,6 +55,9 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
   const [createChatId, setCreateChatId] = useState(generateRandomChatId());
   const [createPassword, setCreatePassword] = useState(generateRandomPassword());
   const [creatorName, setCreatorName] = useState('');
+  const [customTimeEnabled, setCustomTimeEnabled] = useState(false);
+  const [customHours, setCustomHours] = useState('');
+  const [customMinutes, setCustomMinutes] = useState('');
 
   // Join Form State
   const [joinChatId, setJoinChatId] = useState('');
@@ -73,10 +76,17 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
       return;
     }
 
+    const hours = parseInt(customHours, 10) || 0;
+    const minutes = parseInt(customMinutes, 10) || 0;
+    const durationMinutes = customTimeEnabled && (hours > 0 || minutes > 0)
+      ? hours * 60 + minutes
+      : undefined;
+
     await onCreateRoom({
       chatId: createChatId,
       password: createPassword,
       creatorName,
+      durationMinutes,
     });
   };
 
@@ -306,6 +316,56 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
                     <RefreshCw className="w-4 h-4" />
                   </button>
                 </div>
+              </div>
+
+             {/* Set Time */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <label className="text-[10px] font-bold text-slate-500 dark:text-zinc-400 uppercase tracking-wider flex items-center gap-1">
+                    <Clock className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> Set Time
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setCustomTimeEnabled((v) => !v)}
+                    className={`w-9 h-5 rounded-full relative transition-colors cursor-pointer ${
+                      customTimeEnabled ? 'bg-emerald-600 dark:bg-emerald-500' : 'bg-slate-300 dark:bg-zinc-700'
+                    }`}
+                    title={customTimeEnabled ? 'Custom time: On' : 'Custom time: Off'}
+                  >
+                    <span
+                      className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow-xs transition-transform ${
+                        customTimeEnabled ? 'translate-x-4' : 'translate-x-0'
+                      }`}
+                    />
+                  </button>
+                </div>
+
+                {customTimeEnabled && (
+                  <div className="flex gap-2">
+                    <input
+                      type="number"
+                      min={0}
+                      max={23}
+                      value={customHours}
+                      onChange={(e) => setCustomHours(e.target.value)}
+                      placeholder="Hours"
+                      className="flex-1 text-xs bg-emerald-50/50 dark:bg-zinc-900 border border-emerald-200/80 dark:border-zinc-800 rounded-xl p-2.5 text-slate-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono"
+                    />
+                    <input
+                      type="number"
+                      min={0}
+                      max={59}
+                      value={customMinutes}
+                      onChange={(e) => setCustomMinutes(e.target.value)}
+                      placeholder="Minutes"
+                      className="flex-1 text-xs bg-emerald-50/50 dark:bg-zinc-900 border border-emerald-200/80 dark:border-zinc-800 rounded-xl p-2.5 text-slate-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono"
+                    />
+                  </div>
+                )}
+
+                <p className="text-[10px] text-slate-400 dark:text-zinc-500">
+                  Default Room time limit is 5 hours.
+                </p>
               </div>
 
               {/* Your Nickname */}

@@ -60,6 +60,7 @@ export interface RoomSession {
   creatorId: string;
   durationHours: number; // e.g. 0.5, 1, 4, 12, 24
   isManualEnd: boolean;
+  hasCustomTime: boolean;
   allowStudentChat?: boolean; // Controls whether non-hosts can send chat messages
   allowStudentAi?: boolean; // Controls whether non-hosts can use AI features
   isLocked?: boolean; // Lock room from new participants

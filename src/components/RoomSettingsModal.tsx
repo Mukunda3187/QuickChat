@@ -33,6 +33,7 @@ interface RoomSettingsModalProps {
     avatarColor?: string;
     avatarUrl?: string;
   }) => Promise<void>;
+  onAddTime?: (hours: number, minutes: number) => Promise<void>;
   onToggleTheme: () => void;
   onChangeThemeColor: (color: ThemeColor) => void;
   onLeaveSession: () => void;
@@ -56,6 +57,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
   themeColor,
   onSaveHostSettings,
   onSaveStudentSettings,
+  onAddTime,
   onToggleTheme,
   onChangeThemeColor,
   onLeaveSession,
@@ -70,6 +72,9 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
   const [sessionId, setSessionId] = useState<string>(currentRoomId);
   const [sessionPassword, setSessionPassword] = useState<string>(currentPassword);
  const [avatarColor, setAvatarColor] = useState<string | undefined>(currentAvatarColor);
+  const [addHours, setAddHours] = useState('');
+  const [addMinutes, setAddMinutes] = useState('');
+  const [isAddingTime, setIsAddingTime] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string>(currentAvatarUrl || '');
   const [isAvatarPickerOpen, setIsAvatarPickerOpen] = useState<boolean>(false);
   const [validationError, setValidationError] = useState<string>('');
@@ -156,6 +161,21 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
       setValidationError(e.message || 'Failed to update settings');
     } finally {
       setIsSaving(false);
+    }
+  };
+
+ const handleAddTimeClick = async () => {
+    if (!onAddTime) return;
+    const h = parseInt(addHours, 10) || 0;
+    const m = parseInt(addMinutes, 10) || 0;
+    if (h <= 0 && m <= 0) return;
+    setIsAddingTime(true);
+    try {
+      await onAddTime(h, m);
+      setAddHours('');
+      setAddMinutes('');
+    } finally {
+      setIsAddingTime(false);
     }
   };
 
@@ -433,6 +453,41 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                       <span>Random Pass</span>
                     </button>
                   </div>
+                </div>
+
+                {/* Add Time */}
+                <div className="space-y-1 pt-2 border-t border-slate-200 dark:border-zinc-800">
+                  <label className="text-[10px] font-bold text-slate-500 dark:text-zinc-400 uppercase tracking-wider">
+                    Add time to this session
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="number"
+                      min={0}
+                      max={23}
+                      value={addHours}
+                      onChange={(e) => setAddHours(e.target.value)}
+                      placeholder="Hours"
+                      className="flex-1 text-xs bg-slate-100/80 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl p-2.5 text-slate-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono"
+                    />
+                    <input
+                      type="number"
+                      min={0}
+                      max={59}
+                      value={addMinutes}
+                      onChange={(e) => setAddMinutes(e.target.value)}
+                      placeholder="Minutes"
+                      className="flex-1 text-xs bg-slate-100/80 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl p-2.5 text-slate-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleAddTimeClick}
+                    disabled={isAddingTime}
+                    className="w-full mt-1 bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 dark:text-black disabled:opacity-50 text-white py-2 rounded-xl text-xs font-bold transition-colors cursor-pointer"
+                  >
+                    {isAddingTime ? 'Adding...' : 'Add Time'}
+                  </button>
                 </div>
               </div>
             )}

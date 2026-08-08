@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, Copy, Check, Power, MessageSquare, Settings, LogOut, Users } from 'lucide-react';
+import { Shield, Copy, Check, Power, MessageSquare, Settings, LogOut, Users, Clock } from 'lucide-react';
 
 interface HeaderProps {
   roomId: string;
   isCreator: boolean;
   isCoHost?: boolean;
+  expiresAt?: string;
+  hasCustomTime?: boolean;
   onEndSession: () => void;
   onLeaveSession: () => void;
   onOpenSettings?: () => void;
@@ -14,11 +16,35 @@ export const Header: React.FC<HeaderProps> = ({
   roomId,
   isCreator,
   isCoHost,
+  expiresAt,
+  hasCustomTime,
   onEndSession,
   onLeaveSession,
   onOpenSettings,
 }) => {
   const [copied, setCopied] = useState(false);
+  const [timeLeft, setTimeLeft] = useState('');
+
+  useEffect(() => {
+    if (!hasCustomTime || !expiresAt) {
+      setTimeLeft('');
+      return;
+    }
+    const tick = () => {
+      const diff = new Date(expiresAt).getTime() - Date.now();
+      if (diff <= 0) {
+        setTimeLeft('00:00:00');
+        return;
+      }
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      setTimeLeft(`${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`);
+    };
+    tick();
+    const interval = setInterval(tick, 1000);
+    return () => clearInterval(interval);
+  }, [expiresAt, hasCustomTime]);
 
   const isHostOrCoHost = isCreator || isCoHost;
 
@@ -69,6 +95,13 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           </div>
          </div>
+
+        {hasCustomTime && timeLeft && (
+          <div className="hidden sm:flex items-center gap-1.5 bg-emerald-50/70 dark:bg-zinc-900 px-3 py-1.5 rounded-xl border border-emerald-200/80 dark:border-zinc-800">
+            <Clock className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+            <span className="text-xs font-mono font-bold text-emerald-950 dark:text-emerald-400">{timeLeft}</span>
+          </div>
+        )}
         {/* Leave Button (Available to Everyone) */}
         <button
           onClick={onLeaveSession}
