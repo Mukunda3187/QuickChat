@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MessageSquare, Lock, KeyRound, User, ArrowRight, RefreshCw, Sun, Moon, Settings, Palette, X, Check, Eye, EyeOff } from 'lucide-react';
+import { MessageSquare, Lock, KeyRound, User, ArrowRight, RefreshCw, Sun, Moon, Settings, Palette, X, Check, Eye, EyeOff, Clock } from 'lucide-react';
 import { ThemeColor } from './RoomSettingsModal';
 
 interface RoomEntryModalProps {
@@ -55,6 +55,9 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
   const [createChatId, setCreateChatId] = useState(generateRandomChatId());
   const [createPassword, setCreatePassword] = useState(generateRandomPassword());
   const [creatorName, setCreatorName] = useState('');
+  const [customTimeEnabled, setCustomTimeEnabled] = useState(false);
+  const [customHours, setCustomHours] = useState('');
+  const [customMinutes, setCustomMinutes] = useState('');
 
   // Join Form State
   const [joinChatId, setJoinChatId] = useState('');
