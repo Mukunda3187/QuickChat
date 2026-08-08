@@ -84,9 +84,9 @@ export const ParticipantsPanel: React.FC<ParticipantsPanelProps> = ({
                     <div
                       className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 border ${
                         p.isCreator
-                          ? 'bg-amber-500 text-black border-amber-400 shadow-xs'
+                          ? 'bg-emerald-600 text-white border-emerald-400 shadow-xs dark:bg-emerald-500 dark:text-black'
                           : p.isCoHost
-                          ? 'bg-purple-600 text-white border-purple-400'
+                          ? 'bg-emerald-400 text-emerald-950 border-emerald-300 dark:bg-emerald-700 dark:text-emerald-100'
                           : 'bg-emerald-100 dark:bg-zinc-800 border-emerald-200 dark:border-zinc-700 text-emerald-900 dark:text-zinc-200'
                       }`}
                     >
