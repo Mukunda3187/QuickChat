@@ -300,7 +300,7 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                     onClick={() => onChangeThemeColor(c.id)}
                     style={{ backgroundColor: c.hex }}
                     className={`h-10 rounded-xl flex items-center justify-center transition-all cursor-pointer border-2 ${
-                      themeColor === c.id
+                      iconColor === c.id
                         ? 'ring-2 ring-slate-900 dark:ring-white scale-105 shadow-md border-white'
                         : 'opacity-70 hover:opacity-100 border-transparent'
                     }`}
