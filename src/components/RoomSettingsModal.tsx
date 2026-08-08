@@ -84,10 +84,6 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
     { name: 'Rose', hex: '#f43f5e' },
     { name: 'Amber', hex: '#f59e0b' },
     { name: 'Cyan', hex: '#06b6d4' },
-    { name: 'Pink', hex: '#ec4899' },
-    { name: 'Indigo', hex: '#6366f1' },
-    { name: 'Teal', hex: '#14b8a6' },
-    { name: 'Slate', hex: '#64748b' },
   ];
 
   const generateRandomSessionId = () => {
@@ -296,30 +292,24 @@ export const RoomSettingsModal: React.FC<RoomSettingsModalProps> = ({
                   <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-zinc-400 block">
                     Choose Icon Color
                   </label>
-                  <div className="flex items-center gap-2 flex-wrap py-1">
-                    {presetAvatarColors.map((color) => {
-                      const isSelected = !avatarUrl && avatarColor === color.hex;
-                      return (
-                        <button
-                          key={color.hex}
-                          type="button"
-                          onClick={() => {
-                            setAvatarColor(color.hex);
-                            setAvatarUrl(''); // Switch back to color circle mode
-                          }}
-                          className={`w-7 h-7 rounded-full transition-all flex items-center justify-center cursor-pointer shadow-xs ${
-                            isSelected
-                              ? 'ring-2 ring-emerald-500 ring-offset-2 dark:ring-offset-zinc-900 scale-110'
-                              : 'hover:scale-105 opacity-85 hover:opacity-100'
-                          }`}
-                          style={{ backgroundColor: color.hex }}
-                          title={color.name}
-                        >
-                          {isSelected && <Check className="w-3.5 h-3.5 text-white drop-shadow-xs" />}
-                        </button>
-                      );
-                    })}
-                  </div>
+                   <div className="grid grid-cols-6 gap-2">
+                {colors.map((c) => (
+                  <button
+                    key={c.id}
+                    type="button"
+                    onClick={() => onChangeThemeColor(c.id)}
+                    style={{ backgroundColor: c.hex }}
+                    className={`h-10 rounded-xl flex items-center justify-center transition-all cursor-pointer border-2 ${
+                      themeColor === c.id
+                        ? 'ring-2 ring-slate-900 dark:ring-white scale-105 shadow-md border-white'
+                        : 'opacity-70 hover:opacity-100 border-transparent'
+                    }`}
+                    title={c.name}
+                  >
+                    {themeColor === c.id && <Check className="w-4 h-4 text-white drop-shadow-md" />}
+                  </button>
+                ))}
+              </div>
                 </div>
 
                 {/* Down Line: Import Pic Option */}
