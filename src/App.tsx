@@ -314,7 +314,6 @@ setPrivateAiFiles(room.aiFiles || []);
       handleClearSession();
       setActiveLeftPanel(null);
       setIsAIPanelOpen(false);
-      handleSaveHostSettings();
       refreshRoom();
       setIsSettingsOpen(false);
     }
@@ -340,7 +339,6 @@ setPrivateAiFiles(room.aiFiles || []);
       handleClearSession();
       setActiveLeftPanel(null);
       setIsAIPanelOpen(false);
-      handleSaveHostSettings();
       setIsSettingsOpen(false);
     }
   };
@@ -408,7 +406,6 @@ setPrivateAiFiles(room.aiFiles || []);
           fileName: latestFile?.name,
           fileContent: latestFile?.content,
           prompt: cleanPrompt || text,
-          isCreator: currentUser.isCreator,
         });
         refreshRoom();
         setIsAiThinking(false);
@@ -475,7 +472,6 @@ setPrivateAiFiles(room.aiFiles || []);
       handleClearSession();
       setActiveLeftPanel(null);
       setIsAIPanelOpen(false);
-      handleSaveHostSettings();
       setIsSettingsOpen(false);
       refreshRoom();
       setCurrentRoom(null);
