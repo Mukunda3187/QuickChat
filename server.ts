@@ -14,8 +14,7 @@ interface RoomData {
   allowStudentChat?: boolean;
   allowStudentAi?: boolean;
   isLocked?: boolean;
-  participants: { id: string; name: string; isCreator: boolean; isCoHost?: boolean; avatarColor?: string; avatarUrl?: string; joinedAt: string }[];
-messages: any[];
+  participants: { id: string; name: string; isCreator: boolean; isCoHost?: boolean; coHostSince?: string; avatarColor?: string; avatarUrl?: string; joinedAt: string }[];
   files: any[];
   aiFiles: any[];
   aiHistory: any[];
@@ -411,7 +410,8 @@ if (!room.privateAiHistory[participant.id]) {
       return res.status(404).json({ error: "Target participant not found." });
     }
 
-    targetP.isCoHost = !!isCoHost;
+   targetP.isCoHost = !!isCoHost;
+    targetP.coHostSince = isCoHost ? new Date().toISOString() : undefined;
     room.messages.push({
       id: "msg_cohost_" + Date.now(),
       senderId: "system",
@@ -481,9 +481,11 @@ if (!room.privateAiHistory[participant.id]) {
 
     // Check if main creator/host is trying to leave
     if (leavingP.isCreator || leavingP.id === room.creatorId) {
-      const coHosts = room.participants.filter((p) => p.id !== leavingP.id && p.isCoHost);
+      const coHosts = room.participants
+        .filter((p) => p.id !== leavingP.id && p.isCoHost)
+        .sort((a, b) => new Date(a.coHostSince || 0).getTime() - new Date(b.coHostSince || 0).getTime());
       if (coHosts.length > 0) {
-        // Transfer host role to the first co-host
+        // Transfer host role to whoever became a Co-Host first
         const newHost = coHosts[0];
         newHost.isCreator = true;
         newHost.isCoHost = false;
