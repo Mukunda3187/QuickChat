@@ -787,17 +787,26 @@ if (!room.privateAiHistory[participant.id]) {
         return res.status(403).json({ error: "AI Assistant has been disabled for this room." });
       }
 
-      const ai = getGenAI();
+     const ai = getGenAI();
 
+      const shortFileLabel = fileName
+        ? (fileName.length > 15 ? fileName.substring(0, 12) + "..." : fileName)
+        : null;
 
-      let systemInstruction = `You are QuickChat AI, an intelligent, concise, and helpful assistant in a temporary collaboration workspace. 
-You specialize in answering questions about uploaded documents and explaining concepts clearly.
-Be clear, accurate, well-formatted, and direct. Use markdown for lists, bolding, and headings when helpful.`;
+      let systemInstruction = `You are QuickChat AI, a helpful assistant in a temporary chat workspace.
+Default behavior: answer in short, simple sentences, in plain everyday English. Keep the whole answer brief.
+If the user's question clearly asks for more detail, more information, or a list, give more points instead, as bullet points.
+At the end of every point (or at the end of your answer, if it's just one short answer), add a short source tag in brackets, like (${shortFileLabel || "General knowledge"}). Always keep this tag short -- never write out a long file name, since a long tag distracts from reading the actual point.
+Base your answer on the document content below if one is provided. If no document is provided, answer using your own general knowledge instead, and use the tag (General knowledge).`;
 
-let userPrompt = `User question: "${prompt}"
+let userPrompt = fileContent
+  ? `User question: "${prompt}"
 
-Context / Document Content (${fileName || "Workspace"}):
-${fileContent ? fileContent.substring(0, 15000) : "No specific file selected."}`;
+Document (${shortFileLabel}):
+${fileContent.substring(0, 15000)}`
+  : `User question: "${prompt}"
+
+No document was provided for this question -- answer using your own general knowledge.`;
       console.log(`[AI Request] Action: ${action}, File: ${fileName}, Private: ${!!isPrivate}`);
 
       const response = await ai.models.generateContent({
