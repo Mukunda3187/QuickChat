@@ -33,6 +33,7 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<'create' | 'join'>('create');
   const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [activeFooterInfo, setActiveFooterInfo] = useState<'about' | 'terms' | 'privacy' | null>(null);
 
   // Create Form State
   const generateRandomChatId = () => {
@@ -210,8 +211,9 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
         </div>
       )}
 
-      {/* Main Home Screen Container Card */}
-      <div className="bg-white dark:bg-zinc-950 rounded-3xl max-w-4xl w-full border border-emerald-200/80 dark:border-zinc-800 shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 my-auto transition-all">
+     {/* Main Home Screen Container Card + Footer, stacked together */}
+      <div className="flex flex-col items-center gap-5 w-full max-w-4xl my-auto">
+      <div className="bg-white dark:bg-zinc-950 rounded-3xl max-w-4xl w-full border border-emerald-200/80 dark:border-zinc-800 shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 transition-all">
         {/* Left Side: Clean Logo and Title (No extra text, no black-green background) */}
         <div className="lg:col-span-5 p-8 sm:p-10 bg-emerald-50/70 dark:bg-zinc-900/60 flex flex-col items-center justify-center text-center border-b lg:border-b-0 lg:border-r border-emerald-200/80 dark:border-zinc-800">
           <div className="w-16 h-16 bg-emerald-600 dark:bg-emerald-500 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-200/60 dark:shadow-none text-white dark:text-black mb-4">
@@ -466,6 +468,77 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
             </form>
           )}
         </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="w-full flex flex-col sm:flex-row items-center sm:items-end justify-between gap-4 px-2 text-center sm:text-left">
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-[11px] font-semibold text-slate-500 dark:text-zinc-400 order-2 sm:order-1">
+          <button type="button" onClick={() => setActiveFooterInfo('about')} className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer">About</button>
+          <span className="text-slate-300 dark:text-zinc-700">•</span>
+          <button type="button" onClick={() => setActiveFooterInfo('terms')} className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer">Terms</button>
+          <span className="text-slate-300 dark:text-zinc-700">•</span>
+          <button type="button" onClick={() => setActiveFooterInfo('privacy')} className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer">Privacy Policy</button>
+          <span className="text-slate-300 dark:text-zinc-700">•</span>
+          <a href="mailto:cbit051@gmail.com" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Contact</a>
+        </div>
+
+        <div className="flex flex-col items-center sm:items-end gap-1 order-1 sm:order-2">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-lg bg-emerald-600 dark:bg-emerald-500 flex items-center justify-center shrink-0">
+              <MessageSquare className="w-3.5 h-3.5 text-white dark:text-black" />
+            </div>
+            <span className="text-xs font-black text-slate-700 dark:text-zinc-300">QuickChat AI</span>
+          </div>
+          <p className="text-[10px] text-slate-400 dark:text-zinc-600">
+            © {new Date().getFullYear()} QuickChat AI. All rights reserved.
+          </p>
+        </div>
+      </footer>
+
+      {/* Footer Info Popup (About / Terms / Privacy) */}
+      {activeFooterInfo && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-xs z-60 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-zinc-950 rounded-2xl max-w-md w-full border border-emerald-200/80 dark:border-zinc-800 shadow-2xl p-6 space-y-3 max-h-[80vh] overflow-y-auto">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-black text-slate-900 dark:text-zinc-100">
+                {activeFooterInfo === 'about' ? 'About QuickChat AI' : activeFooterInfo === 'terms' ? 'Terms & Conditions' : 'Privacy Policy'}
+              </h3>
+              <button type="button" onClick={() => setActiveFooterInfo(null)} className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-400 cursor-pointer">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed space-y-2.5">
+              {activeFooterInfo === 'about' && (
+                <>
+                  <p>QuickChat AI is a temporary, password-protected chat room for meetings, classes, and quick collaborations — no accounts, no sign-up, no phone number required.</p>
+                  <p>Create a room with just a Chat ID and password, share it with whoever needs to join, and start chatting, sharing files, and using the built-in AI Assistant to summarize documents, pull out key points, generate quizzes, and answer questions about shared files.</p>
+                  <p>Every room has a host and optional co-hosts who can manage participants, lock the room, and control chat/AI access. Rooms close automatically after their time limit (5 hours by default) or whenever the host ends the session manually — whichever comes first.</p>
+                </>
+              )}
+              {activeFooterInfo === 'terms' && (
+                <>
+                  <p><strong>Temporary by design.</strong> Rooms exist only for the duration set at creation (or until manually ended) and are not meant for permanent record-keeping.</p>
+                  <p><strong>Your content, your responsibility.</strong> You're responsible for anything you send, upload, or say in a room. Don't share anything illegal, harmful, or that you don't have the right to share.</p>
+                  <p><strong>Host authority.</strong> The room creator (and any co-hosts they appoint) can moderate participants, restrict chat/AI access, lock the room, or end the session at any time — for anyone in it.</p>
+                  <p><strong>No accounts, no recovery.</strong> Since there are no accounts, there's no way to recover a room, its messages, or its files once the session ends. Save anything you need locally before that happens.</p>
+                  <p><strong>Service provided as-is.</strong> QuickChat AI is offered without guarantees of uptime, availability, or fitness for any particular purpose.</p>
+                </>
+              )}
+              {activeFooterInfo === 'privacy' && (
+                <>
+                  <p><strong>No accounts, minimal data.</strong> QuickChat AI doesn't require sign-up, email, or a phone number. We only see what you type into a room: your display name, messages, uploaded files, and any avatar customization you choose to set.</p>
+                  <p><strong>Temporary storage.</strong> Room data (messages, files, AI conversation history) is kept only in server memory for the life of the room and is permanently deleted the moment the room ends — by timeout or by the host ending it.</p>
+                  <p><strong>AI processing.</strong> When you use the AI Assistant, the relevant text (your question and/or the document you selected) send to ai it will get infomation from the given files.</p>
+                  <p><strong>No tracking or ads.</strong> QuickChat AI does not use tracking cookies, analytics profiling, or advertising of any kind.</p>
+                </>
+              )}
+            </div>
+            <p className="text-[10px] text-slate-400 dark:text-zinc-600 pt-1 border-t border-slate-100 dark:border-zinc-800">
+              Questions? Contact <a href="mailto:cbit051@gmail.com" className="text-emerald-600 dark:text-emerald-400 hover:underline">cbit051@gmail.com</a>
+            </p>
+          </div>
+        </div>
+      )}
       </div>
     </div>
   );
