@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://quickchat-dtg9.onrender.com/sitemap.xml
