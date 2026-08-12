@@ -848,6 +848,68 @@ if (room && participantId) {
   });
 }
 });
+ // ---- Public info pages: real, crawlable routes (not JS-only popups) ----
+  function renderInfoPage(title: string, bodyHtml: string) {
+    return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>${title} - QuickChat AI</title>
+<meta name="description" content="${title} for QuickChat AI, a temporary, password-protected chat room tool." />
+<link rel="icon" type="image/png" href="/logo.png" />
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8faf9; color: #1e293b; margin: 0; padding: 0; line-height: 1.7; }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 48px 20px 80px; }
+  a.back { display: inline-flex; align-items: center; gap: 6px; color: #059669; text-decoration: none; font-weight: 700; font-size: 13px; margin-bottom: 28px; }
+  a.back:hover { text-decoration: underline; }
+  h1 { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
+  .updated { font-size: 12px; color: #94a3b8; margin-bottom: 28px; }
+  p { font-size: 15px; margin: 0 0 14px; }
+  strong { color: #0f172a; }
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #94a3b8; }
+  footer a { color: #059669; text-decoration: none; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/">&larr; Back to QuickChat AI</a>
+    <h1>${title}</h1>
+    <div class="updated">Last updated: ${new Date().toLocaleDateString("en-US", { year: "numeric", month: "long" })}</div>
+    ${bodyHtml}
+    <footer>Questions? Contact <a href="mailto:cbit051@gmail.com">cbit051@gmail.com</a></footer>
+  </div>
+</body>
+</html>`;
+  }
+
+  app.get("/about", (req, res) => {
+    res.send(renderInfoPage("About QuickChat AI", `
+      <p>QuickChat AI is a temporary, password-protected chat room for meetings, classes, and quick collaborations &mdash; no accounts, no sign-up, no phone number required.</p>
+      <p>Create a room with just a Chat ID and password, share it with whoever needs to join, and start chatting, sharing files, and using the built-in AI Assistant to summarize documents, pull out key points, generate quizzes, and answer questions about shared files.</p>
+      <p>Every room has a host and optional co-hosts who can manage participants, lock the room, and control chat/AI access. Rooms close automatically after their time limit (5 hours by default) or whenever the host ends the session manually &mdash; whichever comes first.</p>
+    `));
+  });
+
+  app.get("/terms", (req, res) => {
+    res.send(renderInfoPage("Terms & Conditions", `
+      <p><strong>Temporary by design.</strong> Rooms exist only for the duration set at creation (or until manually ended) and are not meant for permanent record-keeping.</p>
+      <p><strong>Your content, your responsibility.</strong> You're responsible for anything you send, upload, or say in a room. Don't share anything illegal, harmful, or that you don't have the right to share.</p>
+      <p><strong>Host authority.</strong> The room creator (and any co-hosts they appoint) can moderate participants, restrict chat/AI access, lock the room, or end the session at any time &mdash; for anyone in it.</p>
+      <p><strong>No accounts, no recovery.</strong> Since there are no accounts, there's no way to recover a room, its messages, or its files once the session ends. Save anything you need locally before that happens.</p>
+      <p><strong>Service provided as-is.</strong> QuickChat AI is offered without guarantees of uptime, availability, or fitness for any particular purpose.</p>
+    `));
+  });
+
+  app.get("/privacy", (req, res) => {
+    res.send(renderInfoPage("Privacy Policy", `
+      <p><strong>No accounts, minimal data.</strong> QuickChat AI doesn't require sign-up, email, or a phone number. We only see what you type into a room: your display name, messages, uploaded files, and any avatar customization you choose to set.</p>
+      <p><strong>Temporary storage.</strong> Room data (messages, files, AI conversation history) is kept only in server memory for the life of the room and is permanently deleted the moment the room ends &mdash; by timeout or by the host ending it.</p>
+      <p><strong>AI processing.</strong> When you use the AI Assistant, the relevant text (your question and/or the document you selected) is sent to Google's Gemini API to generate a response, subject to Google's own data-handling terms for that API.</p>
+      <p><strong>Advertising.</strong> This site may display ads through Google AdSense. Google and its advertising partners may use cookies to serve ads based on your visits to this and other websites. You can opt out of personalized advertising at <a href="https://adssettings.google.com" target="_blank" rel="noopener">adssettings.google.com</a>.</p>
+    `));
+  });
+
   // Vite development middleware or static production serving
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
