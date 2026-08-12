@@ -473,11 +473,11 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
       {/* Footer */}
       <footer className="w-full flex flex-col sm:flex-row items-center sm:items-end justify-between gap-4 px-2 text-center sm:text-left">
         <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-[11px] font-semibold text-slate-500 dark:text-zinc-400 order-2 sm:order-1">
-          <button type="button" onClick={() => setActiveFooterInfo('about')} className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer">About</button>
+          <a href="/about" target="_blank" rel="noopener" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">About</a>
           <span className="text-slate-300 dark:text-zinc-700">•</span>
-          <button type="button" onClick={() => setActiveFooterInfo('terms')} className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer">Terms</button>
+          <a href="/terms" target="_blank" rel="noopener" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Terms</a>
           <span className="text-slate-300 dark:text-zinc-700">•</span>
-          <button type="button" onClick={() => setActiveFooterInfo('privacy')} className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer">Privacy Policy</button>
+          <a href="/privacy" target="_blank" rel="noopener" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Privacy Policy</a>
           <span className="text-slate-300 dark:text-zinc-700">•</span>
           <a href="mailto:cbit051@gmail.com" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Contact</a>
         </div>
