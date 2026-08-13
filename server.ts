@@ -858,17 +858,41 @@ if (room && participantId) {
 <title>${title} - QuickChat AI</title>
 <meta name="description" content="${title} for QuickChat AI, a temporary, password-protected chat room tool." />
 <link rel="icon" type="image/png" href="/logo.png" />
+<script>
+  // Match whatever theme/color the person already picked in the app, before
+  // this page paints, so there's no flash of the wrong theme.
+  (function () {
+    try {
+      var theme = localStorage.getItem('quickchat_theme');
+      var color = localStorage.getItem('quickchat_theme_color') || 'emerald';
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+      document.documentElement.setAttribute('data-theme-color', color);
+    } catch (e) {}
+  })();
+</script>
 <style>
+  [data-theme-color="emerald"] { --accent: #10b981; }
+  [data-theme-color="blue"]    { --accent: #3b82f6; }
+  [data-theme-color="purple"]  { --accent: #a855f7; }
+  [data-theme-color="rose"]    { --accent: #f43f5e; }
+  [data-theme-color="amber"]   { --accent: #f59e0b; }
+  [data-theme-color="cyan"]    { --accent: #06b6d4; }
+
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8faf9; color: #1e293b; margin: 0; padding: 0; line-height: 1.7; }
+  html.dark body { background: #0a0b0f; color: #e4e4e7; }
   .wrap { max-width: 680px; margin: 0 auto; padding: 48px 20px 80px; }
-  a.back { display: inline-flex; align-items: center; gap: 6px; color: #059669; text-decoration: none; font-weight: 700; font-size: 13px; margin-bottom: 28px; }
+  a.back { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-weight: 700; font-size: 13px; margin-bottom: 28px; }
   a.back:hover { text-decoration: underline; }
   h1 { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
+  html.dark h1 { color: #f4f4f5; }
   .updated { font-size: 12px; color: #94a3b8; margin-bottom: 28px; }
   p { font-size: 15px; margin: 0 0 14px; }
   strong { color: #0f172a; }
+  html.dark strong { color: #f4f4f5; }
   footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #94a3b8; }
-  footer a { color: #059669; text-decoration: none; }
+  html.dark footer { border-top-color: #27272a; }
+  footer a, p a { color: var(--accent); text-decoration: none; }
+  footer a:hover, p a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
