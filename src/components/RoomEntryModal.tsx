@@ -470,62 +470,6 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
         </div>
       </div>
 
-      {/* Real, substantial content -- required so the page isn't just a bare
-          login/navigation form, per AdSense's "low value content" policy. */}
-      <section className="w-full max-w-4xl bg-white dark:bg-zinc-950 rounded-3xl border border-emerald-200/80 dark:border-zinc-800 shadow-xl p-6 sm:p-8 space-y-6 text-left">
-        <div>
-          <h2 className="text-lg font-black text-slate-900 dark:text-zinc-100 mb-2">How QuickChat AI Works</h2>
-          <p className="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
-            QuickChat AI is a temporary, password-protected chat room built for meetings, classes, and quick
-            collaborations that don't need a permanent home online. There's no sign-up and no phone number required:
-            you either create a room by choosing a Chat ID and password, or you join one using a Chat ID and password
-            someone else shared with you. Once inside, everyone in the room can chat in real time, share files, and
-            use the built-in AI Assistant to summarize documents, pull out key points, generate a quiz, or answer
-            questions about anything that's been shared.
-          </p>
-        </div>
-
-        <div>
-          <h2 className="text-lg font-black text-slate-900 dark:text-zinc-100 mb-2">Why It's Temporary by Design</h2>
-          <p className="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
-            Every room automatically closes after its time limit (5 hours by default, or a custom duration the host
-            sets when creating it), or whenever the host ends the session manually. The moment a room closes, its
-            messages, shared files, and AI conversation history are permanently deleted from the server. Nothing is
-            kept beyond the life of the session, which means there's no long-term account, profile, or chat history
-            to manage, secure, or eventually delete yourself.
-          </p>
-        </div>
-
-        <div>
-          <h2 className="text-lg font-black text-slate-900 dark:text-zinc-100 mb-3">Key Features</h2>
-          <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-3 text-sm text-slate-600 dark:text-zinc-400">
-            <li><strong className="text-slate-800 dark:text-zinc-200">No accounts needed.</strong> Just a Chat ID and password, for you and whoever you invite.</li>
-            <li><strong className="text-slate-800 dark:text-zinc-200">Host & Co-Host controls.</strong> Lock the room, manage participants, and restrict chat or AI access.</li>
-            <li><strong className="text-slate-800 dark:text-zinc-200">File sharing.</strong> Upload documents, images, and code files directly into the conversation.</li>
-            <li><strong className="text-slate-800 dark:text-zinc-200">Built-in AI Assistant.</strong> Ask questions, get summaries, and generate quizzes from shared files.</li>
-            <li><strong className="text-slate-800 dark:text-zinc-200">Custom themes.</strong> Six accent colors and light/dark mode, applied instantly across the room.</li>
-            <li><strong className="text-slate-800 dark:text-zinc-200">Automatic cleanup.</strong> Everything is deleted the moment a session ends -- no manual clean-up required.</li>
-          </ul>
-        </div>
-
-        <div>
-          <h2 className="text-lg font-black text-slate-900 dark:text-zinc-100 mb-3">Frequently Asked Questions</h2>
-          <div className="space-y-3 text-sm">
-            <div>
-              <p className="font-bold text-slate-800 dark:text-zinc-200">Do I need to create an account?</p>
-              <p className="text-slate-600 dark:text-zinc-400">No. QuickChat AI never asks for an email address, phone number, or sign-up of any kind.</p>
-            </div>
-            <div>
-              <p className="font-bold text-slate-800 dark:text-zinc-200">What happens to my messages after the room ends?</p>
-              <p className="text-slate-600 dark:text-zinc-400">They're permanently deleted from the server. There's no way to recover a room once it closes, so save anything important locally beforehand.</p>
-            </div>
-            <div>
-              <p className="font-bold text-slate-800 dark:text-zinc-200">Is QuickChat AI free to use?</p>
-              <p className="text-slate-600 dark:text-zinc-400">Yes, creating and joining rooms is free.</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Footer */}
       <footer className="w-full flex flex-col sm:flex-row items-center sm:items-end justify-between gap-4 px-2 text-center sm:text-left">
