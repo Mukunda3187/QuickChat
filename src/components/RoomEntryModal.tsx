@@ -33,7 +33,6 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<'create' | 'join'>('create');
   const [showSettingsModal, setShowSettingsModal] = useState(false);
-  const [activeFooterInfo, setActiveFooterInfo] = useState<'about' | 'terms' | 'privacy' | null>(null);
 
   // Create Form State
   const generateRandomChatId = () => {
@@ -495,51 +494,6 @@ export const RoomEntryModal: React.FC<RoomEntryModalProps> = ({
           </p>
         </div>
       </footer>
-
-      {/* Footer Info Popup (About / Terms / Privacy) */}
-      {activeFooterInfo && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-xs z-60 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-zinc-950 rounded-2xl max-w-md w-full border border-emerald-200/80 dark:border-zinc-800 shadow-2xl p-6 space-y-3 max-h-[80vh] overflow-y-auto">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-black text-slate-900 dark:text-zinc-100">
-                {activeFooterInfo === 'about' ? 'About QuickChat AI' : activeFooterInfo === 'terms' ? 'Terms & Conditions' : 'Privacy Policy'}
-              </h3>
-              <button type="button" onClick={() => setActiveFooterInfo(null)} className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-400 cursor-pointer">
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed space-y-2.5">
-              {activeFooterInfo === 'about' && (
-                <>
-                  <p>QuickChat AI is a temporary, password-protected chat room for meetings, classes, and quick collaborations — no accounts, no sign-up, no phone number required.</p>
-                  <p>Create a room with just a Chat ID and password, share it with whoever needs to join, and start chatting, sharing files, and using the built-in AI Assistant to summarize documents, pull out key points, generate quizzes, and answer questions about shared files.</p>
-                  <p>Every room has a host and optional co-hosts who can manage participants, lock the room, and control chat/AI access. Rooms close automatically after their time limit (5 hours by default) or whenever the host ends the session manually — whichever comes first.</p>
-                </>
-              )}
-              {activeFooterInfo === 'terms' && (
-                <>
-                  <p><strong>Temporary by design.</strong> Rooms exist only for the duration set at creation (or until manually ended) and are not meant for permanent record-keeping.</p>
-                  <p><strong>Your content, your responsibility.</strong> You're responsible for anything you send, upload, or say in a room. Don't share anything illegal, harmful, or that you don't have the right to share.</p>
-                  <p><strong>Host authority.</strong> The room creator (and any co-hosts they appoint) can moderate participants, restrict chat/AI access, lock the room, or end the session at any time — for anyone in it.</p>
-                  <p><strong>No accounts, no recovery.</strong> Since there are no accounts, there's no way to recover a room, its messages, or its files once the session ends. Save anything you need locally before that happens.</p>
-                  <p><strong>Service provided as-is.</strong> QuickChat AI is offered without guarantees of uptime, availability, or fitness for any particular purpose.</p>
-                </>
-              )}
-              {activeFooterInfo === 'privacy' && (
-                <>
-                  <p><strong>No accounts, minimal data.</strong> QuickChat AI doesn't require sign-up, email, or a phone number. We only see what you type into a room: your display name, messages, uploaded files, and any avatar customization you choose to set.</p>
-                  <p><strong>Temporary storage.</strong> Room data (messages, files, AI conversation history) is kept only in server memory for the life of the room and is permanently deleted the moment the room ends — by timeout or by the host ending it.</p>
-                  <p><strong>AI processing.</strong> When you use the AI Assistant, the relevant text (your question and/or the document you selected) send to ai it will get infomation from the given files.</p>
-                  <p><strong>No tracking or ads.</strong> QuickChat AI does not use tracking cookies, analytics profiling, or advertising of any kind.</p>
-                </>
-              )}
-            </div>
-            <p className="text-[10px] text-slate-400 dark:text-zinc-600 pt-1 border-t border-slate-100 dark:border-zinc-800">
-              Questions? Contact <a href="mailto:cbit051@gmail.com" className="text-emerald-600 dark:text-emerald-400 hover:underline">cbit051@gmail.com</a>
-            </p>
-          </div>
-        </div>
-      )}
       </div>
     </div>
   );
