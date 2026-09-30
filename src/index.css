@@ -2,6 +2,17 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Lock the whole page to the actual screen size -- no page-level scrolling
+   or bounce, on desktop or mobile. Inner panels (chat, participants, files)
+   still scroll normally within themselves; only the outer page is locked. */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 /* Default / Emerald Theme Variables */
 :root,
 [data-theme-color="emerald"] {
